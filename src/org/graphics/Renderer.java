@@ -27,13 +27,15 @@ public class Renderer {
     private static int canvasWidth = 0;
     private static int canvasHeight = 0;
 
+    public static int scaleFactor = 1;
+
     private static final int GAME_WIDTH = 400;  //'Pixels'  -   Target default size
     private static final int GAME_HEIGHT = 250; //'Pixels'  -   Target default size
 
     private static int gameWidth = 0;     // Size that the game ends up
     private static int gameHeight = 0;    // Size that the game ends up
 
-    private static Camera camera;
+    public static Camera camera;
     private static Image bg;
 
     public Renderer(){
@@ -51,13 +53,13 @@ public class Renderer {
         canvasHeight -= GAME_HEIGHT;
         canvasWidth -= GAME_WIDTH;
 
-        int factor = canvasWidth/GAME_WIDTH;
+        scaleFactor = canvasWidth/GAME_WIDTH;
 
-        gameWidth = (canvasWidth / factor) + ((screenSize.width - canvasWidth)/factor);
-        gameHeight = (canvasHeight / factor) + ((screenSize.height - canvasHeight)/factor);
+        gameWidth = (canvasWidth / scaleFactor) + ((screenSize.width - canvasWidth)/scaleFactor);
+        gameHeight = (canvasHeight / scaleFactor) + ((screenSize.height - canvasHeight)/scaleFactor);
 
-        canvasWidth = gameWidth * factor;
-        canvasHeight = gameHeight * factor;
+        canvasWidth = gameWidth * scaleFactor;
+        canvasHeight = gameHeight * scaleFactor;
     }
 
     private static void makeFullscreen(){

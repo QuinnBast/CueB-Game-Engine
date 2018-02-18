@@ -1,6 +1,7 @@
 package org.game;
 
 import org.graphics.*;
+import org.objects.Player;
 import org.objects.Sprite;
 import org.test.TestSprite;
 import org.world.World;
@@ -18,15 +19,10 @@ public class Game {
         SpriteLoader.init(); //Loads all the required images
 
 
-        Sprite sprite = new Sprite(100, 100, "Test.png");
-        World.currentWorld.sprites.add(sprite);
+        TestSprite player = new TestSprite(100, 100, "Test.png");
+        World.currentWorld.sprites.add(player);
 
-
-        Sprite sprite2 = new TestSprite(200f, 200f, "Test.png");
-        World.currentWorld.sprites.add(sprite2);
-
-
-        Renderer.setCamera(100,50,sprite2);
+        Renderer.setCamera(100,50,player);
     }
 
     public static void quit(){

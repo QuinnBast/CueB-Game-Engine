@@ -33,7 +33,7 @@ public class Sprite {
             return;
         }
 
-        if(this.angle != 0){
+        //if(this.angle != 0){
             AffineTransform tx = AffineTransform.getRotateInstance(Math.toDegrees(this.angle), this.screenX, this.screenY);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
@@ -48,13 +48,13 @@ public class Sprite {
             g.drawLine((int)(this.screenX), (int)(this.screenY), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
 
             //TheFuck?
-            g.drawLine(1065, 650, (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
+            g.drawLine((int)(c.getRelativePosition(this).width), (int)(c.getRelativePosition(this).height), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
 
             //g2d.drawImage(op.filter(image, null), c.getRelativePosition(this).width, c.getRelativePosition(this).height, image.getWidth(), image.getHeight(), null);
             g.drawImage(image, c.getRelativePosition(this).width, c.getRelativePosition(this).height, image.getWidth(), image.getHeight(), null);
-        } else {
-            g.drawImage(image, c.getRelativePosition(this).width, c.getRelativePosition(this).height, image.getWidth(), image.getHeight(), null);
-        }
+        //} else {
+//            g.drawImage(image, c.getRelativePosition(this).width, c.getRelativePosition(this).height, image.getWidth(), image.getHeight(), null);
+//        }
     }
 
     public void update(float deltaTime){
