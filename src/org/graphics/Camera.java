@@ -44,18 +44,16 @@ public abstract class Camera {
     public abstract float getMinY();
 
     public void render(Graphics g){
-        //Determine the sprites that need to be rendered
-
-        //Draw camera bounds
+        //Draw camera bounds (Debugging)
         g.setColor(Color.RED);
         g.drawLine((int)(getMaxX()), (int)(getMaxY()), (int)(getMaxX()), (int)(getMinY()));
         g.drawLine((int)(getMaxX()), (int)(getMaxY()), (int)(getMinX()), (int)(getMaxY()));
         g.drawLine((int)(getMinX()), (int)(getMinY()), (int)(getMaxX()), (int)(getMinY()));
         g.drawLine((int)(getMinX()), (int)(getMinY()), (int)(getMinX()), (int)(getMaxY()));
 
-
-        ArrayList<Sprite> render = new ArrayList<Sprite>();
+        //Determine the sprites that need to be rendered
         for(Sprite s : World.sprites) {
+            //If the sprite is within the camera's boundary, draw the sprite to the screen.
             if(s.getPosX() <= this.getMaxX() && s.getPosX() >= getMinX() && s.getPosY() <= getMaxY() && s.getPosY() >= getMinY()){
                 //Draw the sprite.
                 if(s.getImage() == null){
@@ -64,33 +62,33 @@ public abstract class Camera {
 
                 //Rotate the sprite if required
                 double rotationRequired = s.getAngle();
-                double locationX = s.getImage().getWidth() / 2;
-                double locationY = s.getImage().getHeight() / 2;
+                double locationX = (s.getImage().getWidth() / 2) - 1;
+                double locationY = (s.getImage().getHeight() / 2) - 1;
+
                 AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
                 AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-                BufferedImage newImage =new BufferedImage(s.getImage().getWidth(), s.getImage().getHeight(), s.getImage().getType());
-                op.filter(s.getImage(), newImage);
+
+                BufferedImage newImage = new BufferedImage(s.getImage().getWidth(), s.getImage().getHeight(), s.getImage().getType());
+                op.filter(s.getImage(), newImage);  //Create the new rotated image.
 
                 Graphics2D g2d = (Graphics2D) g;
 
-                // Drawing the rotated image at the required drawing locations
                 g.setColor(Color.RED);
-                g.drawString("A:" + s.getAngle(), 100,100);
-                g.drawString("mouseX:" + (MouseInfo.getPointerInfo().getLocation().getX()), 100,130);
-                g.drawString("mouseY:" + (MouseInfo.getPointerInfo().getLocation().getY()), 100,160);
                 g.drawString("posX:" + (s.getPosX()), 100,190);
                 g.drawString("posY:" + (s.getPosY()), 100,210);
-                g.drawLine((int)(s.getPosX()), (int)(s.getPosY()), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
 
                 //Determine the location relative to the camera
-                Point p = getRelativeLocation(s);
+                Point p = this.getRelativeLocation(s);
+
+
+                g.drawString("pointX:" + (p.getX()), 100,130);
+                g.drawString("pointY:" + (p.getY()), 100,160);
 
                 //Debugging
-                g.drawLine((int)(p.getX()), (int)(p.getY()), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
+                g.drawLine((int)(p.getX() + this.getMinX()), (int)(p.getY() + this.getMinY()), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
 
-                //Draw the sprite
-                g.drawImage(newImage, (int)(p.getX() - s.getImage().getWidth()/2), (int)(p.getY() - s.getImage().getHeight()/2), s.getImage().getWidth(), s.getImage().getHeight(), null);
-
+                //Draw the sprite to the screen
+                g.drawImage(newImage, (int)(p.getX() - s.getImage().getWidth()/2 + this.getMinX()), (int)(p.getY() - s.getImage().getHeight()/2 + this.getMinY()), s.getImage().getWidth(), s.getImage().getHeight(), null);
             }
         }
     }

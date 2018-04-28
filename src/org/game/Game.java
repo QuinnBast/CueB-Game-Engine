@@ -21,7 +21,9 @@ public class Game {
 
         TestSprite player = new TestSprite(100, 100, "Test.png");
         World.currentWorld.sprites.add(player);
-        World.addCamera(new StaticCamera(200, 200, 100,100));
+        //World.addCamera(new StaticCamera(200, 200, 100,100));
+        //World.addCamera(new StaticCamera(200, 200, 400,100));
+        World.addCamera(new CenteredCamera(200, 200, player));
     }
 
     public static void quit(){

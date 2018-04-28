@@ -39,7 +39,6 @@ public class TestSprite extends Entity {
         if(MouseInfo.getPointerInfo().getLocation().getX() <= this.posX){
             this.angle = this.angle - Math.PI;
         }
-
     }
 
 }
