@@ -34,8 +34,6 @@ public class Renderer {
 
     private static int gameWidth = 0;     // Size that the game ends up
     private static int gameHeight = 0;    // Size that the game ends up
-
-    public static Camera camera;
     private static Image bg;
 
     public Renderer(){
@@ -92,15 +90,12 @@ public class Renderer {
                     //Draw everything to the volatile image, draw the volatile image ot the screen.
                     Graphics g = vi.getGraphics();
 
-                    //Render graphics
+                    //Set the background
                     g.setColor(Color.BLACK);
-                    g.fillRect(0, 0, canvasWidth, canvasHeight);    //Set the width of the background to fit the canvas (screen size)
+                    g.fillRect(0, 0, canvasWidth, canvasHeight);
 
                     //Render the world and world objects.
-                    if(camera != null) {
-                        World.render(g, camera);
-                        camera.fixOnCamera(g);
-                    }
+                    World.render(g);
                     World.update();
 //                    if(bg == null){
 //                        bg = new Image("/resources/images/Background.jpg");
@@ -163,24 +158,12 @@ public class Renderer {
         return finalImage;  //Return the compatible image.
     }
 
-    public static void setCamera(int width, int height, Sprite sprite){
-        camera = new Camera(width, height, sprite);
-    }
-
     public static int getCanvasWidth(){
         return canvasWidth;
     }
 
     public static int getCanvasHeight(){
         return canvasHeight;
-    }
-
-    public static Point2D getScreenPos(Point2D.Float point){
-        if(camera != null) {
-            return new Point2D.Double(camera.getMinX() - point.getX(), camera.getMinY() - point.getY());
-        } else{
-            return null;
-        }
     }
 
 }

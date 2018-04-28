@@ -10,16 +10,15 @@ import java.util.List;
 /**
  * Created by Quinn on 11/29/2017.
  */
-public class Entity extends Sprite {
+public abstract class Entity extends Sprite {
 
 
-    private int health;
-    private int movementSpeed;
-    private List<Point2D> vertices;		//Vertices of the object
-    private Rectangle2D boundingBox;	//Bounding Box of the object
-    private boolean isCollidable;		//If the object can be collided with
-    private boolean canMove;					//If the object can move
-    private boolean canDisplace;				//If the object can be displaced
+    protected int health;
+    protected int movementSpeed;
+    protected List<Point2D> vertices;		//Vertices of the object
+    protected boolean isCollidable;		//If the object can be collided with
+    protected boolean canMove;					//If the object can move
+    protected boolean canDisplace;				//If the object can be displaced
 
     public Entity(float posX, float posY, String image, List<Point2D> vertices, boolean isCollidable, boolean canMove, boolean canDispalce) {
         super(posX, posY, image);
@@ -75,10 +74,10 @@ public class Entity extends Sprite {
 		*/
         Point2D[] points = new Point2D[4];
 
-        points[0] = new Point((int)point.getX(), (int)(this.boundingBox.getMaxY() + this.posY));			//point on top edge of bounding box.
-        points[1] = new Point((int)point.getX(), (int)(this.boundingBox.getMinY() + this.posY)); //point on the bottom edge of bounding box
-        points[2] = new Point((int)(this.boundingBox.getMinX() + this.posX), (int)point.getY());			//point on the left side of the bounding box.
-        points[3] = new Point((int)(this.boundingBox.getMaxX() + this.posX), (int)point.getY());	//point on the right side of the bounding box
+        points[0] = new Point((int)point.getX(), (int)(this.boundingBox.getMaxY() + this.getPosY()));			//point on top edge of bounding box.
+        points[1] = new Point((int)point.getX(), (int)(this.boundingBox.getMinY() + this.getPosY())); //point on the bottom edge of bounding box
+        points[2] = new Point((int)(this.boundingBox.getMinX() + this.getPosX()), (int)point.getY());			//point on the left side of the bounding box.
+        points[3] = new Point((int)(this.boundingBox.getMaxX() + this.getPosX()), (int)point.getY());	//point on the right side of the bounding box
 
         double smallestDist = 0;
         Point2D closestEdgePoint = null;

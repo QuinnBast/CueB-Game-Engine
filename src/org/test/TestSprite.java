@@ -18,6 +18,7 @@ public class TestSprite extends Entity {
         super(posX, posY, image, null, true, true, true);
     }
 
+    @Override
     public void update(float deltaTime){
 
         if(userInput.isPressed(KeyEvent.VK_W)) {
@@ -33,7 +34,11 @@ public class TestSprite extends Entity {
             posX += 100 * deltaTime;
         }
 
-        this.angle = Math.atan((this.posY - (double)MouseInfo.getPointerInfo().getLocation().getY())/(this.posX - MouseInfo.getPointerInfo().getLocation().getX()));
+        //Determine the angle of rotation towards the mouse
+        this.angle = Math.atan((double) ((MouseInfo.getPointerInfo().getLocation().getY() - this.posY) / (MouseInfo.getPointerInfo().getLocation().getX() - this.posX)));
+        if(MouseInfo.getPointerInfo().getLocation().getX() <= this.posX){
+            this.angle = this.angle - Math.PI;
+        }
 
     }
 
