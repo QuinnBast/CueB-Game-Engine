@@ -14,43 +14,43 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Camera {
 
-    Rectangle2D viewingArea = new Rectangle2D.Double(); //The area on the map that is visible
-    Rectangle2D displayArea = new Rectangle2D.Double(); //The area of the screen the camera takes up
+    Rectangle2D roomLocation = new Rectangle2D.Double(); //The area on the map that is visible
+    Rectangle2D screenLocation = new Rectangle2D.Double(); //The area of the screen the camera takes up
     double widthRatio;
     double heightRatio;
 
     public void resizeViewingArea(int width, int height){
-        this.viewingArea.setRect(viewingArea.getCenterX(), viewingArea.getCenterY(), width, height);
+        this.roomLocation.setRect(roomLocation.getCenterX(), roomLocation.getCenterY(), width, height);
     }
 
     public void resizeDisplayArea(int width, int height){
-        this.displayArea.setRect(viewingArea.getCenterX(), viewingArea.getCenterY(), width, height);
+        this.screenLocation.setRect(roomLocation.getCenterX(), roomLocation.getCenterY(), width, height);
     }
 
-    public Rectangle2D getViewingArea(){
-        return this.viewingArea;
+    public Rectangle2D getRoomLocation(){
+        return this.roomLocation;
     }
 
-    public Rectangle2D getDisplayArea(){
-        return this.displayArea;
+    public Rectangle2D getScreenLocation(){
+        return this.screenLocation;
     }
 
     public void render(Graphics g){
-        this.widthRatio = this.displayArea.getWidth() / this.viewingArea.getWidth();
-        this.heightRatio = this.displayArea.getHeight() / this.viewingArea.getHeight();
+        this.widthRatio = this.screenLocation.getWidth() / this.roomLocation.getWidth();
+        this.heightRatio = this.screenLocation.getHeight() / this.roomLocation.getHeight();
 
         //Draw camera bounds (Debugging)
         g.setColor(Color.RED);
-        g.drawLine((int)(displayArea.getMaxX()), (int)(displayArea.getMaxY()), (int)(displayArea.getMaxX()), (int)(displayArea.getMinY()));
-        g.drawLine((int)(displayArea.getMaxX()), (int)(displayArea.getMaxY()), (int)(displayArea.getMinX()), (int)(displayArea.getMaxY()));
-        g.drawLine((int)(displayArea.getMinX()), (int)(displayArea.getMinY()), (int)(displayArea.getMaxX()), (int)(displayArea.getMinY()));
-        g.drawLine((int)(displayArea.getMinX()), (int)(displayArea.getMinY()), (int)(displayArea.getMinX()), (int)(displayArea.getMaxY()));
+        g.drawLine((int)(screenLocation.getMaxX()), (int)(screenLocation.getMaxY()), (int)(screenLocation.getMaxX()), (int)(screenLocation.getMinY()));
+        g.drawLine((int)(screenLocation.getMaxX()), (int)(screenLocation.getMaxY()), (int)(screenLocation.getMinX()), (int)(screenLocation.getMaxY()));
+        g.drawLine((int)(screenLocation.getMinX()), (int)(screenLocation.getMinY()), (int)(screenLocation.getMaxX()), (int)(screenLocation.getMinY()));
+        g.drawLine((int)(screenLocation.getMinX()), (int)(screenLocation.getMinY()), (int)(screenLocation.getMinX()), (int)(screenLocation.getMaxY()));
 
         //Determine the sprites that need to be rendered
         //Sprites that need to be rendered will be inside or intersecting the viewing area.
         for(Entity entity : World.objects) {
             //If the sprite is within the camera's viewing area, the sprite should be drawn.
-            if(this.viewingArea.contains(entity.getBoundingBox()) || this.viewingArea.intersects(entity.getBoundingBox())){
+            if(this.roomLocation.contains(entity.getBoundingBox()) || this.roomLocation.intersects(entity.getBoundingBox())){
 
                 //Determine if there is an image to display for the object.
                 if(entity.getImage() == null){
@@ -61,7 +61,7 @@ public abstract class Camera {
                     Rectangle2D bb = entity.getBoundingBox();   //Get the bounding box
 
                     //multiply any widths by the width ratio and any heights by the height ratio.
-                    g.drawRect((int)((p.getX() - bb.getWidth()/2)*widthRatio + displayArea.getMinX()), (int)((p.getY() - bb.getHeight()/2)*heightRatio + displayArea.getMinY()), (int)(bb.getWidth()*widthRatio), (int)(bb.getHeight()*heightRatio));
+                    g.drawRect((int)((p.getX() - bb.getWidth()/2)*widthRatio + screenLocation.getMinX()), (int)((p.getY() - bb.getHeight()/2)*heightRatio + screenLocation.getMinY()), (int)(bb.getWidth()*widthRatio), (int)(bb.getHeight()*heightRatio));
                     return;
                 }
 
@@ -84,7 +84,9 @@ public abstract class Camera {
 
                 //Debugging
                 Rectangle2D bb = entity.getBoundingBox();
-                g.drawLine((int)(relativeDisplayLocation.getX() + entity.getImage().getWidth()*widthRatio/2), (int)(relativeDisplayLocation.getY() + entity.getImage().getHeight()*heightRatio/2), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)MouseInfo.getPointerInfo().getLocation().getY());
+                //Draw line from entity to mouse
+                //g.drawLine((int)(relativeDisplayLocation.getX() + entity.getImage().getWidth()*widthRatio/2), (int)(relativeDisplayLocation.getY() + entity.getImage().getHeight()*heightRatio/2), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)MouseInfo.getPointerInfo().getLocation().getY());
+                //Draw entity's bounding box
                 g.drawRect((int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(entity.getImage().getWidth()*widthRatio), (int)(entity.getImage().getHeight()*heightRatio));
 
                 //Draw the sprite to the screen
@@ -94,8 +96,8 @@ public abstract class Camera {
     }
 
     public Point getRelativeViewingLocation(Entity e){
-        double x = e.getPosX() - viewingArea.getMinX();
-        double y = e.getPosY() - viewingArea.getMinY();
+        double x = e.getPosX() - roomLocation.getMinX();
+        double y = e.getPosY() - roomLocation.getMinY();
         Point p = new Point();
         p.setLocation(x, y);
         return p;
@@ -103,8 +105,8 @@ public abstract class Camera {
 
     public Point getRelativeDisplayLocation(Entity entity, Point relativeViewingLocation){
 
-        double x = ((relativeViewingLocation.getX() - entity.getImage().getWidth()/2)*widthRatio + displayArea.getMinX());
-        double y =  ((relativeViewingLocation.getY() - entity.getImage().getHeight()/2)*heightRatio + displayArea.getMinY());
+        double x = ((relativeViewingLocation.getX() - entity.getImage().getWidth()/2)*widthRatio + screenLocation.getMinX());
+        double y =  ((relativeViewingLocation.getY() - entity.getImage().getHeight()/2)*heightRatio + screenLocation.getMinY());
         Point p = new Point();
         p.setLocation(x, y);
         return p;

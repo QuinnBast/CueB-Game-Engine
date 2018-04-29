@@ -1,9 +1,9 @@
 package org.objects;
 
+import org.input.PlayerControls;
 import org.input.userInput;
 import org.objects.Base.Entity;
 
-import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 
 /**
@@ -11,23 +11,31 @@ import java.awt.geom.Point2D;
  */
 public class Player extends Entity {
 
+    private PlayerControls controls;
+
     public Player(float posX, float posY, String image) {
         super(posX, posY, image, true, true, true, true);
+        controls = new PlayerControls();
+    }
+
+    public Player(float posX, float posY, String image, PlayerControls controls) {
+        super(posX, posY, image, true, true, true, true);
+        this.controls = controls;
     }
 
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-        if(userInput.isPressed(KeyEvent.VK_W)) {
+        if(userInput.isPressed(controls.getControls().get(0))) {
             posY -= 100 * deltaTime;
         }
-        if(userInput.isPressed(KeyEvent.VK_S)) {
+        if(userInput.isPressed(controls.getControls().get(1))) {
             posY += 100 * deltaTime;
         }
-        if(userInput.isPressed(KeyEvent.VK_A)) {
+        if(userInput.isPressed(controls.getControls().get(2))) {
             posX -= 100 * deltaTime;
         }
-        if(userInput.isPressed(KeyEvent.VK_D)) {
+        if(userInput.isPressed(controls.getControls().get(3))) {
             posX += 100 * deltaTime;
         }
     }
