@@ -2,8 +2,7 @@ package org.game;
 
 import org.graphics.*;
 import org.objects.Player;
-import org.objects.Sprite;
-import org.test.TestSprite;
+import org.objects.Wall;
 import org.world.World;
 
 import java.io.IOException;
@@ -19,11 +18,12 @@ public class Game {
         SpriteLoader.init();            //Loads all the required images
 
 
-        TestSprite player = new TestSprite(100, 100, "Test.png");
-        World.currentWorld.sprites.add(player);
+        Player player = new Player(100, 100, "Test.png");
+        World.currentWorld.objects.add(player);
         //World.addCamera(new StaticCamera(200, 200, 100,100));
         //World.addCamera(new StaticCamera(200, 200, 400,100));
         World.addCamera(new CenteredCamera(200, 200, player));
+        World.currentWorld.objects.add(new Wall(50, 50, 75, 20));
     }
 
     public static void quit(){

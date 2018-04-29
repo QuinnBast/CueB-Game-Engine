@@ -1,10 +1,12 @@
 package org.graphics;
 
+import org.objects.Entity;
 import org.objects.Sprite;
 import org.world.World;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,88 +16,69 @@ import java.util.ArrayList;
  */
 public abstract class Camera {
 
-    protected int width;
-    protected int height;
-    protected float x;
-    protected float y;
-
-
+    Rectangle2D viewingArea = new Rectangle2D.Double();
 
     public void resize(int width, int height){
-        this.width = width;
-        this.height = height;
+        this.viewingArea.setRect(viewingArea.getCenterX(), viewingArea.getCenterY(), width, height);
     }
 
-    public int getWidth(){
-        return this.width;
+    public Rectangle2D getViewingArea(){
+        return this.viewingArea;
     }
-    public int getHeight(){
-        return this.height;
-    }
-    public float getCamX(){
-        return this.x;
-    }
-    public float getCamY(){
-        return this.y;
-    }
-    public abstract float getMaxX();
-    public abstract float getMinX();
-    public abstract float getMaxY();
-    public abstract float getMinY();
 
     public void render(Graphics g){
         //Draw camera bounds (Debugging)
         g.setColor(Color.RED);
-        g.drawLine((int)(getMaxX()), (int)(getMaxY()), (int)(getMaxX()), (int)(getMinY()));
-        g.drawLine((int)(getMaxX()), (int)(getMaxY()), (int)(getMinX()), (int)(getMaxY()));
-        g.drawLine((int)(getMinX()), (int)(getMinY()), (int)(getMaxX()), (int)(getMinY()));
-        g.drawLine((int)(getMinX()), (int)(getMinY()), (int)(getMinX()), (int)(getMaxY()));
+        g.drawLine((int)(viewingArea.getMaxX()), (int)(viewingArea.getMaxY()), (int)(viewingArea.getMaxX()), (int)(viewingArea.getMinY()));
+        g.drawLine((int)(viewingArea.getMaxX()), (int)(viewingArea.getMaxY()), (int)(viewingArea.getMinX()), (int)(viewingArea.getMaxY()));
+        g.drawLine((int)(viewingArea.getMinX()), (int)(viewingArea.getMinY()), (int)(viewingArea.getMaxX()), (int)(viewingArea.getMinY()));
+        g.drawLine((int)(viewingArea.getMinX()), (int)(viewingArea.getMinY()), (int)(viewingArea.getMinX()), (int)(viewingArea.getMaxY()));
 
         //Determine the sprites that need to be rendered
-        for(Sprite s : World.sprites) {
+        for(Entity entity : World.objects) {
             //If the sprite is within the camera's boundary, draw the sprite to the screen.
-            if(s.getPosX() <= this.getMaxX() && s.getPosX() >= getMinX() && s.getPosY() <= getMaxY() && s.getPosY() >= getMinY()){
+
+            if(this.viewingArea.contains(entity.getBoundingBox()) || this.viewingArea.intersects(entity.getBoundingBox())){
                 //Draw the sprite.
-                if(s.getImage() == null){
+                if(entity.getImage() == null){
+                    //Determine the location relative to the camera
+                    //Draw the bounding box.
+
+                    Point p = this.getRelativeLocation(entity);
+                    Rectangle2D bb = entity.getBoundingBox();
+                    g.drawRect((int)(p.getX() - bb.getWidth()/2 + viewingArea.getMinX()), (int)(p.getY() - bb.getHeight()/2 + viewingArea.getMinY()), (int)bb.getWidth(), (int)bb.getHeight());
                     return;
                 }
 
                 //Rotate the sprite if required
-                double rotationRequired = s.getAngle();
-                double locationX = (s.getImage().getWidth() / 2) - 1;
-                double locationY = (s.getImage().getHeight() / 2) - 1;
+                double rotationRequired = entity.getAngle();
+                double locationX = (entity.getImage().getWidth() / 2) - 1;
+                double locationY = (entity.getImage().getHeight() / 2) - 1;
 
                 AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
                 AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
-                BufferedImage newImage = new BufferedImage(s.getImage().getWidth(), s.getImage().getHeight(), s.getImage().getType());
-                op.filter(s.getImage(), newImage);  //Create the new rotated image.
+                BufferedImage newImage = new BufferedImage(entity.getImage().getWidth(), entity.getImage().getHeight(), entity.getImage().getType());
+                op.filter(entity.getImage(), newImage);  //Create the new rotated image.
 
                 Graphics2D g2d = (Graphics2D) g;
 
-                g.setColor(Color.RED);
-                g.drawString("posX:" + (s.getPosX()), 100,190);
-                g.drawString("posY:" + (s.getPosY()), 100,210);
-
                 //Determine the location relative to the camera
-                Point p = this.getRelativeLocation(s);
-
-
-                g.drawString("pointX:" + (p.getX()), 100,130);
-                g.drawString("pointY:" + (p.getY()), 100,160);
+                Point p = this.getRelativeLocation(entity);
 
                 //Debugging
-                g.drawLine((int)(p.getX() + this.getMinX()), (int)(p.getY() + this.getMinY()), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)(MouseInfo.getPointerInfo().getLocation().getY()));
+                Rectangle2D bb = entity.getBoundingBox();
+                g.drawRect((int)(p.getX() - entity.getImage().getWidth()/2 + viewingArea.getMinX()), (int)(p.getY() - entity.getImage().getHeight()/2 + viewingArea.getMinY()), entity.getImage().getWidth(), entity.getImage().getHeight());
 
                 //Draw the sprite to the screen
-                g.drawImage(newImage, (int)(p.getX() - s.getImage().getWidth()/2 + this.getMinX()), (int)(p.getY() - s.getImage().getHeight()/2 + this.getMinY()), s.getImage().getWidth(), s.getImage().getHeight(), null);
+                g.drawImage(newImage, (int)(p.getX() - entity.getImage().getWidth()/2 + viewingArea.getMinX()), (int)(p.getY() - entity.getImage().getHeight()/2 + viewingArea.getMinY()), entity.getImage().getWidth(), entity.getImage().getHeight(), null);
             }
         }
     }
 
     public Point getRelativeLocation(Sprite s){
-        double x = s.getPosX() - this.getMinX();
-        double y = s.getPosY() - this.getMinY();
+        double x = s.getPosX() - viewingArea.getMinX();
+        double y = s.getPosY() - viewingArea.getMinY();
         Point p = new Point();
         p.setLocation(x, y);
         return p;

@@ -1,6 +1,7 @@
 package org.world;
 
 import org.graphics.Camera;
+import org.objects.Entity;
 import org.objects.Sprite;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class World {
 
     public static World currentWorld = null;
-    public static ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+    public static ArrayList<Entity> objects = new ArrayList<Entity>();
     private static long lastTime = System.nanoTime();   //Last time we checked for an update.
     public static ArrayList<Camera> cameras = new ArrayList<Camera>();
 
@@ -28,8 +29,14 @@ public class World {
     public static void update(){
         float deltaTime = (System.nanoTime() - lastTime)/1000000000.0f;     //Puts the time since the last update in seconds
         lastTime = System.nanoTime();
-        for(Sprite s : sprites){
-            s.update(deltaTime);
+        for(Entity entity : objects){
+            entity.update(deltaTime);
+            for(Entity others : objects){
+                if(others != entity){
+                    //Check and resolve collisions.
+                    entity.isColliidng(others, deltaTime);
+                }
+            }
         }
     }
 

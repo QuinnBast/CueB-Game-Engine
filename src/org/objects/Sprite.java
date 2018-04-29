@@ -28,8 +28,14 @@ public abstract class Sprite {
 
         //Set a bounding box around the object.
         if(this.image != null){
-            this.boundingBox = new Rectangle2D.Double(posX - this.image.getWidth()/2, posY - this.image.getHeight()/2, this.image.getWidth(), this.image.getHeight());
+            this.boundingBox = new Rectangle2D.Double(posX - this.image.getWidth()/2, posY - this.image.getHeight()/2, posX + this.image.getWidth()/2, posY + this.image.getHeight()/2);
         }
+    }
+
+    public Sprite(float posX, float posY, float width, float height){
+        this.posX = posX;
+        this.posY = posY;
+        this.boundingBox = new Rectangle2D.Double(posX - (width/2), posY - (height/2), width, height);
     }
 
     public BufferedImage getImage(){
@@ -46,6 +52,10 @@ public abstract class Sprite {
 
     public float getPosY(){
         return this.posY;
+    }
+
+    public Rectangle2D getBoundingBox(){
+        return this.boundingBox;
     }
 
     public abstract void update(float deltaTime);

@@ -5,6 +5,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,121 +16,81 @@ public abstract class Entity extends Sprite {
 
     protected int health;
     protected int movementSpeed;
-    protected List<Point2D> vertices;		//Vertices of the object
-    protected boolean isCollidable;		//If the object can be collided with
-    protected boolean canMove;					//If the object can move
-    protected boolean canDisplace;				//If the object can be displaced
+    protected boolean isCollidable;     //If the object can be collided with
+    protected boolean canMove;          //If the object can move
+    protected boolean canDisplace;      //If the object can be displaced
 
-    public Entity(float posX, float posY, String image, List<Point2D> vertices, boolean isCollidable, boolean canMove, boolean canDispalce) {
+    public Entity(float posX, float posY, String image, boolean isCollidable, boolean canMove, boolean canDisplace) {
         super(posX, posY, image);
 
-        this.vertices = vertices;
         this.isCollidable = isCollidable;
         this.canMove = canMove;
         this.canDisplace = canDisplace;
+    }
 
-        //Determine the Bounding Box
-        double top = 0;
-        double left = 0;
-        double right = 0;
-        double bottom = 0;
+    public Entity(float posX, float posY, float width, float height, boolean isCollidable, boolean canMove, boolean canDisplace) {
+        super(posX, posY, width, height);
 
-        //Loop through the vertices of the object to determine the extremes.
-        if(vertices != null) {
-            for (Point2D point : vertices) {
-                if (point.getY() > top) {
-                    top = point.getX();
-                }
-                if (point.getY() < bottom) {
-                    bottom = point.getX();
-                }
-                if (point.getX() > right) {
-                    right = point.getX();
-                }
-                if (point.getX() < left) {
-                    left = point.getX();
-                }
-            }
+        this.isCollidable = isCollidable;
+        this.canMove = canMove;
+        this.canDisplace = canDisplace;
+    }
 
-            //Set the bounding box.
-            this.boundingBox = new Rectangle2D.Double(top, left, (right - left), (top - bottom));
+    public boolean isColliidng(Entity object, float deltaTime){
+        //Determine object in question's extreme bounding box points.
+        Rectangle2D boundingbox = object.getBoundingBox();
+        if(this.boundingBox.contains(boundingbox) || this.boundingBox.intersects(boundingbox)){
+            this.collisionResolution(object, deltaTime);
+            return true;
+        }
+        return false;
+    }
+
+    public abstract void collisionResolution(Entity object, float deltaTime);
+    public Point2D getCollisionPoint(Entity object) {
+        //Assuming rectangle bounding boxes for all entities.
+
+        //Determine closest edge
+        double leftRightDiff = Math.abs(this.boundingBox.getMinX() - object.boundingBox.getMaxX());
+        double rightLeftDiff = Math.abs(this.boundingBox.getMaxX() - object.boundingBox.getMinX());
+        double topBottomDiff = Math.abs(this.boundingBox.getMaxY() - object.boundingBox.getMinY());
+        double bottomTopDiff = Math.abs(this.boundingBox.getMinY() - object.boundingBox.getMaxY());
+
+        double smallest = leftRightDiff;
+        String closest = "LeftRight";
+
+        if (rightLeftDiff < smallest){
+            smallest = rightLeftDiff;
+            closest = "RightLeft";
+        }
+        if (topBottomDiff < smallest){
+            smallest = topBottomDiff;
+            closest = "TopBottom";
+        }
+        if(bottomTopDiff < smallest){
+            smallest = bottomTopDiff;
+            closest = "BottomTop";
+        }
+
+        switch(closest){
+            case "LeftRight":
+                return new Point2D.Double(this.boundingBox.getMinX(), this.boundingBox.getCenterY());
+            case "RightLeft":
+                return new Point2D.Double(this.boundingBox.getMaxX(), this.boundingBox.getCenterY());
+            case "TopBottom":
+                return new Point2D.Double(this.boundingBox.getCenterX(), this.boundingBox.getMaxY());
+            case "BottomTop":
+                return new Point2D.Double(this.boundingBox.getCenterX(), this.boundingBox.getMinY());
+            default:
+                return null;
         }
     }
 
-    //Get the point that is closest to the edge of the boudning box.
-    //Used to determine if there is a collision.
-    private Point2D getClosestEdge(Point2D point){
-		/*
-		Determine all 4 points along the bounding Box edge that may intersect with the object.
-
-		Example:
-
-		    |------x---|
-			|      |   |
-			x------.---x
-		    |      |   |
-			|------x---|
-
-		This is only ran if the point is inside the boudning box and these points can be determined.
-		*/
-        Point2D[] points = new Point2D[4];
-
-        points[0] = new Point((int)point.getX(), (int)(this.boundingBox.getMaxY() + this.getPosY()));			//point on top edge of bounding box.
-        points[1] = new Point((int)point.getX(), (int)(this.boundingBox.getMinY() + this.getPosY())); //point on the bottom edge of bounding box
-        points[2] = new Point((int)(this.boundingBox.getMinX() + this.getPosX()), (int)point.getY());			//point on the left side of the bounding box.
-        points[3] = new Point((int)(this.boundingBox.getMaxX() + this.getPosX()), (int)point.getY());	//point on the right side of the bounding box
-
-        double smallestDist = 0;
-        Point2D closestEdgePoint = null;
-        for(Point2D p : points){
-            //Create a line between the point in question and the edge of the bounding box.
-            Line2D line = new Line2D.Double(p, point);
-            //Determine the distance from the point to each edge of the bounding box.
-            double distance = Math.sqrt(((line.getX2() - line.getX1())*(line.getX2() - line.getX1())) + ((line.getY2() - line.getY1())*(line.getY2() - line.getY1())));
-            //If the distance is the smallest, save it
-            if(distance < smallestDist)
-            {
-                smallestDist = distance;
-                closestEdgePoint = p;
-            }
-        }
-        //Send back the closest point on the bounding box.
-        return closestEdgePoint;
-    }
-
-    public boolean isColliidng(Point2D point){
-        //Determine if the point is inside the boudning box
-        if(point.getX() > this.boundingBox.getMinX() &&
-                point.getX() < this.boundingBox.getMaxX() &&
-                point.getY() > this.boundingBox.getMinY() &&
-                point.getY() < this.boundingBox.getMaxY())
-        {
-
-            //Get the shortest line to the edge of the bounding box.
-            Line2D lineToEdge = new Line2D.Double(point, getClosestEdge(point));
-
-            //Create lines between each vertex of the shape.
-            //Might just store these as lines instead of points so it doesn't recalculate them each time.
-            Point2D lastPoint = null;	//endpoint for line
-            for(Point2D vertex : vertices){
-                //For each point in the vertex map, draw a line to the next point.
-                if(lastPoint == null){
-                    //If this is the first point, get the last vertex in the set to makea line with.
-                    lastPoint = vertices.get(vertices.size() - 1);
-                }
-                //Draw a line between the vertices.
-                Line2D objectBound = new Line2D.Double(lastPoint, vertex);
-                //If the line that you just drew intersects the line from the point in question to the edge of the shape then there is a collision.
-                if(lineToEdge.intersectsLine(objectBound)){
-                    return true;
-                }
-                lastPoint = vertex;
-            }	//End for
-            return false;
+    public void update(float deltaTime){
+        if(this.image != null){
+            this.boundingBox = new Rectangle2D.Double(posX - this.image.getWidth()/2, posY - this.image.getHeight()/2, this.image.getWidth(), this.image.getHeight());
         } else {
-            return false;	//End if
+            this.boundingBox = new Rectangle2D.Double(posX - this.boundingBox.getWidth() / 2, posY - this.boundingBox.getHeight() / 2, this.boundingBox.getWidth(), this.boundingBox.getHeight());
         }
     }
-
-
 }
