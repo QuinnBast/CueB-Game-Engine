@@ -1,6 +1,6 @@
 package org.world;
 
-import org.graphics.Camera;
+import org.graphics.Cameras.Camera;
 import org.objects.Base.Entity;
 
 import java.awt.*;

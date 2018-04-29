@@ -1,6 +1,12 @@
 package org.game;
 
 import org.graphics.*;
+import org.graphics.Cameras.Camera;
+import org.graphics.Cameras.MovingCenteredCamera;
+import org.graphics.Cameras.StaticCamera;
+import org.graphics.Cameras.StaticCenteredCamera;
+import org.graphics.Screens.Screen;
+import org.graphics.Screens.ScreenManager;
 import org.input.PlayerControls;
 import org.objects.Player;
 import org.objects.Wall;
@@ -19,6 +25,7 @@ public class Game {
         World.currentWorld = new World();
         Renderer.init();                //Must be initialized first so it can load the graphics for the game.
         SpriteLoader.init();            //Loads all the required images
+        ScreenManager.screenManager = new ScreenManager();
 
 
         Player player1 = new Player(100, 100, "Test.png");
@@ -33,24 +40,38 @@ public class Game {
         World.currentWorld.objects.add(player2);
 
         //Static Cameras in random locations
-        //World.addCamera(new StaticCamera(50, 50, 100,100));
-        //World.addCamera(new StaticCamera(200, 200, 400,100));
+        ArrayList<Camera> staticScreenCameras = new ArrayList<Camera>();
+        staticScreenCameras.add(new StaticCamera(50, 50, 100,100));
+        staticScreenCameras.add(new StaticCamera(200, 200, 400,100));
+        Screen staticCamScreen = new Screen("StaticCameras", staticScreenCameras, null);
 
         //Centered Camera around player
-        //World.addCamera(new CenteredCamera(200, 200, player1));
+        ArrayList<Camera> playerCenteredCam = new ArrayList<Camera>();
+        playerCenteredCam.add(new MovingCenteredCamera(200, 200, player1));
+        Screen playerCenteredScreen = new Screen("PlayerCentered", playerCenteredCam, null);
 
         //Center on Player Full Screen
-        World.addCamera(new StaticCenteredCamera(player1, 200, 200));
+        ArrayList<Camera> fullPlayerCenter = new ArrayList<Camera>();
+        fullPlayerCenter.add(new StaticCenteredCamera(player1, 200, 200));
+        Screen fullPlayerCenteredScreen = new Screen("PlayerCenteredFull", fullPlayerCenter, null);
 
         //Split Screen Camera
-        //World.addCamera(new StaticCenteredCamera(Renderer.getCanvasWidth()/4, Renderer.getCanvasHeight()/2, Renderer.getCanvasWidth()/2, Renderer.getCanvasHeight(), player1, 200, 200));
-        //World.addCamera(new StaticCenteredCamera(Renderer.getCanvasWidth()*3/4, Renderer.getCanvasHeight()/2, Renderer.getCanvasWidth()/2, Renderer.getCanvasHeight(), player2, 200, 200));
+        ArrayList<Camera> splitScreenCameras = new ArrayList<Camera>();
+        splitScreenCameras.add(new StaticCenteredCamera(Renderer.getCanvasWidth()/4, Renderer.getCanvasHeight()/2, Renderer.getCanvasWidth()/2, Renderer.getCanvasHeight(), player1, 200, 200));
+        splitScreenCameras.add(new StaticCenteredCamera(Renderer.getCanvasWidth()*3/4, Renderer.getCanvasHeight()/2, Renderer.getCanvasWidth()/2, Renderer.getCanvasHeight(), player2, 200, 200));
+        Screen splitScreen = new Screen("SplitScreen", splitScreenCameras, null);
 
         //Centered Mini Map on Player bottom Right
-        World.addCamera(new StaticCenteredCamera((int)(Renderer.getCanvasWidth()*0.95), (int)(Renderer.getCanvasHeight()*0.95), (int)(Renderer.getCanvasWidth()*0.1), (int)(Renderer.getCanvasWidth()*0.1), player1, 500, 500));
+        ArrayList<Camera> centeredMiniMapCameras = new ArrayList<Camera>();
+        centeredMiniMapCameras.add(new StaticCenteredCamera((int)(Renderer.getCanvasWidth()*0.95), (int)(Renderer.getCanvasHeight()*0.95), (int)(Renderer.getCanvasWidth()*0.1), (int)(Renderer.getCanvasWidth()*0.1), player1, 500, 500));
+        Screen miniMap = new Screen("CenteredMiniMap", centeredMiniMapCameras, null);
 
         //Static Mini Map Bottom Right
-        //World.addCamera(new StaticCamera(100, 100, 500, 500, (int)(Renderer.getCanvasWidth()*0.95), (int)(Renderer.getCanvasHeight()*0.95), (int)(Renderer.getCanvasWidth()*0.1), (int)(Renderer.getCanvasHeight()*0.1)));
+        ArrayList<Camera> staticMiniMapCameras = new ArrayList<Camera>();
+        staticMiniMapCameras.add(new StaticCamera(100, 100, 500, 500, (int)(Renderer.getCanvasWidth()*0.95), (int)(Renderer.getCanvasHeight()*0.95), (int)(Renderer.getCanvasWidth()*0.1), (int)(Renderer.getCanvasHeight()*0.1)));
+        Screen staticMiniMap = new Screen("StaticMiniMap", staticMiniMapCameras, null);
+
+        ScreenManager.setActive("CenteredMiniMap");
     }
 
     public static void quit(){

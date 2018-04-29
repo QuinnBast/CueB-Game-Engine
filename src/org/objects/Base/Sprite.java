@@ -1,14 +1,8 @@
 package org.objects.Base;
 
 import org.game.SpriteLoader;
-import org.graphics.Camera;
-import org.graphics.Renderer;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 /**

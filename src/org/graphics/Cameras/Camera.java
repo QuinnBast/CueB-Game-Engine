@@ -1,4 +1,4 @@
-package org.graphics;
+package org.graphics.Cameras;
 
 import org.objects.Base.Entity;
 import org.world.World;
@@ -14,10 +14,16 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Camera {
 
-    Rectangle2D roomLocation = new Rectangle2D.Double(); //The area on the map that is visible
-    Rectangle2D screenLocation = new Rectangle2D.Double(); //The area of the screen the camera takes up
-    double widthRatio;
-    double heightRatio;
+    protected Rectangle2D roomLocation = new Rectangle2D.Double(); //The area on the map that is visible
+    protected Rectangle2D screenLocation = new Rectangle2D.Double(); //The area of the screen the camera takes up
+    private double widthRatio;
+    private double heightRatio;
+    private boolean isActive;
+
+    public Camera(){
+        //Add every camera that is created to the world's list of cameras
+        World.addCamera(this);
+    }
 
     public void resizeViewingArea(int width, int height){
         this.roomLocation.setRect(roomLocation.getCenterX(), roomLocation.getCenterY(), width, height);
@@ -35,7 +41,10 @@ public abstract class Camera {
         return this.screenLocation;
     }
 
-    public void render(Graphics g){
+    public boolean render(Graphics g){
+        if(!this.isActive){
+            return false;
+        }
         this.widthRatio = this.screenLocation.getWidth() / this.roomLocation.getWidth();
         this.heightRatio = this.screenLocation.getHeight() / this.roomLocation.getHeight();
 
@@ -62,7 +71,7 @@ public abstract class Camera {
 
                     //multiply any widths by the width ratio and any heights by the height ratio.
                     g.drawRect((int)((p.getX() - bb.getWidth()/2)*widthRatio + screenLocation.getMinX()), (int)((p.getY() - bb.getHeight()/2)*heightRatio + screenLocation.getMinY()), (int)(bb.getWidth()*widthRatio), (int)(bb.getHeight()*heightRatio));
-                    return;
+                    return true;
                 }
 
 
@@ -93,6 +102,7 @@ public abstract class Camera {
                 g.drawImage(spriteImage, (int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(entity.getImage().getWidth()*widthRatio), (int)(entity.getImage().getHeight()*heightRatio), null);
             }
         }
+        return true;
     }
 
     public Point getRelativeViewingLocation(Entity e){
@@ -138,5 +148,17 @@ public abstract class Camera {
         BufferedImage rotatedImage = new BufferedImage(entity.getImage().getWidth(), entity.getImage().getHeight(), entity.getImage().getType());
         op.filter(entity.getImage(), rotatedImage);  //Create the new rotated image.
         return rotatedImage;
+    }
+
+    public void setActive(){
+        this.isActive = true;
+    }
+
+    public void setInactive(){
+        this.isActive = false;
+    }
+
+    public boolean isActive(){
+        return this.isActive;
     }
 }

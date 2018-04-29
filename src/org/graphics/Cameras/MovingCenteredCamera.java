@@ -1,5 +1,6 @@
-package org.graphics;
+package org.graphics.Cameras;
 
+import org.graphics.Cameras.Camera;
 import org.objects.Base.Sprite;
 
 import java.awt.*;
@@ -18,6 +19,7 @@ public class MovingCenteredCamera extends Camera {
      * @param centerOn
      */
     public MovingCenteredCamera(int width, int height, Sprite centerOn) {
+        super();
         this.roomLocation.setRect(centerOn.getPosX() - width/2, centerOn.getPosY() - height/2, width, height);
         this.screenLocation = this.roomLocation;
         this.centerOn = centerOn;
@@ -39,10 +41,10 @@ public class MovingCenteredCamera extends Camera {
     public Sprite getCenteredOn(){ return this.centerOn; }
 
     @Override
-    public void render(Graphics g){
+    public boolean render(Graphics g){
         //If the camera is a centered camera, ensure that the camera is centering on the object before rending.
         this.roomLocation.setRect(centerOn.getPosX() - this.roomLocation.getWidth()/2, centerOn.getPosY() - this.roomLocation.getHeight()/2, this.roomLocation.getWidth(), this.roomLocation.getHeight());
         this.screenLocation = this.roomLocation;
-        super.render(g);
+        return super.render(g);
     }
 }
