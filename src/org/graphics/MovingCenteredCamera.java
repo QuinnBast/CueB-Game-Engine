@@ -1,18 +1,17 @@
 package org.graphics;
 
-import org.objects.Sprite;
+import org.objects.Base.Sprite;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Quinn on 4/27/2018.
  */
-public class CenteredCamera extends Camera {
+public class MovingCenteredCamera extends Camera {
 
     private Sprite centerOn;
 
-    public CenteredCamera(int width, int height, Sprite centerOn) {
+    public MovingCenteredCamera(int width, int height, Sprite centerOn) {
         this.viewingArea.setRect(centerOn.getPosX() - width/2, centerOn.getPosY() - height/2, width, height);
         this.displayArea = this.viewingArea;
         this.centerOn = centerOn;

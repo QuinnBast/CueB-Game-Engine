@@ -1,4 +1,4 @@
-package org.objects;
+package org.objects.Base;
 
 import org.game.SpriteLoader;
 import org.graphics.Camera;

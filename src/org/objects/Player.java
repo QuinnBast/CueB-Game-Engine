@@ -1,12 +1,10 @@
 package org.objects;
 
 import org.input.userInput;
+import org.objects.Base.Entity;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Quinn on 11/29/2017.

@@ -1,8 +1,7 @@
 package org.world;
 
 import org.graphics.Camera;
-import org.objects.Entity;
-import org.objects.Sprite;
+import org.objects.Base.Entity;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,10 +1,7 @@
 package org.game;
 
-import org.objects.Entity;
+import org.objects.Base.Entity;
 import org.objects.Player;
-import org.objects.Sprite;
-
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Quinn on 11/29/2017.

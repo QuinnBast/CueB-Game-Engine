@@ -1,16 +1,13 @@
 package org.graphics;
 
-import org.objects.Entity;
-import org.objects.Sprite;
+import org.objects.Base.Entity;
 import org.world.World;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * Created by Quinn on 11/29/2017.

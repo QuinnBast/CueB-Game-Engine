@@ -3,17 +3,14 @@ package org.graphics;
 import org.fpsChecker.FPS;
 import org.game.Game;
 import org.input.userInput;
-import org.objects.Sprite;
 import org.world.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
-import java.io.File;
 import java.io.IOException;
 
 /**

@@ -1,9 +1,8 @@
 package org.graphics;
 
-import org.objects.Sprite;
+import org.objects.Base.Sprite;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Quinn on 4/28/2018.
@@ -12,9 +11,15 @@ public class StaticCenteredCamera extends Camera {
 
     private Sprite centerOn;
 
-    public StaticCenteredCamera(float centerX, float centerY, int displayWidth, int displayHeight, Sprite centerOn, int viewingWidth, int viewingHeight) {
-        this.viewingArea.setRect(centerOn.getPosX() - viewingWidth/2, centerOn.getPosY() - viewingHeight/2, viewingWidth, viewingHeight);
+    public StaticCenteredCamera(float centerX, float centerY, int displayWidth, int displayHeight, Sprite centerOn, int viewWidth, int viewHeight) {
+        this.viewingArea.setRect(centerOn.getPosX() - viewWidth/2, centerOn.getPosY() - viewHeight/2, viewWidth, viewHeight);
         this.displayArea.setRect(centerX - displayWidth/2, centerY - displayHeight/2, displayWidth, displayHeight);
+        this.centerOn = centerOn;
+    }
+
+    public StaticCenteredCamera(Sprite centerOn, int viewWidth, int viewHeight){
+        this.viewingArea.setRect(centerOn.getPosX() - viewWidth/2, centerOn.getPosY() - viewHeight/2, viewWidth, viewHeight);
+        this.displayArea.setRect(0,0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight());
         this.centerOn = centerOn;
     }
 

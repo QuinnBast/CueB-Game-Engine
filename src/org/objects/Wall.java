@@ -1,5 +1,7 @@
 package org.objects;
 
+import org.objects.Base.Entity;
+
 /**
  * Created by Quinn on 4/27/2018.
  */
