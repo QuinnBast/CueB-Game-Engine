@@ -6,15 +6,15 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by Quinn on 4/27/2018.
+ * Created by Quinn on 4/28/2018.
  */
-public class CenteredCamera extends Camera {
+public class StaticCenteredCamera extends Camera {
 
     private Sprite centerOn;
 
-    public CenteredCamera(int width, int height, Sprite centerOn) {
-        this.viewingArea.setRect(centerOn.getPosX() - width/2, centerOn.getPosY() - height/2, width, height);
-        this.displayArea = this.viewingArea;
+    public StaticCenteredCamera(float centerX, float centerY, int displayWidth, int displayHeight, Sprite centerOn, int viewingWidth, int viewingHeight) {
+        this.viewingArea.setRect(centerOn.getPosX() - viewingWidth/2, centerOn.getPosY() - viewingHeight/2, viewingWidth, viewingHeight);
+        this.displayArea.setRect(centerX - displayWidth/2, centerY - displayHeight/2, displayWidth, displayHeight);
         this.centerOn = centerOn;
     }
 
@@ -29,7 +29,7 @@ public class CenteredCamera extends Camera {
     public void render(Graphics g){
         //If the camera is a centered camera, ensure that the camera is centering on the object before rending.
         this.viewingArea.setRect(centerOn.getPosX() - this.viewingArea.getWidth()/2, centerOn.getPosY() - this.viewingArea.getHeight()/2, this.viewingArea.getWidth(), this.viewingArea.getHeight());
-        this.displayArea = this.viewingArea;
         super.render(g);
     }
+
 }

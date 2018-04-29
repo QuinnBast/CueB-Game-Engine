@@ -6,7 +6,7 @@ package org.objects;
 public class Wall extends Entity {
 
     public Wall(float posX, float posY, float width, float height) {
-        super(posX, posY, width, height, true, false, false);
+        super(posX, posY, width, height, true, false, false, false);
     }
 
     @Override

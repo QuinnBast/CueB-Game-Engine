@@ -19,23 +19,24 @@ public abstract class Entity extends Sprite {
     protected boolean isCollidable;     //If the object can be collided with
     protected boolean canMove;          //If the object can move
     protected boolean canDisplace;      //If the object can be displaced
+    protected boolean canRotate;        //Determine if the object should be rotated on rendering
 
-    public Entity(float posX, float posY, String image, boolean isCollidable, boolean canMove, boolean canDisplace) {
+    public Entity(float posX, float posY, String image, boolean isCollidable, boolean canMove, boolean canDisplace, boolean canRotate) {
         super(posX, posY, image);
 
         this.isCollidable = isCollidable;
         this.canMove = canMove;
         this.canDisplace = canDisplace;
+        this.canRotate = canRotate;
     }
-
-    public Entity(float posX, float posY, float width, float height, boolean isCollidable, boolean canMove, boolean canDisplace) {
+    public Entity(float posX, float posY, float width, float height, boolean isCollidable, boolean canMove, boolean canDisplace, boolean canRotate) {
         super(posX, posY, width, height);
 
         this.isCollidable = isCollidable;
         this.canMove = canMove;
         this.canDisplace = canDisplace;
+        this.canRotate = canRotate;
     }
-
     public boolean isColliidng(Entity object, float deltaTime){
         //Determine object in question's extreme bounding box points.
         Rectangle2D boundingbox = object.getBoundingBox();
@@ -45,7 +46,6 @@ public abstract class Entity extends Sprite {
         }
         return false;
     }
-
     public abstract void collisionResolution(Entity object, float deltaTime);
     public Point2D getCollisionPoint(Entity object) {
         //Assuming rectangle bounding boxes for all entities.
@@ -85,12 +85,29 @@ public abstract class Entity extends Sprite {
                 return null;
         }
     }
-
     public void update(float deltaTime){
         if(this.image != null){
             this.boundingBox = new Rectangle2D.Double(posX - this.image.getWidth()/2, posY - this.image.getHeight()/2, this.image.getWidth(), this.image.getHeight());
         } else {
             this.boundingBox = new Rectangle2D.Double(posX - this.boundingBox.getWidth() / 2, posY - this.boundingBox.getHeight() / 2, this.boundingBox.getWidth(), this.boundingBox.getHeight());
         }
+    }
+    public void setCanMove(boolean value){
+        this.canMove = value;
+    }
+    public boolean canMove(){
+        return this.canMove;
+    }
+    public void setCanDisplace(boolean value){
+        this.canDisplace = value;
+    }
+    public boolean canDisplace(){
+        return this.canDisplace;
+    }
+    public void setCanRotate(boolean value){
+        this.canRotate = value;
+    }
+    public boolean canRotate(){
+        return this.canRotate;
     }
 }

@@ -9,7 +9,8 @@ import java.awt.*;
  */
 public class StaticCamera extends Camera {
 
-    public StaticCamera(int width, int height, float centerX, float centerY) {
+    public StaticCamera(float centerX, float centerY, int width, int height) {
         this.viewingArea.setRect(centerX, centerY, width, height);
+        this.displayArea = this.viewingArea;
     }
 }

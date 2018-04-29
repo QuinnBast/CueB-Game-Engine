@@ -20,9 +20,10 @@ public class Game {
 
         Player player = new Player(100, 100, "Test.png");
         World.currentWorld.objects.add(player);
-        //World.addCamera(new StaticCamera(200, 200, 100,100));
+        //World.addCamera(new StaticCamera(50, 50, 100,100));
         //World.addCamera(new StaticCamera(200, 200, 400,100));
-        World.addCamera(new CenteredCamera(200, 200, player));
+        //World.addCamera(new CenteredCamera(200, 200, player));
+        World.addCamera(new StaticCenteredCamera(1000, 540, 2000, 1080, player, 200, 200));
         World.currentWorld.objects.add(new Wall(50, 50, 75, 20));
     }
 

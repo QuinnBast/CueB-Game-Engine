@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 public abstract class Sprite {
     protected float posX = 0;
     protected float posY = 0;
-    protected double angle = 0;
     protected BufferedImage image = null;
     protected Rectangle2D boundingBox;	//Bounding Box of the object
 
@@ -40,10 +39,6 @@ public abstract class Sprite {
 
     public BufferedImage getImage(){
         return image;
-    }
-
-    public double getAngle(){
-        return this.angle;
     }
 
     public float getPosX(){

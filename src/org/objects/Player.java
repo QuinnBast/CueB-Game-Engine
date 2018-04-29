@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 public class Player extends Entity {
 
     public Player(float posX, float posY, String image) {
-        super(posX, posY, image, true, true, true);
+        super(posX, posY, image, true, true, true, true);
     }
 
     @Override
@@ -31,12 +31,6 @@ public class Player extends Entity {
         }
         if(userInput.isPressed(KeyEvent.VK_D)) {
             posX += 100 * deltaTime;
-        }
-
-        //Determine the angle of rotation towards the mouse
-        this.angle = Math.atan((double) ((MouseInfo.getPointerInfo().getLocation().getY() - this.posY) / (MouseInfo.getPointerInfo().getLocation().getX() - this.posX)));
-        if(MouseInfo.getPointerInfo().getLocation().getX() <= this.posX){
-            this.angle = this.angle - Math.PI;
         }
     }
 
