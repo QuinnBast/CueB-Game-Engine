@@ -70,7 +70,7 @@ public class Game {
         staticMiniMapCameras.add(new StaticCamera(100, 100, 500, 500, (int)(Renderer.getCanvasWidth()*0.95), (int)(Renderer.getCanvasHeight()*0.95), (int)(Renderer.getCanvasWidth()*0.1), (int)(Renderer.getCanvasHeight()*0.1)));
         Screen staticMiniMap = new Screen("StaticMiniMap", staticMiniMapCameras, null);
 
-        ScreenManager.setActive("CenteredMiniMap");
+        ScreenManager.setActive("PlayerCenteredFull");
     }
 
     public static void quit(){

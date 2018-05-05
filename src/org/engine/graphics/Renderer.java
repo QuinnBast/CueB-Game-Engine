@@ -21,6 +21,8 @@ public class Renderer {
     private static Frame frame;     //the window
     private static Canvas canvas;   //the drawable area
 
+    private static Boolean running = true;
+
     private static int canvasWidth = 0;
     private static int canvasHeight = 0;
 
@@ -35,6 +37,10 @@ public class Renderer {
 
     public Renderer(){
         this.init();
+    }
+
+    public static void stopGame(){
+        running = false;
     }
 
     private static void getBestSize(){
@@ -77,7 +83,7 @@ public class Renderer {
                 VolatileImage vi = gc.createCompatibleVolatileImage(canvasWidth, canvasHeight);
 
                 //Always render
-                while(true){
+                while(running){
 
                     if(vi.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE){
                         //If the graphics validation is not compatible, recreate the image
@@ -109,6 +115,7 @@ public class Renderer {
                     g.drawImage(vi, 0,0,canvasWidth, canvasHeight, null);
                     g.dispose();
                 }
+                frame.dispose();
             }
         };
         thread.setName("Rendering Thread");

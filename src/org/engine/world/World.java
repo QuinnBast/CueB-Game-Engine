@@ -1,9 +1,12 @@
 package org.engine.world;
 
 import org.engine.graphics.Cameras.Camera;
+import org.engine.graphics.Renderer;
+import org.engine.input.userInput;
 import org.engine.objects.Base.Entity;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +14,7 @@ import java.util.ArrayList;
  */
 public class World {
 
+    public static userInput input = new userInput();
     public static World currentWorld = null;
     public static ArrayList<Entity> objects = new ArrayList<Entity>();
     private static long lastTime = System.nanoTime();   //Last time we checked for an update.
@@ -26,6 +30,9 @@ public class World {
     }
 
     public static void update(){
+        if(input.isPressed(KeyEvent.VK_ESCAPE)){
+            Renderer.stopGame();
+        }
         float deltaTime = (System.nanoTime() - lastTime)/1000000000.0f;     //Puts the time since the last update in seconds
         lastTime = System.nanoTime();
         for(Entity entity : objects){
