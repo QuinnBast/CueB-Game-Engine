@@ -1,7 +1,7 @@
 package org.applicationEngine.graphics.Cameras;
 
 import org.applicationEngine.graphics.Renderer;
-import org.applicationEngine.objects.Base.Sprite;
+import org.applicationEngine.objects.Base.SpriteObject;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class StaticCenteredCamera extends Camera {
 
-    private Sprite centerOn;
+    private SpriteObject centerOn;
 
     /**
      *
@@ -22,7 +22,7 @@ public class StaticCenteredCamera extends Camera {
      * @param roomWidth
      * @param roomHeight
      */
-    public StaticCenteredCamera(float sceenCenterX, float screenCenterY, int screenDisplayWidth, int screenDisplayHeight, Sprite centerOn, int roomWidth, int roomHeight) {
+    public StaticCenteredCamera(float sceenCenterX, float screenCenterY, int screenDisplayWidth, int screenDisplayHeight, SpriteObject centerOn, int roomWidth, int roomHeight) {
         super();
         this.roomLocation.setRect(centerOn.getPosX() - roomWidth/2, centerOn.getPosY() - roomHeight/2, roomWidth, roomHeight);
         this.screenLocation.setRect(sceenCenterX - screenDisplayWidth/2, screenCenterY - screenDisplayHeight/2, screenDisplayWidth, screenDisplayHeight);
@@ -35,7 +35,7 @@ public class StaticCenteredCamera extends Camera {
      * @param roomWidth
      * @param roomHeight
      */
-    public StaticCenteredCamera(Sprite centerOn, int roomWidth, int roomHeight){
+    public StaticCenteredCamera(SpriteObject centerOn, int roomWidth, int roomHeight){
         super();
         this.roomLocation.setRect(centerOn.getPosX() - roomWidth/2, centerOn.getPosY() - roomHeight/2, roomWidth, roomHeight);
         this.screenLocation.setRect(0,0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight());
@@ -44,14 +44,14 @@ public class StaticCenteredCamera extends Camera {
 
     /**
      *
-     * @param sprite
+     * @param spriteObject
      */
-    public void setCenterOn(Sprite sprite){
-        this.centerOn = sprite;
+    public void setCenterOn(SpriteObject spriteObject){
+        this.centerOn = spriteObject;
         this.roomLocation.setRect(centerOn.getPosX() - this.roomLocation.getWidth()/2, centerOn.getPosY() - this.roomLocation.getHeight()/2, this.roomLocation.getWidth(), this.roomLocation.getHeight());
     }
 
-    public Sprite getCenteredOn(){ return this.centerOn; }
+    public SpriteObject getCenteredOn(){ return this.centerOn; }
 
     @Override
     public boolean render(Graphics g){

@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by Quinn on 11/29/2017.
  */
-public abstract class Entity extends Sprite {
+public abstract class Entity extends SpriteObject {
 
 
     protected int health;

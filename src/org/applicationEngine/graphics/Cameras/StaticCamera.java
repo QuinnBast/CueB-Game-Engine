@@ -1,7 +1,7 @@
 package org.applicationEngine.graphics.Cameras;
 
 import org.applicationEngine.graphics.Renderer;
-import org.applicationEngine.objects.Room;
+import org.applicationEngine.objects.Base.Room;
 
 /**
  * Created by Quinn on 4/27/2018.

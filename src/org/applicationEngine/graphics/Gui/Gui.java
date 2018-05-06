@@ -1,6 +1,6 @@
 package org.applicationEngine.graphics.Gui;
 
-import org.applicationEngine.objects.Base.Sprite;
+import org.applicationEngine.objects.Base.SpriteObject;
 
 import java.util.ArrayList;
 
@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Gui {
 
-    ArrayList<Sprite> guiComponents = new ArrayList<Sprite>();
+    ArrayList<SpriteObject> guiComponents = new ArrayList<SpriteObject>();
 
-    public Gui(ArrayList<Sprite> sprites){
+    public Gui(ArrayList<SpriteObject> sprites){
         this.guiComponents = sprites;
     }
 

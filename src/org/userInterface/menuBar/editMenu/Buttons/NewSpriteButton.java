@@ -1,9 +1,10 @@
 package org.userInterface.menuBar.editMenu.Buttons;
 
-import org.applicationEngine.objects.ObjectType;
+import org.applicationEngine.objects.Base.SpriteObject;
+import org.developmentEngine.resourceManager.resourceTypes.Sprite;
 import org.userInterface.UserInterface;
 import org.userInterface.fileBrowser.FileBrowserPanel;
-import org.userInterface.fileBrowser.Resource;
+import org.userInterface.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,12 +22,11 @@ public class NewSpriteButton extends JMenuItem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Open new sprite Dialogue
+                UserInterface.modalController.displayNewSpriteModal();
 
                 //Add new item to the FileBrowserPanel
                 FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-                panel.addResource(new Resource("test.png", ObjectType.SPRITE));
-                panel.revalidate();
-                panel.repaint();
+                panel.addResource(new SpriteResource("test.png", new Sprite()));
             }
         });
     }

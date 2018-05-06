@@ -1,21 +1,19 @@
 package org.developmentEngine.gameEditors.sprites;
 
-import org.applicationEngine.objects.Base.Sprite;
-
-import java.util.ArrayList;
+import org.applicationEngine.objects.Base.SpriteObject;
 
 /**
  * Created by Quinn on 5/4/2018.
  */
 public class SpriteEditor {
 
-    private Sprite selectedSprite;
+    private SpriteObject selectedSprite;
 
-    public SpriteEditor(Sprite sprite){
+    public SpriteEditor(SpriteObject sprite){
         this.selectedSprite = sprite;
     }
 
-    public Sprite getSelectedSprite(){
+    public SpriteObject getSelectedSprite(){
         return this.selectedSprite;
     }
 }

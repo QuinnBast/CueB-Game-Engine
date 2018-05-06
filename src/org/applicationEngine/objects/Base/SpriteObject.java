@@ -8,13 +8,13 @@ import java.awt.image.BufferedImage;
 /**
  * Created by Quinn on 11/26/2017.
  */
-public abstract class Sprite {
+public abstract class SpriteObject {
     protected float posX = 0;
     protected float posY = 0;
     protected BufferedImage image = null;
     protected Rectangle2D boundingBox;	//Bounding Box of the object
 
-    public Sprite(float posX, float posY, String image){
+    public SpriteObject(float posX, float posY, String image){
         this.posX = posX;
         this.posY = posY;
         this.image = SpriteLoader.getImage(image);
@@ -25,7 +25,7 @@ public abstract class Sprite {
         }
     }
 
-    public Sprite(float posX, float posY, float width, float height){
+    public SpriteObject(float posX, float posY, float width, float height){
         this.posX = posX;
         this.posY = posY;
         this.boundingBox = new Rectangle2D.Double(posX - (width/2), posY - (height/2), width, height);

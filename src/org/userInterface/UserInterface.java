@@ -1,5 +1,6 @@
 package org.userInterface;
 
+import org.userInterface.modals.ModalFactory;
 import org.userInterface.window.Window;
 
 /**
@@ -8,7 +9,7 @@ import org.userInterface.window.Window;
 public class UserInterface {
 
     public static final Window window = new Window();
-    //private static ModalController modalController = new ModalController();
+    public static ModalFactory modalController = new ModalFactory();
 
     public UserInterface(){
         window.validate();
