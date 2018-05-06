@@ -23,10 +23,6 @@ public class NewSpriteButton extends JMenuItem {
             public void actionPerformed(ActionEvent e) {
                 //Open new sprite Dialogue
                 UserInterface.modalController.displayNewSpriteModal();
-
-                //Add new item to the FileBrowserPanel
-                FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-                panel.addResource(new SpriteResource("test.png", new Sprite()));
             }
         });
     }

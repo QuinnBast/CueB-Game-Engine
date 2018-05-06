@@ -23,9 +23,7 @@ public class NewScriptButton extends JMenuItem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Open new script dialogue
-
-                FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-                panel.addResource(new ScriptResource("test.png", new Script()));
+                UserInterface.modalController.displayNewScriptModal();
             }
         });
     }

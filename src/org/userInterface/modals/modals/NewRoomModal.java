@@ -1,8 +1,10 @@
 package org.userInterface.modals.modals;
 
+import org.developmentEngine.resourceManager.resourceTypes.Room;
 import org.developmentEngine.resourceManager.resourceTypes.Sprite;
 import org.userInterface.UserInterface;
 import org.userInterface.fileBrowser.FileBrowserPanel;
+import org.userInterface.fileBrowser.Resources.RoomResource;
 import org.userInterface.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
@@ -13,13 +15,13 @@ import java.awt.event.ActionListener;
 /**
  * Created by Quinn on 5/4/2018.
  */
-public class NewSpriteModal extends JDialog implements ActionListener {
+public class NewRoomModal extends JDialog implements ActionListener {
 
     JTextField fileName = new JTextField(20);
 
-    public NewSpriteModal(){
+    public NewRoomModal(){
         this.setSize(new Dimension(500,200));
-        this.setTitle("New Sprite");
+        this.setTitle("New Room");
 
         JPanel panel = new JPanel();
         panel.setVisible(true);
@@ -38,7 +40,7 @@ public class NewSpriteModal extends JDialog implements ActionListener {
         UserInterface.window.setEnabled(true);
         if(!fileName.getText().isEmpty()){
             FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-            panel.addResource(new SpriteResource(fileName.getText(), new Sprite()));
+            panel.addResource(new RoomResource(fileName.getText(), new Room()));
         }
         dispose();
     }

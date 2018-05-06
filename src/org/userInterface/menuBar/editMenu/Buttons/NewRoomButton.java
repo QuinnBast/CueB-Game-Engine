@@ -23,9 +23,7 @@ public class NewRoomButton extends JMenuItem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Create new room dialogue
-
-                FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-                panel.addResource(new RoomResource("test.png", new Room()));
+                UserInterface.modalController.displayNewRoomModal();
             }
         });
     }

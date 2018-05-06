@@ -15,8 +15,8 @@ public class EditMenu extends JMenu {
     public EditMenu(){
         this.setText("Edit");
         this.add(new NewSpriteButton());
+        this.add(new NewScriptButton());
         this.add(new NewObjectButton());
         this.add(new NewRoomButton());
-        this.add(new NewScriptButton());
     }
 }

@@ -23,9 +23,7 @@ public class NewObjectButton extends JMenuItem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Open new object dialogue
-
-                FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-                panel.addResource(new ObjectResource("test.png", new Object()));
+                UserInterface.modalController.displayNewObjecteModal();
             }
         });
     }
