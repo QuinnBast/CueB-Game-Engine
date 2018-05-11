@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class Window extends JFrame {
 
-    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1000,1080);
+    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1900,1080);
     private WindowLayers layers = new WindowLayers();
 
     public Window(){

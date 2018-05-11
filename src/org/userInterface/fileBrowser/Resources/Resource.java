@@ -1,8 +1,9 @@
 package org.userInterface.fileBrowser.Resources;
 
 import org.applicationEngine.objects.Base.SpriteObject;
-import org.developmentEngine.resourceManager.resourceTypes.BaseResourceType;
-import org.developmentEngine.resourceManager.resourceTypes.Sprite;
+import org.applicationEngine.objects.ObjectType;
+import org.developmentEngine.resourceManager.resourceTypes.*;
+import org.developmentEngine.resourceManager.resourceTypes.Object;
 
 import javax.swing.*;
 
@@ -25,6 +26,19 @@ public abstract class Resource extends JPanel {
 
     public BaseResourceType getReferencedObject(){
         return this.referencedObject;
+    }
+
+    public ObjectType getObjectType(){
+        if(referencedObject instanceof Sprite){
+            return ObjectType.SPRITE;
+        } else if (referencedObject instanceof Room){
+            return ObjectType.ROOM;
+        } else if (referencedObject instanceof Object){
+            return ObjectType.OBJECT;
+        } else if (referencedObject instanceof Script){
+            return ObjectType.SCRIPT;
+        }
+        return null;
     }
 
 }
