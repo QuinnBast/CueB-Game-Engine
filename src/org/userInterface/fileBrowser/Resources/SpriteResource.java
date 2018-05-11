@@ -10,6 +10,6 @@ import org.developmentEngine.resourceManager.resourceTypes.Sprite;
 public class SpriteResource extends Resource {
 
     public SpriteResource(String filePath, Sprite object){
-        super(filePath, object);
+        super(filePath + ".spr", object);
     }
 }

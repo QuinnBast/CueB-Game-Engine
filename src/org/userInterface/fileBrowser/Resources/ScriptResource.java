@@ -9,6 +9,6 @@ import org.developmentEngine.resourceManager.resourceTypes.Script;
  */
 public class ScriptResource extends Resource {
     public ScriptResource(String path, Script object) {
-        super(path, object);
+        super(path + ".scr", object);
     }
 }

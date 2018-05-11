@@ -9,6 +9,6 @@ import org.developmentEngine.resourceManager.resourceTypes.Room;
  */
 public class RoomResource extends Resource {
     public RoomResource(String path, Room object) {
-        super(path, object);
+        super(path + ".rm", object);
     }
 }

@@ -10,6 +10,6 @@ import org.developmentEngine.resourceManager.resourceTypes.Object;
  */
 public class ObjectResource extends Resource {
     public ObjectResource(String path, Object object) {
-        super(path, object);
+        super(path + ".obj", object);
     }
 }
