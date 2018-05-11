@@ -6,7 +6,7 @@ package org.developmentEngine.resourceManager.resourceTypes;
 public class Object extends BaseResourceType {
 
     public Object(){
-
+        super();
     }
 
 }

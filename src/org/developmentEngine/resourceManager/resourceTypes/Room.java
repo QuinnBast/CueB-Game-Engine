@@ -6,7 +6,7 @@ package org.developmentEngine.resourceManager.resourceTypes;
 public class Room extends BaseResourceType {
 
     public Room(){
-
+        super();
     }
 
 }

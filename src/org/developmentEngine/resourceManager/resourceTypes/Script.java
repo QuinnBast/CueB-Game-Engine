@@ -5,6 +5,8 @@ package org.developmentEngine.resourceManager.resourceTypes;
  */
 public class Script extends BaseResourceType {
 
-    public Script(){}
+    public Script(){
+        super();
+    }
 
 }

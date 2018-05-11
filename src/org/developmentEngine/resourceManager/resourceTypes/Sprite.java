@@ -6,6 +6,6 @@ package org.developmentEngine.resourceManager.resourceTypes;
 public class Sprite extends BaseResourceType {
 
     public Sprite(){
-
+        super();
     }
 }
