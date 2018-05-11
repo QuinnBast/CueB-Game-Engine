@@ -10,9 +10,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.HashMap;
 
 /**
@@ -96,8 +94,12 @@ public class FileBrowserPanel extends JPanel {
     MouseListener ml = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            //If a file is double clicked, we want to add
-            if (e.getClickCount() == 2) {
+            //If a file is double clicked, we want to add it to the object viewer pane
+            if(SwingUtilities.isRightMouseButton(e)){
+                String fileName = filetree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent().toString();
+                ContextMenu rightClick = new ContextMenu();
+                rightClick.show(e.getComponent(), e.getX(), e.getY());
+            } else if (e.getClickCount() == 2) {
                 String fileName = filetree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent().toString();
                 FileBrowserPanel fbt = (FileBrowserPanel) UserInterface.window.getLayers().getLayer("FileBrowser");
                 if(fbt.getResource(fileName).getObjectType() != null) {
@@ -107,5 +109,4 @@ public class FileBrowserPanel extends JPanel {
             }
         }
     };
-
 }
