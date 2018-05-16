@@ -1,11 +1,10 @@
 package org.userInterface.modals.modals;
 
-import org.developmentEngine.resourceManager.resourceTypes.Script;
-import org.developmentEngine.resourceManager.resourceTypes.Sprite;
+import org.developmentEngine.DevelopmentEngine;
 import org.userInterface.UserInterface;
 import org.userInterface.fileBrowser.FileBrowserPanel;
+import org.userInterface.fileBrowser.Resources.RoomResource;
 import org.userInterface.fileBrowser.Resources.ScriptResource;
-import org.userInterface.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,8 +38,8 @@ public class NewScriptModal extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         UserInterface.window.setEnabled(true);
         if(!fileName.getText().isEmpty()){
-            FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-            panel.addResource(new ScriptResource(fileName.getText(), new Script()));
+            FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
+            DevelopmentEngine.resourceManager.addResource(new ScriptResource(fileName.getText()));
         }
         dispose();
     }

@@ -11,24 +11,22 @@ import java.util.HashMap;
  */
 public class WindowLayers extends JLayeredPane {
 
-    private HashMap<String, JComponent> layers = new HashMap<>();
+    private FileBrowserPanel fileBrowserPanel;
+    private OpenFileTabs openFileTabs;
 
     public WindowLayers(){
-        FileBrowserPanel fileBrowserPanel = new FileBrowserPanel();
-        OpenFileTabs fileTabs = new OpenFileTabs();
-        this.layers.put("FileBrowser", fileBrowserPanel);
-        this.layers.put("OpenFileTabs", fileTabs);
+        this.fileBrowserPanel = new FileBrowserPanel();
+        this.openFileTabs = new OpenFileTabs();
 
         this.add(fileBrowserPanel, DEFAULT_LAYER);
-        this.add(fileTabs, DEFAULT_LAYER);
+        this.add(openFileTabs, DEFAULT_LAYER);
     }
 
-    public JComponent getLayer(String layerName){
-        if(this.layers.containsKey(layerName)){
-            return this.layers.get(layerName);
-        } else {
-            return null;
-        }
+    public FileBrowserPanel getFileBrowser(){
+        return this.fileBrowserPanel;
     }
 
+    public OpenFileTabs getOpenFileTabs(){
+        return this.openFileTabs;
+    }
 }

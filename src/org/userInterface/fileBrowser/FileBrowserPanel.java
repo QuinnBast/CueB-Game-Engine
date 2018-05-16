@@ -1,5 +1,7 @@
 package org.userInterface.fileBrowser;
 
+import org.developmentEngine.DevelopmentEngine;
+import org.developmentEngine.resourceManager.ResourceObserver;
 import org.userInterface.UserInterface;
 import org.userInterface.fileBrowser.Resources.*;
 import org.userInterface.tabbedPane.OpenFileTabs;
@@ -16,7 +18,7 @@ import java.util.HashMap;
 /**
  * Created by Quinn on 5/4/2018.
  */
-public class FileBrowserPanel extends JPanel {
+public class FileBrowserPanel extends JPanel implements ResourceObserver {
 
     //Map that references all objects the tree points to.
     private HashMap<String, Resource> resources = new HashMap<>();
@@ -42,6 +44,7 @@ public class FileBrowserPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(200, 800));
         this.add(scrollPane);
         filetree.addMouseListener(ml);
+        DevelopmentEngine.resourceManager.addResourceObserver(this);
     }
 
     public void addResource(Resource resource) {
@@ -101,12 +104,27 @@ public class FileBrowserPanel extends JPanel {
                 rightClick.show(e.getComponent(), e.getX(), e.getY());
             } else if (e.getClickCount() == 2) {
                 String fileName = filetree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent().toString();
-                FileBrowserPanel fbt = (FileBrowserPanel) UserInterface.window.getLayers().getLayer("FileBrowser");
+                FileBrowserPanel fbt = UserInterface.window.getLayers().getFileBrowser();
                 if(fbt.getResource(fileName).getObjectType() != null) {
-                    OpenFileTabs oft = (OpenFileTabs) UserInterface.window.getLayers().getLayer("OpenFileTabs");
-                    oft.addNewTab(fileName, fbt.getResource(fileName).getObjectType());
+                    OpenFileTabs oft = UserInterface.window.getLayers().getOpenFileTabs();
+                    oft.addNewTab(fbt.getResource(fileName));
                 }
             }
         }
     };
+
+    @Override
+    public void onResourceAdd(Resource r) {
+        this.addResource(r);
+    }
+
+    @Override
+    public void onResourceRemove(Resource r) {
+        this.removeResource(r);
+    }
+
+    @Override
+    public void onResourceUpdate(Resource r) {
+
+    }
 }

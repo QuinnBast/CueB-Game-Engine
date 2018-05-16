@@ -1,8 +1,9 @@
 package org.userInterface.modals.modals;
 
-import org.developmentEngine.resourceManager.resourceTypes.Sprite;
+import org.developmentEngine.DevelopmentEngine;
 import org.userInterface.UserInterface;
 import org.userInterface.fileBrowser.FileBrowserPanel;
+import org.userInterface.fileBrowser.Resources.ScriptResource;
 import org.userInterface.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
@@ -37,8 +38,8 @@ public class NewSpriteModal extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         UserInterface.window.setEnabled(true);
         if(!fileName.getText().isEmpty()){
-            FileBrowserPanel panel = (FileBrowserPanel)(UserInterface.window.getLayers().getLayer("FileBrowser"));
-            panel.addResource(new SpriteResource(fileName.getText(), new Sprite()));
+            FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
+            DevelopmentEngine.resourceManager.addResource(new SpriteResource(fileName.getText()));
         }
         dispose();
     }

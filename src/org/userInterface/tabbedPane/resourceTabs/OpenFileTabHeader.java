@@ -1,6 +1,7 @@
 package org.userInterface.tabbedPane.resourceTabs;
 
 import org.userInterface.UserInterface;
+import org.userInterface.fileBrowser.Resources.Resource;
 import org.userInterface.tabbedPane.OpenFileTabs;
 
 import javax.swing.*;
@@ -13,12 +14,11 @@ import java.awt.event.ActionListener;
  */
 public class OpenFileTabHeader extends JPanel {
 
-    String fileName;
-    int index;
+    private Resource referencedResource;
 
-    public OpenFileTabHeader(String tabName, int index){
-        this.fileName = tabName;
-        this.add(new JLabel(tabName));
+    public OpenFileTabHeader(Resource resource){
+        this.referencedResource = resource;
+        this.add(new JLabel(resource.getFilePath()));
         JButton closeButton = new JButton("X");
         closeButton.addActionListener(buttonClosedEvent);
         closeButton.setMargin(new Insets(0, 0, 0, 0));
@@ -29,8 +29,8 @@ public class OpenFileTabHeader extends JPanel {
     ActionListener buttonClosedEvent = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            OpenFileTabs tabs = (OpenFileTabs) UserInterface.window.getLayers().getLayer("OpenFileTabs");
-            tabs.removeTab(index, fileName);
+            OpenFileTabs tabs = UserInterface.window.getLayers().getOpenFileTabs();
+            tabs.removeTab(referencedResource);
         }
     };
 }

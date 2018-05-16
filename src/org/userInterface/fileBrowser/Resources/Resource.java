@@ -1,11 +1,10 @@
 package org.userInterface.fileBrowser.Resources;
 
-import org.applicationEngine.objects.Base.SpriteObject;
 import org.applicationEngine.objects.ObjectType;
-import org.developmentEngine.resourceManager.resourceTypes.*;
-import org.developmentEngine.resourceManager.resourceTypes.Object;
+import org.developmentEngine.DevelopmentEngine;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Created by Quinn on 5/4/2018.
@@ -13,32 +12,25 @@ import javax.swing.*;
 public abstract class Resource extends JPanel {
 
     private String filePath;
-    private BaseResourceType referencedObject;
 
-    public Resource(String path, BaseResourceType object){
+    public Resource(String path){
         this.filePath = path;
-        this.referencedObject = object;
     }
 
     public String getFilePath(){
         return this.filePath;
     }
 
-    public BaseResourceType getReferencedObject(){
-        return this.referencedObject;
-    }
-
     public ObjectType getObjectType(){
-        if(referencedObject instanceof Sprite){
+        if(this instanceof SpriteResource){
             return ObjectType.SPRITE;
-        } else if (referencedObject instanceof Room){
+        } else if (this instanceof RoomResource){
             return ObjectType.ROOM;
-        } else if (referencedObject instanceof Object){
+        } else if (this instanceof ObjectResource){
             return ObjectType.OBJECT;
-        } else if (referencedObject instanceof Script){
+        } else if (this instanceof ScriptResource){
             return ObjectType.SCRIPT;
         }
         return null;
     }
-
 }

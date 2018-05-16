@@ -1,19 +1,24 @@
 package org.userInterface.tabbedPane;
 
 import org.applicationEngine.objects.ObjectType;
+import org.developmentEngine.DevelopmentEngine;
+import org.developmentEngine.resourceManager.ResourceObserver;
+import org.userInterface.fileBrowser.Resources.Resource;
 import org.userInterface.tabbedPane.resourceTabs.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Quinn on 5/11/2018.
  */
-public class OpenFileTabs extends JPanel {
+public class OpenFileTabs extends JPanel implements ResourceObserver {
 
+    private HashMap<Resource, JComponent> openTabs = new HashMap<>();
     JTabbedPane tabbedPane = new JTabbedPane();
-    ArrayList<String> openTabs = new ArrayList<String>();
+    //ArrayList<String> openTabs = new ArrayList<String>();
 
     public OpenFileTabs(){
         this.setLocation(200,0);
@@ -22,27 +27,37 @@ public class OpenFileTabs extends JPanel {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(tabbedPane);
+        DevelopmentEngine.resourceManager.addResourceObserver(this);
     }
 
-    public void addNewTab(String filename, ObjectType type){
-        if(!isOpen(filename)){
-            this.openTabs.add(filename);
+    public void addNewTab(Resource r){
+        String filename = r.getFilePath();
+        ObjectType type = r.getObjectType();
+        if(!isOpen(r)){
             switch(type){
                 case ROOM:
-                    tabbedPane.addTab(filename, null, new RoomTabs());
-                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(filename, tabbedPane.getTabCount()));
+                    RoomTabs newRoom = new RoomTabs();
+                    tabbedPane.addTab(filename, null, newRoom);
+                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
+                    openTabs.put(r, newRoom);
                     return;
                 case OBJECT:
-                    tabbedPane.addTab(filename, null, new ObjectTabs());
-                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(filename, tabbedPane.getTabCount()));
+                    ObjectTabs newObject = new ObjectTabs();
+                    tabbedPane.addTab(filename, null, newObject);
+                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
+                    openTabs.put(r, newObject);
                     return;
                 case SCRIPT:
-                    tabbedPane.addTab(filename, null, new ScriptTabs());
-                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(filename, tabbedPane.getTabCount()));
+                    ScriptTabs newScript = new ScriptTabs();
+                    tabbedPane.addTab(filename, null, newScript);
+                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
+                    openTabs.put(r, newScript);
                     return;
                 case SPRITE:
-                    tabbedPane.addTab(filename, null, new SpriteTabs());
-                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(filename, tabbedPane.getTabCount()));
+                    SpriteTabs newSprite = new SpriteTabs();
+                    tabbedPane.addTab(filename, null, newSprite);
+                    tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
+                    openTabs.put(r, newSprite);
                     return;
                 default:
                     return;
@@ -50,22 +65,18 @@ public class OpenFileTabs extends JPanel {
         }
     }
 
-    public boolean isOpen(String filename){
-        for(String file : openTabs){
-            if(file.equals(filename)){
-                return true;
-            }
+    public boolean isOpen(Resource r){
+        if(openTabs.containsKey(r)){
+            return true;
         }
         return false;
     }
 
-    public void removeTab(int tabIndex, String fileName){
-        this.tabbedPane.remove(tabIndex);
-        for(String file : openTabs){
-            if(file.equals(fileName)){
-                this.openTabs.remove(file);
-                return;
-            }
+    public void removeTab(Resource r){
+        if(openTabs.containsKey(r)){
+            JComponent removeMe = openTabs.get(r);
+            this.tabbedPane.remove(removeMe);
+            openTabs.remove(r);
         }
     }
 
@@ -73,4 +84,19 @@ public class OpenFileTabs extends JPanel {
         return this.tabbedPane;
     }
 
+
+    @Override
+    public void onResourceAdd(Resource r) {
+        this.addNewTab(r);
+    }
+
+    @Override
+    public void onResourceRemove(Resource r) {
+        this.removeTab(r);
+    }
+
+    @Override
+    public void onResourceUpdate(Resource r) {
+
+    }
 }

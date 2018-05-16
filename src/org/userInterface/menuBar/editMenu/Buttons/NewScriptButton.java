@@ -1,11 +1,6 @@
 package org.userInterface.menuBar.editMenu.Buttons;
 
-import org.developmentEngine.resourceManager.resourceTypes.Script;
-import org.developmentEngine.resourceManager.resourceTypes.Sprite;
 import org.userInterface.UserInterface;
-import org.userInterface.fileBrowser.FileBrowserPanel;
-import org.userInterface.fileBrowser.Resources.ScriptResource;
-import org.userInterface.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
