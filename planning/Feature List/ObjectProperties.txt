@@ -1,0 +1,9 @@
+name
+linkedSprite
+xPos - can configure in room editor
+yPos - can configure in room editor
+isCollidable
+canMove
+isVisible
+zIndex
+ParentObject (Inheritance)

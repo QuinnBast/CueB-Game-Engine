@@ -1,0 +1,9 @@
+Origin
+FilePath(s) - more if animation
+BoundingBox
+Transparency
+Name
+Width
+Height
+isAnimation
+imageIndex

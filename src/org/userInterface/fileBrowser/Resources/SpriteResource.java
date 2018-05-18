@@ -5,6 +5,8 @@ package org.userInterface.fileBrowser.Resources;
  */
 public class SpriteResource extends Resource {
 
+
+
     public SpriteResource(String filePath){
         super(filePath + ".spr");
     }

@@ -1,0 +1,6 @@
+width
+height
+name
+framerate
+backgroundColor/Image
+Instantiation Order

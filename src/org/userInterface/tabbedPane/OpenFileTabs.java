@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by Quinn on 5/11/2018.
@@ -98,5 +99,23 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
     @Override
     public void onResourceUpdate(Resource r) {
 
+    }
+
+    public Resource getActiveResource(){
+        JComponent searchFor = (JComponent) tabbedPane.getSelectedComponent();
+        Iterator it = openTabs.entrySet().iterator();
+        while(it.hasNext()){
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            Resource key = (Resource) pair.getKey();
+            JComponent tab = (JComponent) pair.getValue();
+            if(tab == searchFor){
+                return key;
+            }
+        }
+        return null;
+    }
+
+    public JComponent getActiveTab(){
+        return (JComponent)tabbedPane.getSelectedComponent();
     }
 }
