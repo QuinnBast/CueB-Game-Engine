@@ -21,7 +21,7 @@ public class World {
 
     public static void render(Graphics g){
         //Loop through all camera views and render them
-        if(cameras != null) {
+        if(cameras.size() > 0) {
             for(Camera c : cameras){
                 c.render(g);
             }

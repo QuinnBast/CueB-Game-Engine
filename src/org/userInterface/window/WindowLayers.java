@@ -1,10 +1,9 @@
 package org.userInterface.window;
 
-import org.userInterface.tabbedPane.OpenFileTabs;
-import org.userInterface.fileBrowser.FileBrowserPanel;
+import org.userInterface.window.centerScreen.OpenFileTabs;
+import org.userInterface.window.fileBrowser.FileBrowserPanel;
 
 import javax.swing.*;
-import java.util.HashMap;
 
 /**
  * Created by Quinn on 5/4/2018.

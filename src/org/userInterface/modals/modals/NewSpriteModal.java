@@ -2,9 +2,8 @@ package org.userInterface.modals.modals;
 
 import org.developmentEngine.DevelopmentEngine;
 import org.userInterface.UserInterface;
-import org.userInterface.fileBrowser.FileBrowserPanel;
-import org.userInterface.fileBrowser.Resources.ScriptResource;
-import org.userInterface.fileBrowser.Resources.SpriteResource;
+import org.userInterface.window.fileBrowser.FileBrowserPanel;
+import org.userInterface.window.fileBrowser.Resources.SpriteResource;
 
 import javax.swing.*;
 import java.awt.*;

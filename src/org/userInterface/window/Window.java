@@ -1,7 +1,6 @@
 package org.userInterface.window;
 
-import org.userInterface.fileBrowser.FileBrowserPanel;
-import org.userInterface.menuBar.MenuBar;
+import org.userInterface.window.navBar.MenuBar;
 
 import javax.swing.*;
 import java.awt.*;

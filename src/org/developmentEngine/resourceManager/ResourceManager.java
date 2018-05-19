@@ -1,6 +1,6 @@
 package org.developmentEngine.resourceManager;
 
-import org.userInterface.fileBrowser.Resources.*;
+import org.userInterface.window.fileBrowser.Resources.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -54,9 +54,32 @@ public class ResourceManager {
         this.notifyObserversNewResource(newItem);
     }
 
+    public void removeResource(Resource removeItem){
+        if(removeItem instanceof ObjectResource){
+            ObjectResource resource = (ObjectResource) removeItem;
+            this.objectList.remove(resource);
+        } else if (removeItem instanceof SpriteResource){
+            SpriteResource resource = (SpriteResource) removeItem;
+            this.spriteList.remove(resource);
+        } else if (removeItem instanceof RoomResource){
+            RoomResource resource = (RoomResource) removeItem;
+            this.roomList.remove(resource);
+        } else if (removeItem instanceof ScriptResource){
+            ScriptResource resource = (ScriptResource) removeItem;
+            this.scriptList.remove(resource);
+        }
+        this.notifyObserversRemoveResource(removeItem);
+    }
+
     public void notifyObserversNewResource(Resource r){
         for(ResourceObserver ro : resourceObservers){
             ro.onResourceAdd(r);
+        }
+    }
+
+    public void notifyObserversRemoveResource(Resource r){
+        for(ResourceObserver ro : resourceObservers){
+            ro.onResourceRemove(r);
         }
     }
 

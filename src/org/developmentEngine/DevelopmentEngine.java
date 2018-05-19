@@ -7,8 +7,6 @@ import org.developmentEngine.resourceManager.ResourceManager;
  */
 public class DevelopmentEngine {
 
-    //This class is going to need:
-    //Resource manager (add sprites, objects, files), (load project), (save project)
     public static ResourceManager resourceManager = new ResourceManager();
 
     public DevelopmentEngine(){
