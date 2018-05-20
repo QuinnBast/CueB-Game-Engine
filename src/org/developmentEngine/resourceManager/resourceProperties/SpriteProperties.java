@@ -26,6 +26,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setOrigin(Point2D origin) {
         this.origin = origin;
+        this.notifyUpdate();
     }
 
     public ArrayList<String> getFilepaths() {
@@ -34,14 +35,17 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setFilepath(String filepath) {
         this.filepaths.set(0, filepath);
+        this.notifyUpdate();
     }
 
     public void addFilePath(String filepath){
         this.filepaths.add(filepath);
+        this.notifyUpdate();
     }
 
     public void removeFilePath(String filepath){
         this.filepaths.remove(filepath);
+        this.notifyUpdate();
     }
 
     public Rectangle2D getBoundingBox() {
@@ -50,6 +54,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setBoundingBox(Rectangle2D boundingBox) {
         this.boundingBox = boundingBox;
+        this.notifyUpdate();
     }
 
     public int getTransparency() {
@@ -58,6 +63,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setTransparency(int transparency) {
         this.transparency = transparency;
+        this.notifyUpdate();
     }
 
     public String getName() {
@@ -66,6 +72,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
+        this.notifyUpdate();
     }
 
     public Rectangle2D getSize() {
@@ -74,6 +81,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setSize(Rectangle2D size) {
         this.size = size;
+        this.notifyUpdate();
     }
 
     public boolean isAnimated() {
@@ -82,6 +90,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setAnimated(boolean animated) {
         isAnimated = animated;
+        this.notifyUpdate();
     }
 
     public int getImageIndex() {
@@ -90,6 +99,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setImageIndex(int imageIndex) {
         this.imageIndex = imageIndex;
+        this.notifyUpdate();
     }
 
     public SpriteProperties(){

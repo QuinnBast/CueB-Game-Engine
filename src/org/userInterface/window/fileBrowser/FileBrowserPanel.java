@@ -148,11 +148,6 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
         this.removeResource(r);
     }
 
-    @Override
-    public void onResourceUpdate(Resource r) {
-
-    }
-
     public JTree getFiletree(){
         return this.filetree;
     }

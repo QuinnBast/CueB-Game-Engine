@@ -21,34 +21,42 @@ public class ObjectProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
+        this.notifyUpdate();
     }
 
     public void setLinkedSprite(SpriteResource linkedSprite) {
         this.linkedSprite = linkedSprite;
+        this.notifyUpdate();
     }
 
     public void setPosition(Point2D position) {
         this.position = position;
+        this.notifyUpdate();
     }
 
     public void setCollidable(boolean collidable) {
         isCollidable = collidable;
+        this.notifyUpdate();
     }
 
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
+        this.notifyUpdate();
     }
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+        this.notifyUpdate();
     }
 
     public void setzIndex(int zIndex) {
         this.zIndex = zIndex;
+        this.notifyUpdate();
     }
 
     public void setParentObject(ObjectResource parentObject) {
         this.parentObject = parentObject;
+        this.notifyUpdate();
     }
 
     public String getName() {

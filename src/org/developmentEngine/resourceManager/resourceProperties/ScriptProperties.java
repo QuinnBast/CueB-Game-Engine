@@ -14,6 +14,7 @@ public class ScriptProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
+        this.notifyUpdate();
     }
 
     public String getCode() {
@@ -22,6 +23,7 @@ public class ScriptProperties extends ResourceProperties {
 
     public void setCode(String code) {
         this.code = code;
+        this.notifyUpdate();
     }
 
     public ScriptProperties(){

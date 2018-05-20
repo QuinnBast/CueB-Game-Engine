@@ -63,9 +63,4 @@ public class ObjectPane extends JPanel implements ResourceObserver {
             this.removeResource((ObjectResource)r);
         }
     }
-
-    @Override
-    public void onResourceUpdate(Resource r) {
-
-    }
 }

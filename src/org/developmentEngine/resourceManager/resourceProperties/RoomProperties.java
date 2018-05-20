@@ -24,6 +24,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setSize(Rectangle2D size) {
         this.size = size;
+        this.notifyUpdate();
     }
 
     public String getName() {
@@ -32,6 +33,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
+        this.notifyUpdate();
     }
 
     public int getDesiredFramerate() {
@@ -40,6 +42,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setDesiredFramerate(int desiredFramerate) {
         this.desiredFramerate = desiredFramerate;
+        this.notifyUpdate();
     }
 
     public Color getBackgroundColor() {
@@ -48,6 +51,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+        this.notifyUpdate();
     }
 
     public String getBackgroundImageLink() {
@@ -56,6 +60,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setBackgroundImageLink(String backgroundImageLink) {
         this.backgroundImageLink = backgroundImageLink;
+        this.notifyUpdate();
     }
 
     public ArrayList<ObjectResource> getObjectsInRoom() {
@@ -64,6 +69,7 @@ public class RoomProperties extends ResourceProperties {
 
     public void setObjectsInRoom(ArrayList<ObjectResource> objectsInRoom) {
         this.objectsInRoom = objectsInRoom;
+        this.notifyUpdate();
     }
 
     public RoomProperties(){

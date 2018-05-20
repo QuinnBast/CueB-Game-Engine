@@ -51,7 +51,7 @@ public class ResourceManager {
             ScriptResource resource = (ScriptResource) newItem;
             this.scriptList.add(resource);
         }
-        this.notifyObserversNewResource(newItem);
+        this.notifyNewResource(newItem);
     }
 
     public void removeResource(Resource removeItem){
@@ -68,16 +68,16 @@ public class ResourceManager {
             ScriptResource resource = (ScriptResource) removeItem;
             this.scriptList.remove(resource);
         }
-        this.notifyObserversRemoveResource(removeItem);
+        this.notifyRemoveResource(removeItem);
     }
 
-    public void notifyObserversNewResource(Resource r){
+    public void notifyNewResource(Resource r){
         for(ResourceObserver ro : resourceObservers){
             ro.onResourceAdd(r);
         }
     }
 
-    public void notifyObserversRemoveResource(Resource r){
+    public void notifyRemoveResource(Resource r){
         for(ResourceObserver ro : resourceObservers){
             ro.onResourceRemove(r);
         }
