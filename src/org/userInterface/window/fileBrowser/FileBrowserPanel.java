@@ -128,9 +128,11 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
             } else if (e.getClickCount() == 2) {
                 String fileName = filetree.getPathForLocation(e.getX(), e.getY()).getLastPathComponent().toString();
                 FileBrowserPanel fbt = UserInterface.window.getLayers().getFileBrowser();
-                if(fbt.getResource(fileName).getObjectType() != null) {
-                    OpenFileTabs oft = UserInterface.window.getLayers().getOpenFileTabs();
-                    oft.addNewTab(fbt.getResource(fileName));
+                if(fbt.getResource(fileName) != null) {
+                    if (fbt.getResource(fileName).getObjectType() != null) {
+                        OpenFileTabs oft = UserInterface.window.getLayers().getOpenFileTabs();
+                        oft.addNewTab(fbt.getResource(fileName));
+                    }
                 }
             }
         }

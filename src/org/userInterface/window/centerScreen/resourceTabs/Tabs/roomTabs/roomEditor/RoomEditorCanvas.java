@@ -1,4 +1,4 @@
-package org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor;
+package org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.roomEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ public class RoomEditorCanvas extends JPanel{
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            rectangle.setRect(rectangle.getX(), rectangle.getY(), rectangle.getX() - e.getX(), rectangle.getY() - e.getY());
+            rectangle.setRect(rectangle.getX(), rectangle.getY(), e.getX() - rectangle.getX(), e.getY() - rectangle.getY());
             RoomEditorCanvas canvas = (RoomEditorCanvas) e.getSource();
             canvas.repaint();
         }

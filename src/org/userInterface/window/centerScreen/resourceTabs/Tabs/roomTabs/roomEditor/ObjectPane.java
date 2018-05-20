@@ -1,4 +1,4 @@
-package org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor;
+package org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.roomEditor;
 
 import org.applicationEngine.objects.ObjectType;
 import org.developmentEngine.DevelopmentEngine;

@@ -1,5 +1,7 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
+import org.userInterface.window.fileBrowser.Resources.Resource;
+
 import javax.swing.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.swing.*;
  */
 public class ScriptTabs extends JTabbedPane {
 
-    public ScriptTabs(){
+    public ScriptTabs(Resource r){
         this.add(new JTextArea());
     }
 

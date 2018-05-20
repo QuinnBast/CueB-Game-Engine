@@ -36,25 +36,25 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
         if(!isOpen(r)){
             switch(type){
                 case ROOM:
-                    RoomTabs newRoom = new RoomTabs();
+                    RoomTabs newRoom = new RoomTabs(r);
                     tabbedPane.addTab(filename, null, newRoom);
                     tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
                     openTabs.put(r, newRoom);
                     return;
                 case OBJECT:
-                    ObjectTabs newObject = new ObjectTabs();
+                    ObjectTabs newObject = new ObjectTabs(r);
                     tabbedPane.addTab(filename, null, newObject);
                     tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
                     openTabs.put(r, newObject);
                     return;
                 case SCRIPT:
-                    ScriptTabs newScript = new ScriptTabs();
+                    ScriptTabs newScript = new ScriptTabs(r);
                     tabbedPane.addTab(filename, null, newScript);
                     tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
                     openTabs.put(r, newScript);
                     return;
                 case SPRITE:
-                    SpriteTabs newSprite = new SpriteTabs();
+                    SpriteTabs newSprite = new SpriteTabs(r);
                     tabbedPane.addTab(filename, null, newSprite);
                     tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, new OpenFileTabHeader(r));
                     openTabs.put(r, newSprite);
@@ -114,7 +114,27 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
         return null;
     }
 
+    public Resource getRelatedResource(JComponent searchForResource){
+        Iterator it = openTabs.entrySet().iterator();
+        while(it.hasNext()){
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            Resource key = (Resource) pair.getKey();
+            JComponent tab = (JComponent) pair.getValue();
+            if(tab == searchForResource){
+                return key;
+            }
+        }
+        return null;
+    }
+
     public JComponent getActiveTab(){
         return (JComponent)tabbedPane.getSelectedComponent();
+    }
+
+    public JComponent getRelatedComponent(Resource r){
+        if(this.openTabs.containsKey(r)) {
+            return this.openTabs.get(r);
+        }
+        return null;
     }
 }

@@ -1,7 +1,8 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
-import org.userInterface.window.centerScreen.resourceTabs.objectTabs.ObjectEventTab;
-import org.userInterface.window.centerScreen.resourceTabs.objectTabs.ObjectPropertiesTab;
+import org.userInterface.window.centerScreen.resourceTabs.Tabs.objectTabs.ObjectEventTab;
+import org.userInterface.window.centerScreen.resourceTabs.Tabs.objectTabs.ObjectPropertiesTab;
+import org.userInterface.window.fileBrowser.Resources.Resource;
 
 import javax.swing.*;
 
@@ -10,9 +11,9 @@ import javax.swing.*;
  */
 public class ObjectTabs extends JTabbedPane {
 
-    public ObjectTabs(){
-        this.addTab("Properties", null, new ObjectPropertiesTab());
-        this.addTab("Events", null, new ObjectEventTab());
+    public ObjectTabs(Resource r){
+        this.addTab("Properties", null, new ObjectPropertiesTab(r));
+        this.addTab("Events", null, new ObjectEventTab(r));
     }
 
 }

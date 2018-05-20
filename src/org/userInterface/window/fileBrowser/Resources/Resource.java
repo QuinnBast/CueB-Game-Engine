@@ -1,6 +1,7 @@
 package org.userInterface.window.fileBrowser.Resources;
 
 import org.applicationEngine.objects.ObjectType;
+import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 
 import javax.swing.*;
 
@@ -10,6 +11,7 @@ import javax.swing.*;
 public abstract class Resource extends JPanel {
 
     private String filePath;
+    protected ResourceProperties resourceProperties;
 
     public Resource(String path){
         this.filePath = path;
@@ -30,5 +32,9 @@ public abstract class Resource extends JPanel {
             return ObjectType.SCRIPT;
         }
         return null;
+    }
+
+    public ResourceProperties getProperties(){
+        return this.resourceProperties;
     }
 }
