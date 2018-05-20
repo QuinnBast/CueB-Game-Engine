@@ -10,11 +10,15 @@ import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
 import org.userInterface.window.fileBrowser.Resources.Resource;
 import org.userInterface.window.fileBrowser.Resources.SpriteResource;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import static org.userInterface.UserInterface.window;
 
@@ -24,17 +28,18 @@ import static org.userInterface.UserInterface.window;
 public class SpritePropertiesTab extends Tab implements PropertyObserver {
 
     JLabel filePathText;
+    private SpriteProperties spriteProperties;
+    JLabel imageLabel = new JLabel();
 
     public SpritePropertiesTab(Resource r){
         super(r);
         r.getProperties().addPropertyObserver(this);
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        SpriteProperties properties = (SpriteProperties)((SpriteResource) r).getProperties();
+        this.spriteProperties = (SpriteProperties)((SpriteResource) r).getProperties();
 
         //Create the file name print-out and the file selector
         JPanel filePanel = new JPanel();
-        if(properties.getFilepaths().get(0) != null) {
-            filePathText = new JLabel(properties.getFilepaths().get(0));
+        if(spriteProperties.getFilepaths().get(0) != null) {
+            filePathText = new JLabel(spriteProperties.getFilepaths().get(0));
         } else {
             filePathText = new JLabel("");
         }
@@ -44,19 +49,29 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         filePanel.add(filePathText);
         filePanel.add(fileChooser);
 
+        //Display the image
+        JPanel imagePanel = new JPanel();
+        imagePanel.setPreferredSize(new Dimension(300, 300));
+        imagePanel.add(imageLabel);
+        if(spriteProperties.getFilepaths().get(0) != "") {
+            ImageIcon imgIcon = new ImageIcon(new ImageIcon(spriteProperties.getFilepaths().get(0)).getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+            imageLabel.setIcon(imgIcon);
+        }
+
         //Create the number selected for the origin's x position
         JPanel originXPanel = new JPanel();
-        SpinnerModel originxModel = new SpinnerNumberModel(properties.getOrigin().getX(), 0, properties.getSize().getWidth(), 1);
+        SpinnerModel originxModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getSize().getWidth(), 1);
         JSpinner setOriginX = new JSpinner(originxModel);
         originXPanel.add(setOriginX);
 
         //Create the number selected for the origin's y position
         JPanel originYPanel = new JPanel();
-        SpinnerModel originyModel = new SpinnerNumberModel(properties.getOrigin().getY(), 0, properties.getSize().getHeight(), 1);
+        SpinnerModel originyModel = new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getSize().getHeight(), 1);
         JSpinner setOriginY = new JSpinner(originyModel);
         originYPanel.add(setOriginY);
 
         this.add(filePanel);
+        this.add(imagePanel);
         this.add(originXPanel);
         this.add(originYPanel);
         this.setVisible(true);
@@ -72,14 +87,19 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
             if(returnOption == JFileChooser.APPROVE_OPTION) {
                 SpriteProperties spriteProperties = (SpriteProperties) window.getOpenFileResource().getProperties();
                 spriteProperties.setFilepath(fileChooser.getSelectedFile().getAbsolutePath());
-                window.repaint();
+                spriteProperties.setImage(fileChooser.getSelectedFile().getAbsolutePath());
             }
         }
     };
 
     @Override
     public void onResourceUpdate() {
-        SpriteProperties sp = (SpriteProperties)(this.getReferencedResource().getProperties());
-        this.filePathText.setText(sp.getFilepaths().get(0));
+        this.filePathText.setText(spriteProperties.getFilepaths().get(0));
+
+        if(spriteProperties.getFilepaths().get(0) != "") {
+            ImageIcon imgIcon = new ImageIcon(new ImageIcon(spriteProperties.getFilepaths().get(0)).getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+            imageLabel.setIcon(imgIcon);
+        }
+
     }
 }

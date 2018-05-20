@@ -2,6 +2,7 @@ package org.developmentEngine.resourceManager.resourceProperties;
 
 import org.userInterface.window.fileBrowser.Resources.Resource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,11 @@ public abstract class ResourceProperties {
 
     public void notifyUpdate(){
         for(PropertyObserver po : propertyObservers){
-            po.onResourceUpdate();
+            try {
+                po.onResourceUpdate();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
