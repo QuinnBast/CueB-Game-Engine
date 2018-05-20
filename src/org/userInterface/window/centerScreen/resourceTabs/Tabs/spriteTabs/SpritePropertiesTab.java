@@ -30,6 +30,10 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
     JLabel filePathText;
     private SpriteProperties spriteProperties;
     JLabel imageLabel = new JLabel();
+    JSpinner originX = new JSpinner();
+    JSpinner originY = new JSpinner();
+    JLabel imageWidthText = new JLabel("Width: 0px");
+    JLabel imageHeightText = new JLabel("Height: 0px");
 
     public SpritePropertiesTab(Resource r){
         super(r);
@@ -53,22 +57,32 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         JPanel imagePanel = new JPanel();
         imagePanel.setPreferredSize(new Dimension(300, 300));
         imagePanel.add(imageLabel);
+        SpinnerNumberModel originXModel;
+        SpinnerNumberModel originYModel;
         if(spriteProperties.getFilepaths().get(0) != "") {
             ImageIcon imgIcon = new ImageIcon(new ImageIcon(spriteProperties.getFilepaths().get(0)).getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
             imageLabel.setIcon(imgIcon);
+
+            originXModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getImageIcon().getIconWidth(), 1);
+            originYModel = new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getImageIcon().getIconHeight(), 1);
+        } else {
+            originXModel = new SpinnerNumberModel(0, 0, 0, 1);
+            originYModel = new SpinnerNumberModel(0, 0, 0, 1);
         }
 
-        //Create the number selected for the origin's x position
         JPanel originXPanel = new JPanel();
-        SpinnerModel originxModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getSize().getWidth(), 1);
-        JSpinner setOriginX = new JSpinner(originxModel);
-        originXPanel.add(setOriginX);
+        JLabel xoriginText = new JLabel("X Origin");
+        originX.setModel(originXModel);
+        originXPanel.add(xoriginText);
+        originXPanel.add(originX);
+        originXPanel.add(imageWidthText);
 
-        //Create the number selected for the origin's y position
         JPanel originYPanel = new JPanel();
-        SpinnerModel originyModel = new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getSize().getHeight(), 1);
-        JSpinner setOriginY = new JSpinner(originyModel);
-        originYPanel.add(setOriginY);
+        JLabel yoriginText = new JLabel("Y Origin");
+        originY.setModel(originYModel);
+        originYPanel.add(yoriginText);
+        originYPanel.add(originY);
+        originYPanel.add(imageHeightText);
 
         this.add(filePanel);
         this.add(imagePanel);
@@ -87,7 +101,6 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
             if(returnOption == JFileChooser.APPROVE_OPTION) {
                 SpriteProperties spriteProperties = (SpriteProperties) window.getOpenFileResource().getProperties();
                 spriteProperties.setFilepath(fileChooser.getSelectedFile().getAbsolutePath());
-                spriteProperties.setImage(fileChooser.getSelectedFile().getAbsolutePath());
             }
         }
     };
@@ -97,8 +110,20 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         this.filePathText.setText(spriteProperties.getFilepaths().get(0));
 
         if(spriteProperties.getFilepaths().get(0) != "") {
-            ImageIcon imgIcon = new ImageIcon(new ImageIcon(spriteProperties.getFilepaths().get(0)).getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+            ImageIcon originalImage = spriteProperties.getImageIcon();
+
+            ImageIcon imgIcon = new ImageIcon(originalImage.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
             imageLabel.setIcon(imgIcon);
+
+            originX.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getImageIcon().getIconWidth(), 1));
+            originY.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getImageIcon().getIconHeight(), 1));
+            imageWidthText.setText("Width: " + Integer.toString(spriteProperties.getImageIcon().getIconWidth()) + "px");
+            imageHeightText.setText("Height: " + Integer.toString(spriteProperties.getImageIcon().getIconHeight()) + "px");
+        } else {
+            originX.setModel(new SpinnerNumberModel(0, 0, 0, 1));
+            originY.setModel(new SpinnerNumberModel(0, 0, 0, 1));
+            imageWidthText.setText("Width: 0px");
+            imageHeightText.setText("Height: 0px");
         }
 
     }

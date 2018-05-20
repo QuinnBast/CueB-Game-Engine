@@ -4,6 +4,7 @@ import org.applicationEngine.graphics.Renderer;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -26,8 +27,6 @@ public class SpriteProperties extends ResourceProperties {
     private Rectangle2D size = new Rectangle2D.Double(0, 0, 0, 0);
     private boolean isAnimated = false;
     private int imageIndex = 0;
-    private BufferedImage image;
-
 
     public Point2D getOrigin() {
         return origin;
@@ -115,32 +114,9 @@ public class SpriteProperties extends ResourceProperties {
         this.filepaths.add("");
     }
 
-    public BufferedImage getImage(int index){
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(this.filepaths.get(index)));
-        } catch (IOException e) {
-            System.out.println(this.filepaths.get(index));
-            e.printStackTrace();
-        }
-
-        return image;
+    public ImageIcon getImageIcon(){
+        return new ImageIcon(this.filepaths.get(0));
     }
 
-    public BufferedImage setImage(String absolutePath){
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(absolutePath));
-        } catch (IOException e) {
-            System.out.println(absolutePath);
-            e.printStackTrace();
-        }
-
-        return image;
-    }
-
-    public BufferedImage getImage(){
-        return this.image;
-    }
 
 }
