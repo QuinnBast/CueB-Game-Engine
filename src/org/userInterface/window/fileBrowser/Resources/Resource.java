@@ -37,4 +37,9 @@ public abstract class Resource extends JPanel {
     public ResourceProperties getProperties(){
         return this.resourceProperties;
     }
+
+    @Override
+    public String toString() {
+        return this.filePath;
+    }
 }

@@ -43,6 +43,10 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setFilepath(String filepath) {
         this.filepaths.set(0, filepath);
+        ImageIcon icon = this.getImageIcon();
+        if(icon != null){
+            this.boundingBox = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        }
         this.notifyUpdate();
     }
 
@@ -117,6 +121,5 @@ public class SpriteProperties extends ResourceProperties {
     public ImageIcon getImageIcon(){
         return new ImageIcon(this.filepaths.get(0));
     }
-
 
 }

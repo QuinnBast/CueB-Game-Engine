@@ -7,15 +7,20 @@ import org.developmentEngine.resourceManager.resourceProperties.SpriteProperties
 import org.userInterface.UserInterface;
 import org.userInterface.window.centerScreen.resourceTabs.SpriteTabs;
 import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
+import org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpritePropertyEditor.SpritePropertyCanvas;
 import org.userInterface.window.fileBrowser.Resources.Resource;
 import org.userInterface.window.fileBrowser.Resources.SpriteResource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,15 +59,16 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         filePanel.add(fileChooser);
 
         //Display the image
-        JPanel imagePanel = new JPanel();
-        imagePanel.setPreferredSize(new Dimension(300, 300));
-        imagePanel.add(imageLabel);
+        JPanel imagePanel = new JPanel(new BorderLayout());
+        imagePanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        SpritePropertyCanvas spc = new SpritePropertyCanvas(spriteProperties);
+        imagePanel.add(spc, BorderLayout.CENTER);
+        imagePanel.setPreferredSize(new Dimension(350, 350));
+
         SpinnerNumberModel originXModel;
         SpinnerNumberModel originYModel;
-        if(spriteProperties.getFilepaths().get(0) != "") {
-            ImageIcon imgIcon = new ImageIcon(new ImageIcon(spriteProperties.getFilepaths().get(0)).getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
-            imageLabel.setIcon(imgIcon);
 
+        if(spriteProperties.getFilepaths().get(0) != "") {
             originXModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getImageIcon().getIconWidth(), 1);
             originYModel = new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getImageIcon().getIconHeight(), 1);
         } else {
@@ -76,6 +82,7 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         originXPanel.add(xoriginText);
         originXPanel.add(originX);
         originXPanel.add(imageWidthText);
+        originX.addChangeListener(originXChangeListener);
 
         JPanel originYPanel = new JPanel();
         JLabel yoriginText = new JLabel("Y Origin");
@@ -83,11 +90,23 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         originYPanel.add(yoriginText);
         originYPanel.add(originY);
         originYPanel.add(imageHeightText);
+        originY.addChangeListener(originYChangeListener);
+
+        JPanel centerOriginPanel = new JPanel();
+        JButton centerOriginButton = new JButton("Center Origin");
+        centerOriginPanel.add(centerOriginButton);
+        centerOriginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                spriteProperties.setOrigin(new Point2D.Double(spriteProperties.getImageIcon().getIconWidth()/2, spriteProperties.getImageIcon().getIconHeight() / 2));
+            }
+        });
 
         this.add(filePanel);
         this.add(imagePanel);
         this.add(originXPanel);
         this.add(originYPanel);
+        this.add(centerOriginPanel);
         this.setVisible(true);
     }
 
@@ -102,6 +121,20 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
                 SpriteProperties spriteProperties = (SpriteProperties) window.getOpenFileResource().getProperties();
                 spriteProperties.setFilepath(fileChooser.getSelectedFile().getAbsolutePath());
             }
+        }
+    };
+
+    ChangeListener originXChangeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            spriteProperties.setOrigin(new Point2D.Double((double)originX.getValue(), spriteProperties.getOrigin().getY()));
+        }
+    };
+
+    ChangeListener originYChangeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            spriteProperties.setOrigin(new Point2D.Double(spriteProperties.getOrigin().getX(), (double)originY.getValue()));
         }
     };
 

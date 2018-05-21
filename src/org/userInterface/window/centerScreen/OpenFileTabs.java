@@ -88,6 +88,7 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
     @Override
     public void onResourceAdd(Resource r) {
         this.addNewTab(r);
+        this.tabbedPane.setSelectedComponent(this.openTabs.get(r));
     }
 
     @Override
