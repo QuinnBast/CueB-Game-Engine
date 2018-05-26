@@ -12,13 +12,9 @@ public abstract class ResourceProperties {
 
     private ArrayList<PropertyObserver> propertyObservers = new ArrayList<>();
 
-    public void notifyUpdate(){
+    public void notifyUpdate(ResourceProperties properties){
         for(PropertyObserver po : propertyObservers){
-            try {
-                po.onResourceUpdate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                po.onResourceUpdate(properties);
         }
     }
 

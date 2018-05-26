@@ -5,6 +5,8 @@ import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.ResourceObserver;
 import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
+import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
+import org.developmentEngine.resourceManager.resourceProperties.SpriteProperties;
 import org.userInterface.UserInterface;
 import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
 import org.userInterface.window.fileBrowser.Resources.Resource;
@@ -13,6 +15,7 @@ import org.userInterface.window.fileBrowser.Resources.SpriteResource;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -27,6 +30,7 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
 
     private ObjectProperties referencedProperties;
     private JComboBox spriteSelector;
+    private JLabel imageLabel;
 
     public ObjectPropertiesTab(Resource r) {
         super(r);
@@ -35,6 +39,20 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         DevelopmentEngine.resourceManager.addResourceObserver(this);
 
         JPanel relationshipPanel = new JPanel();
+
+        JPanel referencedSpritePanel = new JPanel();
+        this.imageLabel = new JLabel();
+        referencedSpritePanel.add(imageLabel);
+        if(referencedProperties.getLinkedSprite() != null) {
+            SpriteProperties sp = (SpriteProperties) (referencedProperties.getLinkedSprite().getProperties());
+            if (sp.getFilepaths().get(0) != "") {
+                ImageIcon originalImage = sp.getImageIcon();
+
+                ImageIcon imgIcon = new ImageIcon(originalImage.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
+                this.imageLabel.setIcon(imgIcon);
+            }
+        }
+
 
         JLabel relationText = new JLabel("Sprite");
         spriteSelector = new JComboBox(DevelopmentEngine.resourceManager.getSpriteList().toArray());
@@ -45,6 +63,7 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         relationshipPanel.add(relationText);
         relationshipPanel.add(spriteSelector);
 
+        this.add(referencedSpritePanel);
         this.add(relationshipPanel);
     }
 
@@ -60,8 +79,17 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
     };
 
     @Override
-    public void onResourceUpdate() throws IOException {
+    public void onResourceUpdate(ResourceProperties properties) {
         System.out.println("Object Updated");
+        if(referencedProperties.getLinkedSprite() != null) {
+            SpriteProperties sp = (SpriteProperties) (referencedProperties.getLinkedSprite().getProperties());
+            if (sp.getFilepaths().get(0) != "") {
+                ImageIcon originalImage = sp.getImageIcon();
+
+                ImageIcon imgIcon = new ImageIcon(originalImage.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
+                this.imageLabel.setIcon(imgIcon);
+            }
+        }
     }
 
     @Override

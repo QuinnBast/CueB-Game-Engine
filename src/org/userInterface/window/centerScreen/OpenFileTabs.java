@@ -133,4 +133,5 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
         }
         return null;
     }
+
 }

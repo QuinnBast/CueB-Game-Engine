@@ -1,6 +1,7 @@
 package org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpritePropertyEditor;
 
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
+import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 import org.developmentEngine.resourceManager.resourceProperties.SpriteProperties;
 
 import javax.imageio.ImageIO;
@@ -135,7 +136,7 @@ public class SpritePropertyCanvas extends JPanel implements PropertyObserver {
     };
 
     @Override
-    public void onResourceUpdate() throws IOException {
+    public void onResourceUpdate(ResourceProperties properties) {
         this.repaint();
     }
 }

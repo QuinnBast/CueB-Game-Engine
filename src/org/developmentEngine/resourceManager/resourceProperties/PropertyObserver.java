@@ -9,6 +9,6 @@ import java.io.IOException;
  */
 public interface PropertyObserver {
 
-    void onResourceUpdate() throws IOException;
+    void onResourceUpdate(ResourceProperties properties);
 
 }

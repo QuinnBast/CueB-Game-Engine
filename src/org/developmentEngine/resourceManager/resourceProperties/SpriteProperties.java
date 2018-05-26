@@ -34,7 +34,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setOrigin(Point2D origin) {
         this.origin = origin;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public ArrayList<String> getFilepaths() {
@@ -47,17 +47,17 @@ public class SpriteProperties extends ResourceProperties {
         if(icon != null){
             this.boundingBox = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight());
         }
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void addFilePath(String filepath){
         this.filepaths.add(filepath);
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void removeFilePath(String filepath){
         this.filepaths.remove(filepath);
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public Rectangle2D getBoundingBox() {
@@ -66,7 +66,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setBoundingBox(Rectangle2D boundingBox) {
         this.boundingBox = boundingBox;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public int getTransparency() {
@@ -75,7 +75,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setTransparency(int transparency) {
         this.transparency = transparency;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public String getName() {
@@ -84,7 +84,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public Rectangle2D getSize() {
@@ -93,7 +93,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setSize(Rectangle2D size) {
         this.size = size;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public boolean isAnimated() {
@@ -102,7 +102,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setAnimated(boolean animated) {
         isAnimated = animated;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public int getImageIndex() {
@@ -111,7 +111,7 @@ public class SpriteProperties extends ResourceProperties {
 
     public void setImageIndex(int imageIndex) {
         this.imageIndex = imageIndex;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public SpriteProperties(){

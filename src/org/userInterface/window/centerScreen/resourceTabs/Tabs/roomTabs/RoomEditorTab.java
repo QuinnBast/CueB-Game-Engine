@@ -1,5 +1,6 @@
 package org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs;
 
+import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
 import org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.roomEditor.ObjectPane;
 import org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.roomEditor.RoomEditorCanvas;
@@ -22,4 +23,8 @@ public class RoomEditorTab extends Tab {
         this.add(new ObjectPane(), BorderLayout.EAST);
     }
 
+    @Override
+    public void onResourceUpdate(ResourceProperties properties) {
+
+    }
 }

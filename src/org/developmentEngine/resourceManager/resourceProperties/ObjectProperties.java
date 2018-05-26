@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 /**
  * Created by Quinn on 5/19/2018.
  */
-public class ObjectProperties extends ResourceProperties {
+public class ObjectProperties extends ResourceProperties implements PropertyObserver {
 
     private String name = "";
     private SpriteResource linkedSprite = null;
@@ -21,42 +21,43 @@ public class ObjectProperties extends ResourceProperties {
 
     public void setName(String name) {
         this.name = name;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setLinkedSprite(SpriteResource linkedSprite) {
         this.linkedSprite = linkedSprite;
-        this.notifyUpdate();
+        this.linkedSprite.getProperties().addPropertyObserver(this);
+        this.notifyUpdate(this);
     }
 
     public void setPosition(Point2D position) {
         this.position = position;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setCollidable(boolean collidable) {
         isCollidable = collidable;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setVisible(boolean visible) {
         isVisible = visible;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setzIndex(int zIndex) {
         this.zIndex = zIndex;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public void setParentObject(ObjectResource parentObject) {
         this.parentObject = parentObject;
-        this.notifyUpdate();
+        this.notifyUpdate(this);
     }
 
     public String getName() {
@@ -94,5 +95,11 @@ public class ObjectProperties extends ResourceProperties {
 
     public ObjectProperties(){
 
+    }
+
+    @Override
+    public void onResourceUpdate(ResourceProperties properties) {
+        //If this object's sprite is updated, this object needs to notify all of its watchers that a link has been updated!
+        this.notifyUpdate(this);
     }
 }

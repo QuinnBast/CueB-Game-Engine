@@ -30,7 +30,7 @@ import static org.userInterface.UserInterface.window;
 /**
  * Created by Quinn on 5/11/2018.
  */
-public class SpritePropertiesTab extends Tab implements PropertyObserver {
+public class SpritePropertiesTab extends Tab  {
 
     JLabel filePathText;
     private SpriteProperties spriteProperties;
@@ -139,7 +139,7 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
     };
 
     @Override
-    public void onResourceUpdate() {
+    public void onResourceUpdate(ResourceProperties properties) {
         this.filePathText.setText(spriteProperties.getFilepaths().get(0));
 
         if(spriteProperties.getFilepaths().get(0) != "") {
@@ -160,4 +160,5 @@ public class SpritePropertiesTab extends Tab implements PropertyObserver {
         }
 
     }
+
 }
