@@ -35,8 +35,8 @@ public class SpriteProperties extends ResourceProperties {
     public void setOrigin(Point2D origin) {
         if(this.size.contains(origin)) {
             this.origin = origin;
-            this.notifyUpdate(this);
         }
+        this.notifyUpdate(this);
     }
 
     public ArrayList<String> getFilepaths() {

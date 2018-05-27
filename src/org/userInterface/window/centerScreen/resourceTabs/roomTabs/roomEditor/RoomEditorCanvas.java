@@ -49,7 +49,13 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
                     //Get the buffered image.
                     BufferedImage rawImage = ImageIO.read(new File(spriteProperties.getFilepaths().get(0)));
                     //Draw the buffered image at the room location.
-                    g.drawImage(rawImage, ((Double)((InstanceProperties) i.getProperties()).getRoomLocation().getX()).intValue(), ((Double)((InstanceProperties) i.getProperties()).getRoomLocation().getY()).intValue(), ((Double)spriteProperties.getSize().getWidth()).intValue(), ((Double)spriteProperties.getSize().getHeight()).intValue(), null);
+                    //Offset the buffered image so that the image is drawn with the origin in the correct location
+                    double xOrigin = spriteProperties.getOrigin().getX();
+                    double yOrigin = spriteProperties.getOrigin().getY();
+                    double drawXOffset = ((InstanceProperties)i.getProperties()).getRoomLocation().getX() - xOrigin;
+                    double drawYOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getY() - yOrigin;
+
+                    g.drawImage(rawImage, (int)drawXOffset, (int)drawYOffset, ((Double)spriteProperties.getSize().getWidth()).intValue(), ((Double)spriteProperties.getSize().getHeight()).intValue(), null);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
