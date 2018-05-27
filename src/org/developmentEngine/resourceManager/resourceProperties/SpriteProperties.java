@@ -33,8 +33,10 @@ public class SpriteProperties extends ResourceProperties {
     }
 
     public void setOrigin(Point2D origin) {
-        this.origin = origin;
-        this.notifyUpdate(this);
+        if(this.size.contains(origin)) {
+            this.origin = origin;
+            this.notifyUpdate(this);
+        }
     }
 
     public ArrayList<String> getFilepaths() {
@@ -91,7 +93,13 @@ public class SpriteProperties extends ResourceProperties {
         return size;
     }
 
-    public void setSize(Rectangle2D size) {
+    public void setSize(Rectangle2D.Double size) {
+        //Scale the origin by any new sizes that have been set.
+        double yOrigin = this.origin.getY();
+        double xOrigin = this.origin.getX();
+        double heightScale = this.size.getHeight() / size.getHeight();
+        double widthScale = this.size.getWidth() / size.getWidth();
+        this.origin = new Point2D.Double(xOrigin / widthScale, yOrigin / heightScale);
         this.size = size;
         this.notifyUpdate(this);
     }

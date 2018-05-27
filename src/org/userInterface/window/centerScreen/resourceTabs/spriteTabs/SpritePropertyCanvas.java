@@ -58,8 +58,8 @@ public class SpritePropertyCanvas extends JPanel implements PropertyObserver {
             g.drawImage(scaledImage, 0, 0, null);
 
             //Determine scale ratio
-            imageToCanvasHeightRatio = ((Integer)(referencedProperties.getImageIcon().getIconHeight())).doubleValue()/299;
-            imageToCanvasWidthRatio = ((Integer)(referencedProperties.getImageIcon().getIconWidth())).doubleValue()/299;
+            imageToCanvasHeightRatio = referencedProperties.getSize().getHeight()/299;
+            imageToCanvasWidthRatio = referencedProperties.getSize().getWidth()/299;
 
             g2d.setColor(Color.BLUE);
             Rectangle2D boundingBox = referencedProperties.getBoundingBox();
