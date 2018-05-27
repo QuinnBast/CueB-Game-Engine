@@ -1,4 +1,4 @@
-package org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpritePropertyEditor;
+package org.userInterface.window.centerScreen.resourceTabs.spriteTabs;
 
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;

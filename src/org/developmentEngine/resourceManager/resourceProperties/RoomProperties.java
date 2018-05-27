@@ -1,6 +1,7 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
-import org.userInterface.window.fileBrowser.Resources.ObjectResource;
+import org.developmentEngine.resourceManager.Resources.Instance;
+import org.developmentEngine.resourceManager.Resources.ObjectResource;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +17,7 @@ public class RoomProperties extends ResourceProperties {
     private int desiredFramerate = 60;
     private Color backgroundColor = Color.BLACK;
     private String backgroundImageLink = "";
-    private ArrayList<ObjectResource> objectsInRoom = new ArrayList<>();
+    private ArrayList<Instance> instanceList = new ArrayList<>();
 
     public Rectangle2D getSize() {
         return size;
@@ -63,12 +64,19 @@ public class RoomProperties extends ResourceProperties {
         this.notifyUpdate(this);
     }
 
-    public ArrayList<ObjectResource> getObjectsInRoom() {
-        return objectsInRoom;
+    public void addInstance(Instance i){
+        this.instanceList.add(i);
+        this.notifyUpdate(this);
     }
 
-    public void setObjectsInRoom(ArrayList<ObjectResource> objectsInRoom) {
-        this.objectsInRoom = objectsInRoom;
+    public ArrayList<Instance> getInstances(){
+        return this.instanceList;
+    }
+
+    public void removeInstance(Instance i){
+        if(this.instanceList.contains(i)){
+            this.instanceList.remove(i);
+        }
         this.notifyUpdate(this);
     }
 

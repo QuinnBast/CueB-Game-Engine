@@ -1,6 +1,6 @@
 package org.userInterface.window;
 
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.Resource;
 import org.userInterface.window.navBar.MenuBar;
 
 import javax.swing.*;

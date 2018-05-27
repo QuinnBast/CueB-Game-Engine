@@ -1,9 +1,9 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.RoomCameraTab;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.RoomEditorTab;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.roomTabs.RoomPropertiesTab;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.userInterface.window.centerScreen.resourceTabs.roomTabs.RoomCameraTab;
+import org.userInterface.window.centerScreen.resourceTabs.roomTabs.RoomEditorTab;
+import org.userInterface.window.centerScreen.resourceTabs.roomTabs.RoomPropertiesTab;
+import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
 

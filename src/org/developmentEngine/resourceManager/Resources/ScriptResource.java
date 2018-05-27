@@ -1,4 +1,4 @@
-package org.userInterface.window.fileBrowser.Resources;
+package org.developmentEngine.resourceManager.Resources;
 
 import org.developmentEngine.resourceManager.resourceProperties.ScriptProperties;
 

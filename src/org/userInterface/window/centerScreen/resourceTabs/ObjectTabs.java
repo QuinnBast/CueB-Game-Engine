@@ -1,8 +1,8 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.objectTabs.ObjectEventTab;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.objectTabs.ObjectPropertiesTab;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.userInterface.window.centerScreen.resourceTabs.objectTabs.ObjectEventTab;
+import org.userInterface.window.centerScreen.resourceTabs.objectTabs.ObjectPropertiesTab;
+import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
 

@@ -1,8 +1,6 @@
-package org.userInterface.window.fileBrowser.Resources;
+package org.developmentEngine.resourceManager.Resources;
 
 import org.applicationEngine.objects.ObjectType;
-import org.developmentEngine.resourceManager.ResourceObserver;
-import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 
 import javax.swing.*;

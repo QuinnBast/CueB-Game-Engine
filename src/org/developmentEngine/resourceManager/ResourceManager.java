@@ -1,6 +1,7 @@
 package org.developmentEngine.resourceManager;
 
-import org.userInterface.window.fileBrowser.Resources.*;
+import org.developmentEngine.resourceManager.Resources.*;
+import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -80,6 +81,20 @@ public class ResourceManager {
     public void notifyRemoveResource(Resource r){
         for(ResourceObserver ro : resourceObservers){
             ro.onResourceRemove(r);
+        }
+    }
+
+    public void addInstance(Instance instance, RoomResource room){
+        if(this.roomList.contains(room)){
+            ((RoomProperties)room.getProperties()).addInstance(instance);
+        }
+    }
+
+    public void removeInstance(ObjectResource obj, RoomResource room){
+        if(this.roomList.contains(room)){
+            if(((RoomProperties)room.getProperties()).getInstances().contains(obj)){
+                ((RoomProperties)room.getProperties()).getInstances().remove(obj);
+            }
         }
     }
 

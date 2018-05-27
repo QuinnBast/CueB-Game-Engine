@@ -1,4 +1,4 @@
-package org.userInterface.window.centerScreen.resourceTabs.Tabs.objectTabs;
+package org.userInterface.window.centerScreen.resourceTabs.objectTabs;
 
 import org.applicationEngine.objects.ObjectType;
 import org.developmentEngine.DevelopmentEngine;
@@ -7,21 +7,14 @@ import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 import org.developmentEngine.resourceManager.resourceProperties.SpriteProperties;
-import org.userInterface.UserInterface;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
-import org.userInterface.window.fileBrowser.Resources.Resource;
-import org.userInterface.window.fileBrowser.Resources.SpriteResource;
+import org.userInterface.window.centerScreen.resourceTabs.Tab;
+import org.developmentEngine.resourceManager.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.SpriteResource;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Quinn on 5/11/2018.

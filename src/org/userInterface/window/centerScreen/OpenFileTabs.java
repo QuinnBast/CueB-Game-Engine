@@ -3,7 +3,7 @@ package org.userInterface.window.centerScreen;
 import org.applicationEngine.objects.ObjectType;
 import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.ResourceObserver;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.Resource;
 import org.userInterface.window.centerScreen.resourceTabs.*;
 
 import javax.swing.*;

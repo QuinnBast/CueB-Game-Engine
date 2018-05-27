@@ -1,10 +1,7 @@
-package org.userInterface.window.fileBrowser.Resources;
+package org.developmentEngine.resourceManager.Resources;
 
 import org.developmentEngine.DevelopmentEngine;
-import org.developmentEngine.resourceManager.ResourceManager;
 import org.userInterface.UserInterface;
-import org.userInterface.window.centerScreen.OpenFileTabs;
-import org.userInterface.window.fileBrowser.FileBrowserPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

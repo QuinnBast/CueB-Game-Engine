@@ -1,10 +1,9 @@
 package org.userInterface.window.fileBrowser;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.ResourceObserver;
 import org.userInterface.UserInterface;
-import org.userInterface.window.fileBrowser.Resources.*;
+import org.developmentEngine.resourceManager.Resources.*;
 import org.userInterface.window.centerScreen.OpenFileTabs;
 
 import javax.swing.*;

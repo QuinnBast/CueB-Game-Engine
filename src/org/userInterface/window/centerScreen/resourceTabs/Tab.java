@@ -1,9 +1,7 @@
-package org.userInterface.window.centerScreen.resourceTabs.Tabs;
+package org.userInterface.window.centerScreen.resourceTabs;
 
-import org.developmentEngine.DevelopmentEngine;
-import org.developmentEngine.resourceManager.ResourceObserver;
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
 import java.awt.*;

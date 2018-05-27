@@ -1,19 +1,12 @@
-package org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs;
+package org.userInterface.window.centerScreen.resourceTabs.spriteTabs;
 
-import org.developmentEngine.DevelopmentEngine;
-import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 import org.developmentEngine.resourceManager.resourceProperties.SpriteProperties;
-import org.userInterface.UserInterface;
-import org.userInterface.window.centerScreen.resourceTabs.SpriteTabs;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.Tab;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpritePropertyEditor.SpritePropertyCanvas;
-import org.userInterface.window.fileBrowser.Resources.Resource;
-import org.userInterface.window.fileBrowser.Resources.SpriteResource;
+import org.userInterface.window.centerScreen.resourceTabs.Tab;
+import org.developmentEngine.resourceManager.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.SpriteResource;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -21,9 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.geom.Rectangle2D;
 
 import static org.userInterface.UserInterface.window;
 
@@ -120,6 +111,7 @@ public class SpritePropertiesTab extends Tab  {
             if(returnOption == JFileChooser.APPROVE_OPTION) {
                 SpriteProperties spriteProperties = (SpriteProperties) window.getOpenFileResource().getProperties();
                 spriteProperties.setFilepath(fileChooser.getSelectedFile().getAbsolutePath());
+                spriteProperties.setSize(new Rectangle2D.Double(0, 0, spriteProperties.getImageIcon().getIconWidth(), spriteProperties.getImageIcon().getIconHeight()));
             }
         }
     };

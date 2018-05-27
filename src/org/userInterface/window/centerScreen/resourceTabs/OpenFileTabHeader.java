@@ -1,7 +1,7 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
 import org.userInterface.UserInterface;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.Resource;
 import org.userInterface.window.centerScreen.OpenFileTabs;
 
 import javax.swing.*;

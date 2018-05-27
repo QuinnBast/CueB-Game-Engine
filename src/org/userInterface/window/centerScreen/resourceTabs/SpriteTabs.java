@@ -1,8 +1,8 @@
 package org.userInterface.window.centerScreen.resourceTabs;
 
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpriteEditorTab;
-import org.userInterface.window.centerScreen.resourceTabs.Tabs.spriteTabs.SpritePropertiesTab;
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.userInterface.window.centerScreen.resourceTabs.spriteTabs.SpriteEditorTab;
+import org.userInterface.window.centerScreen.resourceTabs.spriteTabs.SpritePropertiesTab;
+import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
 

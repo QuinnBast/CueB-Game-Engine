@@ -1,7 +1,7 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
-import org.userInterface.window.fileBrowser.Resources.ObjectResource;
-import org.userInterface.window.fileBrowser.Resources.SpriteResource;
+import org.developmentEngine.resourceManager.Resources.ObjectResource;
+import org.developmentEngine.resourceManager.Resources.SpriteResource;
 
 import java.awt.geom.Point2D;
 
@@ -26,7 +26,9 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
 
     public void setLinkedSprite(SpriteResource linkedSprite) {
         this.linkedSprite = linkedSprite;
-        this.linkedSprite.getProperties().addPropertyObserver(this);
+        if(this.linkedSprite != null) {
+            this.linkedSprite.getProperties().addPropertyObserver(this);
+        }
         this.notifyUpdate(this);
     }
 

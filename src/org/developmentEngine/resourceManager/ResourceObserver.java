@@ -1,6 +1,6 @@
 package org.developmentEngine.resourceManager;
 
-import org.userInterface.window.fileBrowser.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.Resource;
 
 /**
  * Created by Quinn on 5/15/2018.

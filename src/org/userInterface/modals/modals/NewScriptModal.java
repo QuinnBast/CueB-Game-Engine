@@ -3,7 +3,7 @@ package org.userInterface.modals.modals;
 import org.developmentEngine.DevelopmentEngine;
 import org.userInterface.UserInterface;
 import org.userInterface.window.fileBrowser.FileBrowserPanel;
-import org.userInterface.window.fileBrowser.Resources.ScriptResource;
+import org.developmentEngine.resourceManager.Resources.ScriptResource;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,8 @@
-package org.userInterface.window.fileBrowser.Resources;
+package org.developmentEngine.resourceManager.Resources;
 
 import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
+
+import java.util.ArrayList;
 
 /**
  * Created by Quinn on 5/5/2018.

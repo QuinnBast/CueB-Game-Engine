@@ -1,8 +1,5 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
-import org.userInterface.window.fileBrowser.Resources.Resource;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
