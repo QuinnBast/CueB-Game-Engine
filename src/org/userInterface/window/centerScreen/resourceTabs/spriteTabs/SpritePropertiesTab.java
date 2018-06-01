@@ -64,15 +64,15 @@ public class SpritePropertiesTab extends Tab  {
         SpinnerNumberModel widthModel;
 
         if(spriteProperties.getFilepaths().get(0) != "") {
-            widthModel = new SpinnerNumberModel(spriteProperties.getSize().getWidth(), 0, spriteProperties.getImageIcon().getIconWidth(), 1);
-            heightModel = new SpinnerNumberModel(spriteProperties.getSize().getHeight(), 0, spriteProperties.getImageIcon().getIconHeight(), 1);
-            originXModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getSize().getWidth(), 1);
+            originXModel = new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0,spriteProperties.getSize().getWidth(), 1);
             originYModel = new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getSize().getHeight(), 1);
+            widthModel = new SpinnerNumberModel(spriteProperties.getSize().getWidth(), 0, 9999, 1);
+            heightModel = new SpinnerNumberModel(spriteProperties.getSize().getHeight(), 0, 9999, 1);
         } else {
             originXModel = new SpinnerNumberModel(0, 0, 0, 1);
             originYModel = new SpinnerNumberModel(0, 0, 0, 1);
-            heightModel = new SpinnerNumberModel(0, 0, 0, 1);
-            widthModel = new SpinnerNumberModel(0, 0, 0, 1);
+            heightModel = new SpinnerNumberModel(0, 0, 9999, 1);
+            widthModel = new SpinnerNumberModel(0, 0, 9999, 1);
         }
 
         //Panel to set the x origin
@@ -184,17 +184,17 @@ public class SpritePropertiesTab extends Tab  {
             ImageIcon imgIcon = new ImageIcon(originalImage.getImage().getScaledInstance(280, 280, Image.SCALE_SMOOTH));
             imageLabel.setIcon(imgIcon);
 
-            width.setModel(new SpinnerNumberModel(spriteProperties.getSize().getWidth(), 0, spriteProperties.getImageIcon().getIconWidth(), 1));
-            height.setModel(new SpinnerNumberModel(spriteProperties.getSize().getHeight(), 0, spriteProperties.getImageIcon().getIconHeight(), 1));
-            originX.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, ((Double)width.getValue()).intValue(), 1));
-            originY.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, ((Double)height.getValue()).intValue(), 1));
+            originX.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getX(), 0, spriteProperties.getSize().getWidth(), 1));
+            originY.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getSize().getHeight(), 1));
+            width.setModel(new SpinnerNumberModel(spriteProperties.getSize().getWidth(), 0, 9999, 1));
+            height.setModel(new SpinnerNumberModel(spriteProperties.getSize().getHeight(), 0, 9999, 1));
             imageWidthText.setText("Width: " + spriteProperties.getSize().getWidth() + "px");
             imageHeightText.setText("Height: " + spriteProperties.getSize().getHeight() + "px");
         } else {
             originX.setModel(new SpinnerNumberModel(0, 0, 0, 1));
             originY.setModel(new SpinnerNumberModel(0, 0, 0, 1));
-            height.setModel(new SpinnerNumberModel(0, 0, 0, 1));
-            width.setModel(new SpinnerNumberModel(0, 0, 0, 1));
+            height.setModel(new SpinnerNumberModel(0, 0, 9999, 1));
+            width.setModel(new SpinnerNumberModel(0, 0, 9999, 1));
             imageWidthText.setText("Width: 0px");
             imageHeightText.setText("Height: 0px");
         }

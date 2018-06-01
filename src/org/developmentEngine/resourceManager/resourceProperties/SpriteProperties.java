@@ -101,6 +101,7 @@ public class SpriteProperties extends ResourceProperties {
         double widthScale = this.size.getWidth() / size.getWidth();
         this.origin = new Point2D.Double(xOrigin / widthScale, yOrigin / heightScale);
         this.size = size;
+        this.boundingBox = new Rectangle2D.Double(0, 0, this.size.getWidth(), this.size.getHeight());
         this.notifyUpdate(this);
     }
 
