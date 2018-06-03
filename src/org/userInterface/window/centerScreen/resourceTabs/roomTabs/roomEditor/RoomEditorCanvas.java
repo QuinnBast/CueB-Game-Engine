@@ -10,6 +10,7 @@ import org.developmentEngine.resourceManager.Resources.RoomResource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -18,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
@@ -164,24 +166,40 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
                 if(clickedPoints.size() == 1){
                     ((RoomProperties)referencedRoom.getProperties()).removeInstance(clickedPoints.get(0));
                 } else {
-                    PopupMenu popupMenu = new PopupMenu();
-                    Menu deleteMenu = new Menu("Delete");
-                    Menu selectMenu = new Menu("Select");
-                    Menu propertiesMenu = new Menu("Properties");
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    JMenu deleteMenu = new JMenu("Delete");
+                    JMenu selectMenu = new JMenu("Select");
+                    JMenu propertiesMenu = new JMenu("Properties");
+                    JLabel delTopText = new JLabel("Top");
+                    JLabel delBottomText = new JLabel("Bottom");
+                    JLabel selTopText = new JLabel("Top");
+                    JLabel selBottomText = new JLabel("Bottom");
+                    JLabel propTopText = new JLabel("Top");
+                    JLabel propBottomText = new JLabel("Bottom");
+
+                    deleteMenu.add(delBottomText);
+                    selectMenu.add(selBottomText);
+                    propertiesMenu.add(propBottomText);
+
                     for(Instance inst : clickedPoints){
-                        MenuItem deletePointMenu = new MenuItem(inst.getFilePath());
+                        JMenuItem deletePointMenu = new JMenuItem(inst.getFilePath());
                         deletePointMenu.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 ((RoomProperties)referencedRoom.getProperties()).removeInstance(inst);
                             }
                         });
-                        MenuItem selectPointMenu = new MenuItem(inst.getFilePath());
-                        MenuItem propertiesPointMenu = new MenuItem(inst.getFilePath());
+                        JMenuItem selectPointMenu = new JMenuItem(inst.getFilePath());
+                        JMenuItem propertiesPointMenu = new JMenuItem(inst.getFilePath());
                         deleteMenu.add(deletePointMenu);
                         selectMenu.add(selectPointMenu);
                         propertiesMenu.add(propertiesPointMenu);
                     }
+
+                    deleteMenu.add(delTopText);
+                    selectMenu.add(selTopText);
+                    propertiesMenu.add(propTopText);
+
                     popupMenu.add(deleteMenu);
                     popupMenu.add(selectMenu);
                     popupMenu.add(propertiesMenu);
