@@ -12,7 +12,7 @@ public class Instance extends Resource {
     }
 
     public Instance(ObjectResource obj){
-        super(obj.getFilePath() + "ins");
+        super(obj.getFilePath());
         this.resourceProperties = new InstanceProperties();
         ((InstanceProperties)this.resourceProperties).setParentObject(obj);
     }

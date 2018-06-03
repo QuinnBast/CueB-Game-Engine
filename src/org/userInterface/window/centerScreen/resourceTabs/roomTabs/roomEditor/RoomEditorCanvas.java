@@ -2,6 +2,7 @@ package org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor;
 
 import org.applicationEngine.graphics.*;
 import org.applicationEngine.graphics.Cameras.StaticCamera;
+import org.developmentEngine.resourceManager.Resources.ContextMenu;
 import org.developmentEngine.resourceManager.Resources.Instance;
 import org.developmentEngine.resourceManager.resourceProperties.*;
 import org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor.dragNdrop.DropPane;
@@ -129,7 +130,65 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
 
         @Override
         public void mousePressed(MouseEvent e) {
+
             RoomEditorCanvas canvas = (RoomEditorCanvas) e.getSource();
+            ArrayList<Instance> clickedPoints = new ArrayList<>();
+
+            //If the press is a right click, the user is trying to delete an object
+            if(e.getButton() == e.BUTTON3){
+                //Check if the click location is inside of any of the object bounding boxes.
+                ArrayList<Instance> instanceInRoom = ((RoomProperties)referencedRoom.getProperties()).getInstances();
+                for(Instance i : instanceInRoom) {
+                    //Check if the object has a linked sprite.
+                    if (((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite() != null) {
+                        //Get the sprite properties of the object. (If applicable.)
+                        SpriteProperties spriteProperties = ((SpriteProperties) ((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite().getProperties());
+                        //Get the scaled bounding box
+                        //Get the location of the sprite to draw.
+                        double xOrigin = spriteProperties.getOrigin().getX();
+                        double yOrigin = spriteProperties.getOrigin().getY();
+                        double drawXOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getX() - xOrigin;   //Offset the center of the sprite to draw the origin properly
+                        double drawYOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getY() - yOrigin;   //Offset the center of the sprite to draw the origin properly
+
+                        //Determine the scale of the width of the room
+                        double widthScale = roomLocation.getWidth() / ((RoomProperties)referencedRoom.getProperties()).getSize().getWidth();
+                        double heightScale = roomLocation.getHeight() / ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight();
+
+                        Rectangle2D boundingBox = new Rectangle2D.Double((int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale));
+
+                        if(boundingBox.contains(e.getX(), e.getY())){
+                            clickedPoints.add(i);
+                        }
+                    }
+                }
+                if(clickedPoints.size() == 1){
+                    ((RoomProperties)referencedRoom.getProperties()).removeInstance(clickedPoints.get(0));
+                } else {
+                    PopupMenu popupMenu = new PopupMenu();
+                    Menu deleteMenu = new Menu("Delete");
+                    Menu selectMenu = new Menu("Select");
+                    Menu propertiesMenu = new Menu("Properties");
+                    for(Instance inst : clickedPoints){
+                        MenuItem deletePointMenu = new MenuItem(inst.getFilePath());
+                        deletePointMenu.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((RoomProperties)referencedRoom.getProperties()).removeInstance(inst);
+                            }
+                        });
+                        MenuItem selectPointMenu = new MenuItem(inst.getFilePath());
+                        MenuItem propertiesPointMenu = new MenuItem(inst.getFilePath());
+                        deleteMenu.add(deletePointMenu);
+                        selectMenu.add(selectPointMenu);
+                        propertiesMenu.add(propertiesPointMenu);
+                    }
+                    popupMenu.add(deleteMenu);
+                    popupMenu.add(selectMenu);
+                    popupMenu.add(propertiesMenu);
+                    canvas.add(popupMenu);
+                    popupMenu.show(canvas, e.getX(), e.getY());
+                }
+            }
             //If the user left clicks the canvas, we want the camera of the canvas to move while the mouse drags.
             if(e.getButton() == e.BUTTON1){
                 //Set the room location to move cooresponding to how much the mouse has moved from it's initial drag location
