@@ -8,6 +8,7 @@ import org.developmentEngine.resourceManager.Resources.Resource;
  * Created by Quinn on 5/11/2018.
  */
 public class RoomPropertiesTab extends Tab{
+
     public RoomPropertiesTab(Resource r) {
         super(r);
     }

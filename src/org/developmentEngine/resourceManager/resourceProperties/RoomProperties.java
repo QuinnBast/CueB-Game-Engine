@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class RoomProperties extends ResourceProperties {
 
-    private Rectangle2D size = new Rectangle2D.Double(0, 0, 0, 0);
+    private Rectangle2D size = new Rectangle2D.Double(0, 0, 500, 500);
     private String name = "";
     private int desiredFramerate = 60;
     private Color backgroundColor = Color.BLACK;

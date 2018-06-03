@@ -28,8 +28,6 @@ public class SpritePropertiesTab extends Tab  {
     JLabel imageLabel = new JLabel();
     JSpinner originX = new JSpinner();
     JSpinner originY = new JSpinner();
-    JLabel imageWidthText = new JLabel("Width: 0px");
-    JLabel imageHeightText = new JLabel("Height: 0px");
     JSpinner height = new JSpinner();
     JSpinner width = new JSpinner();
 
@@ -40,6 +38,7 @@ public class SpritePropertiesTab extends Tab  {
 
         //Create the file name print-out and the file selector
         JPanel filePanel = new JPanel();
+        filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.PAGE_AXIS));
         if(spriteProperties.getFilepaths().get(0) != null) {
             filePathText = new JLabel(spriteProperties.getFilepaths().get(0));
         } else {
@@ -52,7 +51,8 @@ public class SpritePropertiesTab extends Tab  {
         filePanel.add(fileChooser);
 
         //Display the image
-        JPanel imagePanel = new JPanel(new BorderLayout());
+        JPanel imagePanel = new JPanel();
+        imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.PAGE_AXIS));
         imagePanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         SpritePropertyCanvas spc = new SpritePropertyCanvas(spriteProperties);
         imagePanel.add(spc, BorderLayout.CENTER);
@@ -81,7 +81,6 @@ public class SpritePropertiesTab extends Tab  {
         originX.setModel(originXModel);
         originXPanel.add(xoriginText);
         originXPanel.add(originX);
-        originXPanel.add(imageWidthText);
         originX.addChangeListener(originXChangeListener);
 
         //Panel to set the Y origin
@@ -90,7 +89,6 @@ public class SpritePropertiesTab extends Tab  {
         originY.setModel(originYModel);
         originYPanel.add(yoriginText);
         originYPanel.add(originY);
-        originYPanel.add(imageHeightText);
         originY.addChangeListener(originYChangeListener);
 
         //Panel to set the sprite height
@@ -119,13 +117,44 @@ public class SpritePropertiesTab extends Tab  {
             }
         });
 
-        this.add(filePanel);
-        this.add(imagePanel);
-        this.add(originXPanel);
-        this.add(originYPanel);
-        this.add(centerOriginPanel);
-        this.add(widthPanel);
-        this.add(heightPanel);
+        JPanel spritePropertyContainer = new JPanel(new GridLayout(1, 5));
+        JPanel animationPropertyContainer = new JPanel(new BorderLayout());
+        animationPropertyContainer.setPreferredSize(new Dimension((int)(this.getWidth()), (int)(this.getHeight()/2)));
+
+        JPanel originPanel = new JPanel();  //Panel to fill space in grid
+        JPanel originBoxPanel = new JPanel();   //Panel to vertically stack and center components
+        originBoxPanel.setLayout(new BoxLayout(originBoxPanel, BoxLayout.PAGE_AXIS));
+        originBoxPanel.add(originXPanel);
+        originBoxPanel.add(originYPanel);
+        originBoxPanel.add(centerOriginPanel);
+        originPanel.setMaximumSize(new Dimension(originPanel.getWidth(), originPanel.getHeight()));
+        originPanel.add(originBoxPanel);
+
+        //Center panel for image and load image button
+        JPanel spritePreviewPanel = new JPanel();
+        spritePreviewPanel.setLayout(new BoxLayout(spritePreviewPanel, BoxLayout.PAGE_AXIS));
+        spritePreviewPanel.add(imagePanel);
+        spritePreviewPanel.add(filePanel);
+        spritePreviewPanel.setMaximumSize(new Dimension(spritePreviewPanel.getWidth(), spritePreviewPanel.getHeight()));
+
+        //Right panel for sprite size configurations
+        JPanel sizePanel = new JPanel();
+        JPanel sizeBoxPanel = new JPanel();
+        sizeBoxPanel.setLayout(new BoxLayout(sizeBoxPanel, BoxLayout.PAGE_AXIS));
+        sizeBoxPanel.add(widthPanel);
+        sizeBoxPanel.add(heightPanel);
+        sizePanel.setMaximumSize(new Dimension(sizePanel.getWidth(), sizePanel.getHeight()));
+        sizePanel.add(sizeBoxPanel);
+
+
+        spritePropertyContainer.add(originPanel);
+        spritePropertyContainer.add(spritePreviewPanel);
+        spritePropertyContainer.add(sizePanel);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.add(spritePropertyContainer);
+        this.add(animationPropertyContainer);
+
         this.setVisible(true);
     }
 
@@ -188,17 +217,12 @@ public class SpritePropertiesTab extends Tab  {
             originY.setModel(new SpinnerNumberModel(spriteProperties.getOrigin().getY(), 0, spriteProperties.getSize().getHeight(), 1));
             width.setModel(new SpinnerNumberModel(spriteProperties.getSize().getWidth(), 0, 9999, 1));
             height.setModel(new SpinnerNumberModel(spriteProperties.getSize().getHeight(), 0, 9999, 1));
-            imageWidthText.setText("Width: " + spriteProperties.getSize().getWidth() + "px");
-            imageHeightText.setText("Height: " + spriteProperties.getSize().getHeight() + "px");
         } else {
             originX.setModel(new SpinnerNumberModel(0, 0, 0, 1));
             originY.setModel(new SpinnerNumberModel(0, 0, 0, 1));
             height.setModel(new SpinnerNumberModel(0, 0, 9999, 1));
             width.setModel(new SpinnerNumberModel(0, 0, 9999, 1));
-            imageWidthText.setText("Width: 0px");
-            imageHeightText.setText("Height: 0px");
         }
 
     }
-
 }

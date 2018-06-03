@@ -8,11 +8,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Created by Quinn on 11/29/2017.
  */
-public abstract class Camera {
+public abstract class Camera<T> {
 
     protected Rectangle2D roomLocation = new Rectangle2D.Double(); //The area on the map that is visible
     protected Rectangle2D screenLocation = new Rectangle2D.Double(); //The area of the screen the camera takes up
