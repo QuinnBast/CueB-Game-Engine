@@ -1,6 +1,7 @@
 package org.applicationEngine.world;
 
 import org.applicationEngine.graphics.Cameras.StaticCamera;
+import org.applicationEngine.graphics.Renderer;
 import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 
 import java.util.ArrayList;
@@ -25,7 +26,9 @@ public class RoomManager {
         }
         if(this.activeRoom.cameras.size() == 0){
             RoomProperties rp = this.activeRoom.getRoomProperties();
-            this.activeRoom.cameras.add(new StaticCamera((int)rp.getSize().getWidth()/2, (int)rp.getSize().getHeight()/2, (int)rp.getSize().getWidth(), (int)rp.getSize().getHeight()));
+            StaticCamera sc = new StaticCamera((int)rp.getSize().getWidth()/2, (int)rp.getSize().getHeight()/2, (int)rp.getSize().getWidth(), (int)rp.getSize().getHeight(), Renderer.getCanvasWidth()/2, Renderer.getCanvasHeight()/2, Renderer.getCanvasWidth(), Renderer.getCanvasHeight());
+            sc.setActive();
+            this.activeRoom.cameras.add(sc);
         }
     }
 

@@ -84,7 +84,7 @@ public class DropHandler implements DropTargetListener, Serializable {
                             double heightScale = roomLocation.getHeight() / ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight();
 
                             //The location of the object is the roomLocation offset subtracted from the scaled width.
-                            instanceProperties.setRoomLocation(new Point2D.Double((dtde.getLocation().getX() - roomLocation.getX()) / widthScale, (dtde.getLocation().getY() - roomLocation.getY()) / heightScale));
+                            instanceProperties.setRoomLocation(new Point2D.Double((dtde.getLocation().getX() - roomLocation.getX()) * widthScale, (dtde.getLocation().getY() - roomLocation.getY()) * heightScale));
 
                             //Add the instance to the room
                             DevelopmentEngine.resourceManager.addInstance(objectInstance, rec.getReferencedRoom());

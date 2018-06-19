@@ -97,18 +97,18 @@ public abstract class Camera<T> {
                 //Draw line from entity to mouse
                 //g.drawLine((int)(relativeDisplayLocation.getX() + entity.getImage().getWidth()*widthRatio/2), (int)(relativeDisplayLocation.getY() + entity.getImage().getHeight()*heightRatio/2), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)MouseInfo.getPointerInfo().getLocation().getY());
                 //Draw entity's bounding box
-                g.drawRect((int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(object.getImage().getWidth()*widthRatio), (int)(object.getImage().getHeight()*heightRatio));
+                g.drawRect((int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(bb.getWidth()*widthRatio), (int)(bb.getHeight()*heightRatio));
 
                 //Draw the sprite to the screen
-                g.drawImage(spriteImage, (int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(object.getImage().getWidth()*widthRatio), (int)(object.getImage().getHeight()*heightRatio), null);
+                g.drawImage(spriteImage, (int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(object.getObjectProperties().getLinkedSprite().getProperties().getSize().getWidth()*widthRatio), (int)(object.getObjectProperties().getLinkedSprite().getProperties().getSize().getHeight()*heightRatio), null);
             }
         }
         return true;
     }
 
     public Point getRelativeViewingLocation(Object object){
-        double x = object.getObjectProperties().getParentObject().getX() - roomLocation.getMinX();
-        double y = object.getObjectProperties().getParentObject().getY() - roomLocation.getMinY();
+        double x = object.getObjectProperties().getPosition().getX() - roomLocation.getMinX();
+        double y = object.getObjectProperties().getPosition().getY() - roomLocation.getMinY();
         Point p = new Point();
         p.setLocation(x, y);
         return p;
@@ -116,8 +116,8 @@ public abstract class Camera<T> {
 
     public Point getRelativeDisplayLocation(Object object, Point relativeViewingLocation){
 
-        double x = ((relativeViewingLocation.getX() - object.getImage().getWidth()/2)*widthRatio + screenLocation.getMinX());
-        double y =  ((relativeViewingLocation.getY() - object.getImage().getHeight()/2)*heightRatio + screenLocation.getMinY());
+        double x = ((relativeViewingLocation.getX() - object.getObjectProperties().getLinkedSprite().getProperties().getSize().getWidth()/2)*widthRatio + screenLocation.getMinX());
+        double y =  ((relativeViewingLocation.getY() - object.getObjectProperties().getLinkedSprite().getProperties().getSize().getHeight()/2)*heightRatio + screenLocation.getMinY());
         Point p = new Point();
         p.setLocation(x, y);
         return p;
@@ -125,8 +125,8 @@ public abstract class Camera<T> {
 
     private BufferedImage rotateToMouse(Object object, Point relativeDisplayLocation) {
 
-        double scaledImageWidth = object.getImage().getWidth()*widthRatio;
-        double scaledImageHeight = object.getImage().getHeight()*heightRatio;
+        double scaledImageWidth = object.getObjectProperties().getLinkedSprite().getProperties().getSize().getWidth()*widthRatio;
+        double scaledImageHeight = object.getObjectProperties().getLinkedSprite().getProperties().getSize().getHeight()*heightRatio;
         double angle = Math.PI/-2;
         if(MouseInfo.getPointerInfo().getLocation().getX() == relativeDisplayLocation.getX() + scaledImageWidth/2){
             if(MouseInfo.getPointerInfo().getLocation().getY() < relativeDisplayLocation.getY() + scaledImageHeight/2){
@@ -142,11 +142,11 @@ public abstract class Camera<T> {
             }
         }
 
-        double locationX = (object.getImage().getWidth() / 2) - 1;
-        double locationY = (object.getImage().getHeight() / 2) - 1;
+        double locationX = (object.getObjectProperties().getLinkedSprite().getProperties().getSize().getWidth() / 2) - 1;
+        double locationY = (object.getObjectProperties().getLinkedSprite().getProperties().getSize().getHeight() / 2) - 1;
         AffineTransform tx = AffineTransform.getRotateInstance(angle, locationX, locationY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        BufferedImage rotatedImage = new BufferedImage(object.getImage().getWidth(), object.getImage().getHeight(), object.getImage().getType());
+        BufferedImage rotatedImage = new BufferedImage((int)object.getObjectProperties().getLinkedSprite().getProperties().getSize().getWidth(), (int)object.getObjectProperties().getLinkedSprite().getProperties().getSize().getHeight(), object.getImage().getType());
         op.filter(object.getImage(), rotatedImage);  //Create the new rotated image.
         return rotatedImage;
     }
