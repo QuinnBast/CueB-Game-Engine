@@ -3,7 +3,7 @@ package org.applicationEngine.graphics;
 import org.applicationEngine.fpsChecker.FPS;
 import org.applicationEngine.game.Game;
 import org.applicationEngine.input.userInput;
-import org.applicationEngine.world.World;
+import org.applicationEngine.world.Room;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -98,8 +98,10 @@ public class Renderer {
                     g.fillRect(0, 0, canvasWidth, canvasHeight);
 
                     //Render the world and world objects.
-                    World.render(g);
-                    World.update();
+                    //Get the game's current room and update items in the room
+                    Game.roomManager.getActiveRoom().render(g);
+                    Game.roomManager.getActiveRoom().update();
+
 //                    if(bg == null){
 //                        bg = new Image("/resources/images/Background.jpg");
 //                    }

@@ -18,6 +18,8 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
     private boolean isVisible = true;
     private int zIndex = 1;
     private ObjectResource parentObject = null;
+    private boolean canDisplace;      //If the object can be displaced
+    private boolean canRotate;        //Determine if the object should be rotated on rendering
 
     public void setName(String name) {
         this.name = name;
@@ -79,7 +81,7 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
         return isCollidable;
     }
 
-    public boolean isCanMove() {
+    public boolean canMove() {
         return canMove;
     }
 
@@ -103,5 +105,21 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
     public void onResourceUpdate(ResourceProperties properties) {
         //If this object's sprite is updated, this object needs to notify all of its watchers that a link has been updated!
         this.notifyUpdate(this);
+    }
+
+    public boolean canDisplace() {
+        return canDisplace;
+    }
+
+    public void setCanDisplace(boolean canDisplace) {
+        this.canDisplace = canDisplace;
+    }
+
+    public boolean canRotate() {
+        return canRotate;
+    }
+
+    public void setCanRotate(boolean canRotate) {
+        this.canRotate = canRotate;
     }
 }

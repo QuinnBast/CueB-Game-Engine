@@ -1,38 +1,28 @@
 package org.applicationEngine.objects.Base;
 
+import org.developmentEngine.resourceManager.Resources.ObjectResource;
+import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
+
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Quinn on 11/29/2017.
  */
-public abstract class Entity extends SpriteObject {
+public class Object{
 
+    private ObjectResource objectReference;
+    private Rectangle2D boundingBox;
+    private BufferedImage sprite;
 
-    protected int health;
-    protected int movementSpeed;
-    protected boolean isCollidable;     //If the object can be collided with
-    protected boolean canMove;          //If the object can move
-    protected boolean canDisplace;      //If the object can be displaced
-    protected boolean canRotate;        //Determine if the object should be rotated on rendering
-
-    public Entity(float posX, float posY, String image, boolean isCollidable, boolean canMove, boolean canDisplace, boolean canRotate) {
-        super(posX, posY, image);
-
-        this.isCollidable = isCollidable;
-        this.canMove = canMove;
-        this.canDisplace = canDisplace;
-        this.canRotate = canRotate;
+    public Object(ObjectResource objectReference){
+        this.objectReference = (ObjectResource)objectReference.deepCopy();
+        this.boundingBox = this.objectReference.getProperties().getLinkedSprite().getProperties().getBoundingBox();
+        this.sprite = this.objectReference.getProperties().getLinkedSprite().getProperties().getBufferedImage();
     }
-    public Entity(float posX, float posY, float width, float height, boolean isCollidable, boolean canMove, boolean canDisplace, boolean canRotate) {
-        super(posX, posY, width, height);
 
-        this.isCollidable = isCollidable;
-        this.canMove = canMove;
-        this.canDisplace = canDisplace;
-        this.canRotate = canRotate;
-    }
-    public boolean isColliidng(Entity object, float deltaTime){
+    public boolean isColliidng(Object object, float deltaTime){
         //Determine object in question's extreme bounding box points.
         Rectangle2D boundingbox = object.getBoundingBox();
         if(this.boundingBox.contains(boundingbox) || this.boundingBox.intersects(boundingbox)){
@@ -41,8 +31,11 @@ public abstract class Entity extends SpriteObject {
         }
         return false;
     }
-    public abstract void collisionResolution(Entity object, float deltaTime);
-    public Point2D getCollisionPoint(Entity object) {
+    public void collisionResolution(Object object, float deltaTime){
+        //TO DO -- Load with user code for collision resolutions.
+    }
+
+    public Point2D getCollisionPoint(Object object) {
         //Assuming rectangle bounding boxes for all entities.
 
         //Determine closest edge
@@ -81,28 +74,23 @@ public abstract class Entity extends SpriteObject {
         }
     }
     public void update(float deltaTime){
-        if(this.image != null){
-            this.boundingBox = new Rectangle2D.Double(posX - this.image.getWidth()/2, posY - this.image.getHeight()/2, this.image.getWidth(), this.image.getHeight());
+        if(this.sprite != null){
+            this.boundingBox = new Rectangle2D.Double(this.objectReference.getProperties().getPosition().getX() - this.sprite.getWidth()/2, this.objectReference.getProperties().getPosition().getY() - this.sprite.getHeight()/2, this.sprite.getWidth(), this.sprite.getHeight());
         } else {
-            this.boundingBox = new Rectangle2D.Double(posX - this.boundingBox.getWidth() / 2, posY - this.boundingBox.getHeight() / 2, this.boundingBox.getWidth(), this.boundingBox.getHeight());
+            this.boundingBox = new Rectangle2D.Double(this.objectReference.getProperties().getPosition().getX() - this.boundingBox.getWidth() / 2, this.objectReference.getProperties().getPosition().getY() - this.boundingBox.getHeight() / 2, this.boundingBox.getWidth(), this.boundingBox.getHeight());
         }
     }
-    public void setCanMove(boolean value){
-        this.canMove = value;
+
+    public ObjectProperties getObjectProperties(){
+        return this.objectReference.getProperties();
     }
-    public boolean canMove(){
-        return this.canMove;
+
+    public BufferedImage getImage(){
+        return this.sprite;
     }
-    public void setCanDisplace(boolean value){
-        this.canDisplace = value;
+
+    public Rectangle2D getBoundingBox(){
+        return this.boundingBox;
     }
-    public boolean canDisplace(){
-        return this.canDisplace;
-    }
-    public void setCanRotate(boolean value){
-        this.canRotate = value;
-    }
-    public boolean canRotate(){
-        return this.canRotate;
-    }
+
 }

@@ -131,4 +131,16 @@ public class SpriteProperties extends ResourceProperties {
         return new ImageIcon(this.filepaths.get(0));
     }
 
+    public BufferedImage getBufferedImage(){
+        try {
+            //Get the buffered image.
+            BufferedImage rawImage = ImageIO.read(new File(this.getFilepaths().get(0)));
+            //Draw the buffered image at the room location.
+            return rawImage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

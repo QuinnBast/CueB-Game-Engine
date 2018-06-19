@@ -1,42 +1,34 @@
 package org.applicationEngine.game;
 
 import org.applicationEngine.graphics.*;
-import org.applicationEngine.graphics.Cameras.Camera;
-import org.applicationEngine.graphics.Cameras.MovingCenteredCamera;
-import org.applicationEngine.graphics.Cameras.StaticCamera;
-import org.applicationEngine.graphics.Cameras.StaticCenteredCamera;
-import org.applicationEngine.graphics.Screens.Screen;
-import org.applicationEngine.graphics.Screens.ScreenManager;
-import org.applicationEngine.input.PlayerControls;
-import org.applicationEngine.objects.Player;
-import org.applicationEngine.objects.Wall;
-import org.applicationEngine.world.World;
-
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+//import org.applicationEngine.graphics.Screens.ScreenManager;
+import org.applicationEngine.objects.ObjectManager;
+import org.applicationEngine.world.RoomManager;
 
 /**
  * Created by Quinn on 11/26/2017.
  */
 public class Game {
 
+    public static RoomManager roomManager = new RoomManager();
+    public static ObjectManager objectManager = new ObjectManager();
+
     public Game(){
-        World.currentWorld = new World();
         Renderer.init();                //Must be initialized first so it can load the graphics for the game.
         SpriteLoader.init();            //Loads all the required images
-        ScreenManager.screenManager = new ScreenManager();
+/*        ScreenManager.screenManager = new ScreenManager();
 
 
         Player player1 = new Player(100, 100, "Test.png");
-        World.currentWorld.objects.add(player1);
-        World.currentWorld.objects.add(new Wall(50, 50, 75, 20));
+        Room.currentRoom.objects.add(player1);
+        Room.currentRoom.objects.add(new Wall(50, 50, 75, 20));
         ArrayList<Integer> keys = new ArrayList<>();
         keys.add(KeyEvent.VK_UP);
         keys.add(KeyEvent.VK_DOWN);
         keys.add(KeyEvent.VK_LEFT);
         keys.add(KeyEvent.VK_RIGHT);
         Player player2 = new Player(200, 200, "Test.png", new PlayerControls(keys));
-        World.currentWorld.objects.add(player2);
+        Room.currentRoom.objects.add(player2);
 
         //Static Cameras in random locations
         ArrayList<Camera> staticScreenCameras = new ArrayList<Camera>();
@@ -71,6 +63,7 @@ public class Game {
         Screen staticMiniMap = new Screen("StaticMiniMap", staticMiniMapCameras, null);
 
         ScreenManager.setActive("PlayerCenteredFull");
+        */
     }
 
     public static void quit(){

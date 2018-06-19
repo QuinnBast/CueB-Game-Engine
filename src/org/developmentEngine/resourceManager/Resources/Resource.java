@@ -1,9 +1,12 @@
 package org.developmentEngine.resourceManager.Resources;
 
+import com.rits.cloning.Cloner;
 import org.applicationEngine.objects.ObjectType;
+import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
 
 import javax.swing.*;
+import java.io.*;
 
 /**
  * Created by Quinn on 5/4/2018.
@@ -12,6 +15,12 @@ public abstract class Resource extends JPanel {
 
     private String filePath;
     protected ResourceProperties resourceProperties;
+
+    public Resource deepCopy(){
+        //Copy constructor allows the creation of copy resources on runtime so that manipulation of variables during the runtime does not change objects in the development engine
+        Cloner cloner = new Cloner();
+        return (Resource)cloner.deepClone(this);
+    }
 
     public Resource(String path){
         this.filePath = path;

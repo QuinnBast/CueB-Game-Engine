@@ -2,14 +2,20 @@ package org.applicationEngine.objects;
 
 import org.applicationEngine.input.PlayerControls;
 import org.applicationEngine.input.userInput;
-import org.applicationEngine.objects.Base.Entity;
+import org.applicationEngine.objects.Base.Object;
+import org.developmentEngine.resourceManager.Resources.ObjectResource;
 
 import java.awt.geom.Point2D;
 
 /**
  * Created by Quinn on 11/29/2017.
  */
-public class Player extends Entity {
+public class Player extends Object {
+    public Player(ObjectResource objectReference) {
+        super(objectReference);
+    }
+
+    /*
 
     private PlayerControls controls;
 
@@ -41,7 +47,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void collisionResolution(Entity object, float deltaTime) {
+    public void collisionResolution(Object object, float deltaTime) {
         if(object instanceof Wall){
             Point2D point = getCollisionPoint(object);
             if(this.boundingBox.getMinX() == point.getX()){
@@ -59,4 +65,5 @@ public class Player extends Entity {
             }
         }
     }
+    */
 }

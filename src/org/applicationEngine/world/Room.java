@@ -3,7 +3,9 @@ package org.applicationEngine.world;
 import org.applicationEngine.graphics.Cameras.Camera;
 import org.applicationEngine.graphics.Renderer;
 import org.applicationEngine.input.userInput;
-import org.applicationEngine.objects.Base.Entity;
+import org.applicationEngine.objects.Base.Object;
+import org.developmentEngine.resourceManager.Resources.RoomResource;
+import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,12 +14,29 @@ import java.util.ArrayList;
 /**
  * Created by Quinn on 11/26/2017.
  */
-public class World {
+public class Room {
 
-    public static World currentWorld = null;
-    public static ArrayList<Entity> objects = new ArrayList<Entity>();
+    private static ArrayList<Object> objects = new ArrayList<Object>();
     private static long lastTime = System.nanoTime();   //Last time we checked for an update.
     public static ArrayList<Camera> cameras = new ArrayList<Camera>();
+
+    private RoomResource referencedRoom;
+
+    public ArrayList<Object> getObjects(){
+        return this.objects;
+    }
+
+    public void addObject(Object obj){
+        this.objects.add(obj);
+    }
+
+    public Room(RoomResource room){
+        this.referencedRoom = (RoomResource)room.deepCopy();
+    }
+
+    public RoomProperties getRoomProperties(){
+        return this.referencedRoom.getProperties();
+    }
 
     public static void render(Graphics g){
         //Loop through all camera views and render them
@@ -34,12 +53,12 @@ public class World {
         }
         float deltaTime = (System.nanoTime() - lastTime)/1000000000.0f;     //Puts the time since the last update in seconds
         lastTime = System.nanoTime();
-        for(Entity entity : objects){
-            entity.update(deltaTime);
-            for(Entity others : objects){
-                if(others != entity){
+        for(Object object : objects){
+            object.update(deltaTime);
+            for(Object others : objects){
+                if(others != object){
                     //Check and resolve collisions.
-                    entity.isColliidng(others, deltaTime);
+                    object.isColliidng(others, deltaTime);
                 }
             }
         }

@@ -1,5 +1,8 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
+import org.developmentEngine.resourceManager.Resources.Resource;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**

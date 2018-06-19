@@ -1,6 +1,7 @@
 package org.userInterface.window.navBar.buildMenu.Buttons;
 
 import org.applicationEngine.game.Game;
+import org.developmentEngine.gameManagement.InstantiationManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,8 @@ public class RunButton extends JMenuItem {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Game g = new Game();
+                InstantiationManager im = new InstantiationManager();
+                im.instantiate();
             }
         });
     }

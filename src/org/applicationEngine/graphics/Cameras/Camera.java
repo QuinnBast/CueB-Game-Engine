@@ -1,14 +1,14 @@
 package org.applicationEngine.graphics.Cameras;
 
-import org.applicationEngine.objects.Base.Entity;
-import org.applicationEngine.world.World;
+import org.applicationEngine.game.Game;
+import org.applicationEngine.objects.Base.Object;
+import org.applicationEngine.world.Room;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * Created by Quinn on 11/29/2017.
@@ -23,7 +23,7 @@ public abstract class Camera<T> {
 
     public Camera(){
         //Add every camera that is created to the world's list of cameras
-        World.addCamera(this);
+        Room.addCamera(this);
     }
 
     public void resizeViewingArea(int width, int height){
@@ -58,17 +58,17 @@ public abstract class Camera<T> {
 
         //Determine the sprites that need to be rendered
         //Sprites that need to be rendered will be inside or intersecting the viewing area.
-        for(Entity entity : World.objects) {
+        for(Object object : Game.roomManager.getActiveRoom().getObjects()) {
             //If the sprite is within the camera's viewing area, the sprite should be drawn.
-            if(this.roomLocation.contains(entity.getBoundingBox()) || this.roomLocation.intersects(entity.getBoundingBox())){
+            if(this.roomLocation.contains(object.getBoundingBox()) || this.roomLocation.intersects(object.getBoundingBox())){
 
                 //Determine if there is an image to display for the object.
-                if(entity.getImage() == null){
+                if(object.getImage() == null){
                     //If there is no image to display, draw the boudning box inside the DISPLAY area at the relative position.
 
 
-                    Point p = this.getRelativeViewingLocation(entity); //Determine the location relative to the camera
-                    Rectangle2D bb = entity.getBoundingBox();   //Get the bounding box
+                    Point p = this.getRelativeViewingLocation(object); //Determine the location relative to the camera
+                    Rectangle2D bb = object.getBoundingBox();   //Get the bounding box
 
                     //multiply any widths by the width ratio and any heights by the height ratio.
                     g.drawRect((int)((p.getX() - bb.getWidth()/2)*widthRatio + screenLocation.getMinX()), (int)((p.getY() - bb.getHeight()/2)*heightRatio + screenLocation.getMinY()), (int)(bb.getWidth()*widthRatio), (int)(bb.getHeight()*heightRatio));
@@ -80,53 +80,53 @@ public abstract class Camera<T> {
                 Graphics2D g2d = (Graphics2D) g;
 
                 //Determine the location relative to the camera
-                Point relativeViewingLocation = this.getRelativeViewingLocation(entity);
-                Point relativeDisplayLocation = this.getRelativeDisplayLocation(entity, relativeViewingLocation);
+                Point relativeViewingLocation = this.getRelativeViewingLocation(object);
+                Point relativeDisplayLocation = this.getRelativeDisplayLocation(object, relativeViewingLocation);
 
 
                 //Rotate the sprite if required
                 BufferedImage spriteImage;
-                if(entity.canRotate()) {
-                    spriteImage = rotateToMouse(entity, relativeDisplayLocation);
+                if(object.getObjectProperties().canRotate()) {
+                    spriteImage = rotateToMouse(object, relativeDisplayLocation);
                 } else {
-                    spriteImage = entity.getImage();
+                    spriteImage = object.getImage();
                 }
 
                 //Debugging
-                Rectangle2D bb = entity.getBoundingBox();
+                Rectangle2D bb = object.getBoundingBox();
                 //Draw line from entity to mouse
                 //g.drawLine((int)(relativeDisplayLocation.getX() + entity.getImage().getWidth()*widthRatio/2), (int)(relativeDisplayLocation.getY() + entity.getImage().getHeight()*heightRatio/2), (int)(MouseInfo.getPointerInfo().getLocation().getX()), (int)MouseInfo.getPointerInfo().getLocation().getY());
                 //Draw entity's bounding box
-                g.drawRect((int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(entity.getImage().getWidth()*widthRatio), (int)(entity.getImage().getHeight()*heightRatio));
+                g.drawRect((int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(object.getImage().getWidth()*widthRatio), (int)(object.getImage().getHeight()*heightRatio));
 
                 //Draw the sprite to the screen
-                g.drawImage(spriteImage, (int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(entity.getImage().getWidth()*widthRatio), (int)(entity.getImage().getHeight()*heightRatio), null);
+                g.drawImage(spriteImage, (int)relativeDisplayLocation.getX(), (int)relativeDisplayLocation.getY(), (int)(object.getImage().getWidth()*widthRatio), (int)(object.getImage().getHeight()*heightRatio), null);
             }
         }
         return true;
     }
 
-    public Point getRelativeViewingLocation(Entity e){
-        double x = e.getPosX() - roomLocation.getMinX();
-        double y = e.getPosY() - roomLocation.getMinY();
+    public Point getRelativeViewingLocation(Object object){
+        double x = object.getObjectProperties().getParentObject().getX() - roomLocation.getMinX();
+        double y = object.getObjectProperties().getParentObject().getY() - roomLocation.getMinY();
         Point p = new Point();
         p.setLocation(x, y);
         return p;
     }
 
-    public Point getRelativeDisplayLocation(Entity entity, Point relativeViewingLocation){
+    public Point getRelativeDisplayLocation(Object object, Point relativeViewingLocation){
 
-        double x = ((relativeViewingLocation.getX() - entity.getImage().getWidth()/2)*widthRatio + screenLocation.getMinX());
-        double y =  ((relativeViewingLocation.getY() - entity.getImage().getHeight()/2)*heightRatio + screenLocation.getMinY());
+        double x = ((relativeViewingLocation.getX() - object.getImage().getWidth()/2)*widthRatio + screenLocation.getMinX());
+        double y =  ((relativeViewingLocation.getY() - object.getImage().getHeight()/2)*heightRatio + screenLocation.getMinY());
         Point p = new Point();
         p.setLocation(x, y);
         return p;
     }
 
-    private BufferedImage rotateToMouse(Entity entity, Point relativeDisplayLocation) {
+    private BufferedImage rotateToMouse(Object object, Point relativeDisplayLocation) {
 
-        double scaledImageWidth = entity.getImage().getWidth()*widthRatio;
-        double scaledImageHeight = entity.getImage().getHeight()*heightRatio;
+        double scaledImageWidth = object.getImage().getWidth()*widthRatio;
+        double scaledImageHeight = object.getImage().getHeight()*heightRatio;
         double angle = Math.PI/-2;
         if(MouseInfo.getPointerInfo().getLocation().getX() == relativeDisplayLocation.getX() + scaledImageWidth/2){
             if(MouseInfo.getPointerInfo().getLocation().getY() < relativeDisplayLocation.getY() + scaledImageHeight/2){
@@ -142,12 +142,12 @@ public abstract class Camera<T> {
             }
         }
 
-        double locationX = (entity.getImage().getWidth() / 2) - 1;
-        double locationY = (entity.getImage().getHeight() / 2) - 1;
+        double locationX = (object.getImage().getWidth() / 2) - 1;
+        double locationY = (object.getImage().getHeight() / 2) - 1;
         AffineTransform tx = AffineTransform.getRotateInstance(angle, locationX, locationY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        BufferedImage rotatedImage = new BufferedImage(entity.getImage().getWidth(), entity.getImage().getHeight(), entity.getImage().getType());
-        op.filter(entity.getImage(), rotatedImage);  //Create the new rotated image.
+        BufferedImage rotatedImage = new BufferedImage(object.getImage().getWidth(), object.getImage().getHeight(), object.getImage().getType());
+        op.filter(object.getImage(), rotatedImage);  //Create the new rotated image.
         return rotatedImage;
     }
 

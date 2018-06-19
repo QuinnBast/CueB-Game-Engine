@@ -1,7 +1,7 @@
 package org.applicationEngine.graphics.Cameras;
 
 import org.applicationEngine.graphics.Renderer;
-import org.applicationEngine.objects.Base.Room;
+import org.applicationEngine.world.Room;
 
 /**
  * Created by Quinn on 4/27/2018.
@@ -44,7 +44,7 @@ public class StaticCamera extends Camera {
      */
     public StaticCamera(Room room){
         super();
-        this.roomLocation.setRect(room.getWidth()/2, room.getHeight()/2, room.getWidth(), room.getHeight()); //View the whole room
+        this.roomLocation.setRect(room.getRoomProperties().getSize().getWidth()/2, room.getRoomProperties().getSize().getHeight()/2, room.getRoomProperties().getSize().getWidth(), room.getRoomProperties().getSize().getHeight()); //View the whole room
         this.screenLocation.setRect(0,0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight()); //Display to the whole screen
     }
 }
