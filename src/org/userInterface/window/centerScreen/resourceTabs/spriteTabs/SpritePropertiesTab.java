@@ -34,7 +34,7 @@ public class SpritePropertiesTab extends Tab  {
     public SpritePropertiesTab(Resource r){
         super(r);
         r.getProperties().addPropertyObserver(this);
-        this.spriteProperties = (SpriteProperties)((SpriteResource) r).getProperties();
+        this.spriteProperties = ((SpriteResource) r).getProperties();
 
         //Create the file name print-out and the file selector
         JPanel filePanel = new JPanel();
