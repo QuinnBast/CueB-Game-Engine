@@ -102,7 +102,7 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
     }
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
         //If this object's sprite is updated, this object needs to notify all of its watchers that a link has been updated!
         this.notifyUpdate(this);
     }

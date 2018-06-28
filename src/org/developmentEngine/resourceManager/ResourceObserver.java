@@ -9,5 +9,6 @@ public interface ResourceObserver {
 
     void onResourceAdd(Resource r);
     void onResourceRemove(Resource r);
+    void onResourceUpdate(Resource r);
 
 }

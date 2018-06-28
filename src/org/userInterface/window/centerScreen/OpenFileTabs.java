@@ -96,6 +96,11 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
         this.removeTab(r);
     }
 
+    @Override
+    public void onResourceUpdate(Resource r) {
+        //Dont care
+    }
+
     public Resource getActiveResource(){
         JComponent searchFor = (JComponent) tabbedPane.getSelectedComponent();
         Iterator it = openTabs.entrySet().iterator();

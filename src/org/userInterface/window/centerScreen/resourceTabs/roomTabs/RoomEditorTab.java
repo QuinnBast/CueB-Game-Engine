@@ -27,7 +27,7 @@ public class RoomEditorTab extends Tab {
     }
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
 
     }
 }

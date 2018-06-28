@@ -13,7 +13,7 @@ public class ObjectEventTab extends Tab {
     }
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
 
     }
 }

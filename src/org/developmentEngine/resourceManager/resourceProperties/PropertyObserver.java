@@ -5,6 +5,6 @@ package org.developmentEngine.resourceManager.resourceProperties;
  */
 public interface PropertyObserver {
 
-    void onResourceUpdate(ResourceProperties properties);
+    void onPropertyUpdate(ResourceProperties properties);
 
 }

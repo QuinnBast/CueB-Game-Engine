@@ -204,7 +204,7 @@ public class SpritePropertiesTab extends Tab  {
     };
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
         this.filePathText.setText(spriteProperties.getFilepaths().get(0));
 
         if(spriteProperties.getFilepaths().get(0) != "") {

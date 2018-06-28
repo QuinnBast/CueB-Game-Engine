@@ -42,7 +42,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
         this.addMouseListener(mouseListener);
         this.addMouseMotionListener(motionAdapter);
         this.addMouseWheelListener(mouseWheelListener);
-        this.roomLocation = new Rectangle2D.Double(0, 0, ((RoomProperties)referencedRoom.getProperties()).getSize().getWidth(), ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight());
+        this.roomLocation = new Rectangle2D.Double(0, 0, referencedRoom.getProperties().getSize().getWidth(), referencedRoom.getProperties().getSize().getHeight());
         this.widthRatio = this.getWidth() / this.roomLocation.getWidth();
         this.heightRatio = this.getHeight() / this.roomLocation.getHeight();
         rr.getProperties().addPropertyObserver(this);
@@ -58,46 +58,55 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
         g2d.setColor(Color.RED);
         g2d.draw(roomLocation);
 
-        ArrayList<Instance> instanceInRoom = ((RoomProperties)referencedRoom.getProperties()).getInstances();
+        ArrayList<Instance> instanceInRoom = referencedRoom.getProperties().getInstances();
         for(Instance i : instanceInRoom) {
+            //Check if the object is visible
+            if (!i.getProperties().getObjectType().getProperties().isVisible()){
+                //If thje object is not visible, skip drawing.
+                continue;
+            }
+
             //Check if the object has a linked sprite.
-            if (((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite() != null) {
-                //Get the sprite properties of the object. (If applicable.)
-                SpriteProperties spriteProperties = ((SpriteProperties) ((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite().getProperties());
+            if (i.getProperties().getObjectType().getProperties().getLinkedSprite() == null) {
+                //If the object does not have a linked sprite, skip drawing.
+                continue;
+            }
 
-                //Determine the scale of the width of the room
-                double widthScale = this.roomLocation.getWidth() / ((RoomProperties)referencedRoom.getProperties()).getSize().getWidth();
-                double heightScale = this.roomLocation.getHeight() / ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight();
+            //Get the sprite properties of the object. (If applicable.)
+            SpriteProperties spriteProperties = (i.getProperties()).getObjectType().getProperties().getLinkedSprite().getProperties();
 
-                //Offset the buffered image so that the image is drawn with the origin in the correct location
-                //Get the location of the sprite to draw.
-                double xOrigin = spriteProperties.getOrigin().getX();
-                double yOrigin = spriteProperties.getOrigin().getY();
-                double drawXOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getX() - xOrigin;   //Offset the center of the sprite to draw the origin properly
-                double drawYOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getY() - yOrigin;   //Offset the center of the sprite to draw the origin properly
+            //Determine the scale of the width of the room
+            double widthScale = this.roomLocation.getWidth() / referencedRoom.getProperties().getSize().getWidth();
+            double heightScale = this.roomLocation.getHeight() / referencedRoom.getProperties().getSize().getHeight();
 
-                //Determine if the sprite is within the canvas, if not, we shouldn't waste resources drawing it.
-                //Create a bounding box of the sprite and its width and height
-                Rectangle2D image = new Rectangle2D.Double((int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale));
-                Rectangle2D canvas = new Rectangle2D.Double(0,0,this.getWidth(), this.getHeight());
-                if(canvas.intersects(image)){
+            //Offset the buffered image so that the image is drawn with the origin in the correct location
+            //Get the location of the sprite to draw.
+            double xOrigin = spriteProperties.getOrigin().getX();
+            double yOrigin = spriteProperties.getOrigin().getY();
+            double drawXOffset = i.getProperties().getRoomLocation().getX() - xOrigin;   //Offset the center of the sprite to draw the origin properly
+            double drawYOffset = i.getProperties().getRoomLocation().getY() - yOrigin;   //Offset the center of the sprite to draw the origin properly
 
-                    //Determine if the linked sprite has an image
-                    if (spriteProperties.getFilepaths() != null) {
-                        //Create a buffered image from the sprite to draw on the canvas.
-                        try {
-                            //Get the buffered image.
-                            BufferedImage rawImage = ImageIO.read(new File(spriteProperties.getFilepaths().get(0)));
-                            //Draw the buffered image at the room location.
+            //Determine if the sprite is within the canvas, if not, we shouldn't waste resources drawing it.
+            //Create a bounding box of the sprite and its width and height
+            Rectangle2D image = new Rectangle2D.Double((int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale));
+            Rectangle2D canvas = new Rectangle2D.Double(0,0,this.getWidth(), this.getHeight());
+            if(canvas.intersects(image)){
 
-                            g.drawImage(rawImage, (int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale), null);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        //The object has no linked sprite. Should draw a placeholder sprite? Not sure of object size without sprite though.
-                        //Could draw a red exclamation mark warning the person that no sprite is linked.
+                //Determine if the linked sprite has an image
+                if (spriteProperties.getFilepaths() != null) {
+                    //Create a buffered image from the sprite to draw on the canvas.
+                    try {
+                        //Get the buffered image.
+                        BufferedImage rawImage = ImageIO.read(new File(spriteProperties.getFilepaths().get(0)));
+                        //Draw the buffered image at the room location.
+
+                        g.drawImage(rawImage, (int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale), null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else {
+                    //The object has no linked sprite. Should draw a placeholder sprite? Not sure of object size without sprite though.
+                    //Could draw a red exclamation mark warning the person that no sprite is linked.
                 }
             }
         }
@@ -111,7 +120,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
     }
 
     public RoomProperties getRoomProperties(){
-        return ((RoomProperties)this.referencedRoom.getProperties());
+        return this.referencedRoom.getProperties();
     }
 
     public void translateCamera(Point2D mouseLocation){
@@ -139,22 +148,22 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
             //If the press is a right click, the user is trying to delete an object
             if(e.getButton() == e.BUTTON3){
                 //Check if the click location is inside of any of the object bounding boxes.
-                ArrayList<Instance> instanceInRoom = ((RoomProperties)referencedRoom.getProperties()).getInstances();
+                ArrayList<Instance> instanceInRoom = referencedRoom.getProperties().getInstances();
                 for(Instance i : instanceInRoom) {
                     //Check if the object has a linked sprite.
-                    if (((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite() != null) {
+                    if (i.getProperties().getObjectType().getProperties().getLinkedSprite() != null) {
                         //Get the sprite properties of the object. (If applicable.)
                         SpriteProperties spriteProperties = ((SpriteProperties) ((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite().getProperties());
                         //Get the scaled bounding box
                         //Get the location of the sprite to draw.
                         double xOrigin = spriteProperties.getOrigin().getX();
                         double yOrigin = spriteProperties.getOrigin().getY();
-                        double drawXOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getX() - xOrigin;   //Offset the center of the sprite to draw the origin properly
-                        double drawYOffset = ((InstanceProperties) i.getProperties()).getRoomLocation().getY() - yOrigin;   //Offset the center of the sprite to draw the origin properly
+                        double drawXOffset = i.getProperties().getRoomLocation().getX() - xOrigin;   //Offset the center of the sprite to draw the origin properly
+                        double drawYOffset = i.getProperties().getRoomLocation().getY() - yOrigin;   //Offset the center of the sprite to draw the origin properly
 
                         //Determine the scale of the width of the room
-                        double widthScale = roomLocation.getWidth() / ((RoomProperties)referencedRoom.getProperties()).getSize().getWidth();
-                        double heightScale = roomLocation.getHeight() / ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight();
+                        double widthScale = roomLocation.getWidth() / referencedRoom.getProperties().getSize().getWidth();
+                        double heightScale = roomLocation.getHeight() / referencedRoom.getProperties().getSize().getHeight();
 
                         Rectangle2D boundingBox = new Rectangle2D.Double((int) (drawXOffset * widthScale + roomLocation.getX()), (int) (drawYOffset * heightScale + roomLocation.getY()), (int) (spriteProperties.getSize().getWidth() * widthScale), (int) (spriteProperties.getSize().getHeight() * heightScale));
 
@@ -164,7 +173,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
                     }
                 }
                 if(clickedPoints.size() == 1){
-                    ((RoomProperties)referencedRoom.getProperties()).removeInstance(clickedPoints.get(0));
+                    referencedRoom.getProperties().removeInstance(clickedPoints.get(0));
                 } else {
                     JPopupMenu popupMenu = new JPopupMenu();
                     JMenu deleteMenu = new JMenu("Delete");
@@ -186,7 +195,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
                         deletePointMenu.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                ((RoomProperties)referencedRoom.getProperties()).removeInstance(inst);
+                                referencedRoom.getProperties().removeInstance(inst);
                             }
                         });
                         JMenuItem selectPointMenu = new JMenuItem(inst.getFilePath());
@@ -262,7 +271,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
     };
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
         this.invalidate();
         this.repaint();
     }
@@ -272,8 +281,8 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
         public void mouseWheelMoved(MouseWheelEvent e) {
             int rotation = e.getWheelRotation();
             //For each rotation, we want to zoom in 5%.
-            double widthScale = ((RoomProperties)referencedRoom.getProperties()).getSize().getWidth() * 0.05;
-            double heightScale = ((RoomProperties)referencedRoom.getProperties()).getSize().getHeight() * 0.05;
+            double widthScale = referencedRoom.getProperties().getSize().getWidth() * 0.05;
+            double heightScale = referencedRoom.getProperties().getSize().getHeight() * 0.05;
             double roomXOffset = widthScale / 2;
             double roomYOffset = heightScale / 2;
 

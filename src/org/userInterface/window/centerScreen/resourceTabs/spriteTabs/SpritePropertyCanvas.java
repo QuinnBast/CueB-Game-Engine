@@ -136,7 +136,7 @@ public class SpritePropertyCanvas extends JPanel implements PropertyObserver {
     };
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
         this.repaint();
     }
 }

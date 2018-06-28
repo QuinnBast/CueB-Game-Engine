@@ -63,6 +63,11 @@ public class ObjectPane extends JPanel implements ResourceObserver {
         }
     }
 
+    @Override
+    public void onResourceUpdate(Resource r) {
+        //dont care
+    }
+
     private JPanel getPanelFromProperty(ObjectProperties properties){
         return this.objectList.get(properties.getParentObject());
     }
