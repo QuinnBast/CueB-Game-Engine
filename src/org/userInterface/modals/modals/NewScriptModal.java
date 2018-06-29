@@ -21,7 +21,7 @@ public class NewScriptModal extends JDialog implements ActionListener {
 
     public NewScriptModal(){
         this.setSize(new Dimension(500,200));
-        this.setTitle("New Sprite");
+        this.setTitle("New Script");
 
         JPanel panel = new JPanel();
         panel.setVisible(true);
