@@ -5,7 +5,6 @@ import org.applicationEngine.objects.Base.Object;
 import org.applicationEngine.world.Room;
 import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.Resources.Instance;
-import org.developmentEngine.resourceManager.Resources.ObjectResource;
 import org.developmentEngine.resourceManager.Resources.RoomResource;
 import org.developmentEngine.resourceManager.resourceProperties.InstanceProperties;
 import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
