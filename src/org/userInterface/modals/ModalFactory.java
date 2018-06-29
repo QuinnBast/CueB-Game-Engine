@@ -28,7 +28,6 @@ public class ModalFactory {
         rm = new ResourceModal("Sprite", e -> {
             UserInterface.window.setEnabled(true);
             if(!rm.getFileName().isEmpty()){
-                FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
                 DevelopmentEngine.resourceManager.addResource(new SpriteResource(rm.getFileName()));
             }
             rm.dispose();
@@ -39,7 +38,6 @@ public class ModalFactory {
         rm = new ResourceModal("Script", e -> {
             UserInterface.window.setEnabled(true);
             if(!rm.getFileName().isEmpty()){
-                FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
                 DevelopmentEngine.resourceManager.addResource(new ScriptResource(rm.getFileName()));
             }
             rm.dispose();
@@ -50,7 +48,6 @@ public class ModalFactory {
         rm = new ResourceModal("Room", e -> {
             UserInterface.window.setEnabled(true);
             if(!rm.getFileName().isEmpty()){
-                FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
                 DevelopmentEngine.resourceManager.addResource(new RoomResource(rm.getFileName()));
             }
             rm.dispose();
@@ -61,7 +58,6 @@ public class ModalFactory {
         rm = new ResourceModal("Object", e -> {
             UserInterface.window.setEnabled(true);
             if(!rm.getFileName().isEmpty()){
-                FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
                 DevelopmentEngine.resourceManager.addResource(new ObjectResource(rm.getFileName()));
             }
             rm.dispose();
