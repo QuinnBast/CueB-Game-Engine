@@ -46,6 +46,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
         this.widthRatio = this.getWidth() / this.roomLocation.getWidth();
         this.heightRatio = this.getHeight() / this.roomLocation.getHeight();
         rr.getProperties().addPropertyObserver(this);
+        this.setBackground(referencedRoom.getProperties().getBackgroundColor());
     }
 
     @Override
@@ -272,6 +273,8 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
 
     @Override
     public void onPropertyUpdate(ResourceProperties properties) {
+        this.setBackground(referencedRoom.getProperties().getBackgroundColor());
+        this.roomLocation = new Rectangle2D.Double(this.roomLocation.getX(), this.roomLocation.getY(), referencedRoom.getProperties().getSize().getWidth(), referencedRoom.getProperties().getSize().getHeight());
         this.invalidate();
         this.repaint();
     }

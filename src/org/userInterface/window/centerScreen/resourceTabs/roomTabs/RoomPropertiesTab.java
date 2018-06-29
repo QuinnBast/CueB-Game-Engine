@@ -9,9 +9,14 @@ import org.userInterface.window.centerScreen.resourceTabs.Tab;
 import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Quinn on 5/11/2018.
@@ -47,10 +52,13 @@ public class RoomPropertiesTab extends Tab {
         JPanel heightPanel = new JPanel();
         JPanel frameratePanel = new JPanel();
 
-        SpinnerNumberModel widthModel = new SpinnerNumberModel((int)roomProperties.getSize().getWidth(), 0, null, 1);
-        SpinnerNumberModel heightModel = new SpinnerNumberModel((int)roomProperties.getSize().getHeight(), 0, null, 1);
+        SpinnerNumberModel widthModel = new SpinnerNumberModel((int)roomProperties.getSize().getWidth(), 0, 9999, 1);
+        SpinnerNumberModel heightModel = new SpinnerNumberModel((int)roomProperties.getSize().getHeight(), 0, 9999, 1);
         widthSpinner.setModel(widthModel);
         heightSpinner.setModel(heightModel);
+
+        widthSpinner.addChangeListener(changeListener);
+        heightSpinner.addChangeListener(changeListener);
 
         SpinnerNumberModel framerateModel = new SpinnerNumberModel(roomProperties.getDesiredFramerate(), 0, 60, 1);
         framerateSpinner.setModel(framerateModel);
@@ -79,6 +87,7 @@ public class RoomPropertiesTab extends Tab {
         JLabel backgroundLabel = new JLabel("Background Color");
         backgroundColorPanel.add(backgroundLabel);
         backgroundColorPanel.add(backgroundColorChooser);
+        backgroundColorChooser.getSelectionModel().addChangeListener(changeListener);
 
         this.add(roomNamePanel);
         this.add(dimensionPanel);
@@ -87,6 +96,9 @@ public class RoomPropertiesTab extends Tab {
 
     private void updateProperties(){
         referencedRoom.setFilePath(roomNameLabel.getText());
+        roomProperties.setSize(new Rectangle2D.Double(0, 0, ((Integer)widthSpinner.getValue()).doubleValue(), ((Integer)heightSpinner.getValue()).doubleValue()));
+        roomProperties.setBackgroundColor(backgroundColorChooser.getColor());
+        roomProperties.setDesiredFramerate((int)framerateSpinner.getValue());
     }
 
     @Override
@@ -107,6 +119,13 @@ public class RoomPropertiesTab extends Tab {
 
         @Override
         public void changedUpdate(DocumentEvent e) {
+            updateProperties();
+        }
+    };
+
+    ChangeListener changeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
             updateProperties();
         }
     };
