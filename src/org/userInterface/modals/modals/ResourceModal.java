@@ -1,39 +1,38 @@
 package org.userInterface.modals.modals;
 
-import org.developmentEngine.DevelopmentEngine;
 import org.userInterface.UserInterface;
-import org.userInterface.window.fileBrowser.FileBrowserPanel;
-import org.developmentEngine.resourceManager.Resources.ObjectResource;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- * Created by Quinn on 5/4/2018.
+ * Created by Quinn on 6/28/2018.
  */
-public class NewObjectModal extends JDialog implements ActionListener {
+public class ResourceModal extends JDialog {
 
-    JTextField fileName = new JTextField(20);
+    private JTextField fileName = new JTextField(20);
 
-    public NewObjectModal(){
+    public String getFileName(){
+        return fileName.getText();
+    }
+
+    public ResourceModal(String resourceType, ActionListener actionListener){
         this.setSize(new Dimension(500,200));
-        this.setTitle("New Object");
+        this.setTitle("New" + resourceType);
 
         JPanel panel = new JPanel();
         panel.setVisible(true);
         panel.setSize(new Dimension(200,200));
         panel.add(fileName);
         JButton button = new JButton("Ok");
-        button.addActionListener(this);
+        button.addActionListener(actionListener);
         panel.add(button);
         this.add(panel);
         this.setVisible(true);
         UserInterface.window.setEnabled(false);
-
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -71,13 +70,4 @@ public class NewObjectModal extends JDialog implements ActionListener {
         });
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        UserInterface.window.setEnabled(true);
-        if(!fileName.getText().isEmpty()){
-            FileBrowserPanel panel = UserInterface.window.getLayers().getFileBrowser();
-            DevelopmentEngine.resourceManager.addResource(new ObjectResource(fileName.getText()));
-        }
-        dispose();
-    }
 }
