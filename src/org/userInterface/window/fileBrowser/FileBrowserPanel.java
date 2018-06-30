@@ -45,6 +45,7 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
     }
 
     public void addResource(Resource resource) {
+        resource.addResourceObserver(this);
         this.resources.put(resource.getFilePath(), resource);
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(resource.getFilePath());
         if (resource instanceof SpriteResource) {
@@ -65,6 +66,7 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
 
     //Function to remove an item from the resource list.
     public void removeResource(Resource resource) {
+        resource.removeResourceObserver(this);
         if (this.resources.containsKey(resource.getFilePath())) {
             DefaultMutableTreeNode deleteMe = this.linkedNodes.get(resource);
             if (resource instanceof SpriteResource) {
@@ -149,7 +151,9 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
 
     @Override
     public void onResourceUpdate(Resource r) {
-        //Dont care
+        //Update the filename of the resource.
+        this.linkedNodes.get(r).setUserObject(r.getFilePath());
+        this.reloadTree(r);
     }
 
     public JTree getFiletree(){

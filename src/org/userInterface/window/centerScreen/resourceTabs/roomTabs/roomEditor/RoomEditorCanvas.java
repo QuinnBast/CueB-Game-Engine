@@ -37,7 +37,6 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
 
     public RoomEditorCanvas(RoomResource rr){
         this.referencedRoom = rr;
-        this.setBackground(Color.BLACK);
         this.setVisible(true);
         this.addMouseListener(mouseListener);
         this.addMouseMotionListener(motionAdapter);
@@ -274,7 +273,6 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
     @Override
     public void onPropertyUpdate(ResourceProperties properties) {
         this.setBackground(referencedRoom.getProperties().getBackgroundColor());
-        this.roomLocation = new Rectangle2D.Double(this.roomLocation.getX(), this.roomLocation.getY(), referencedRoom.getProperties().getSize().getWidth(), referencedRoom.getProperties().getSize().getHeight());
         this.invalidate();
         this.repaint();
     }

@@ -20,7 +20,7 @@ public class ObjectPane extends JPanel implements ResourceObserver {
 
     public ObjectPane(){
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(200,this.getPreferredSize().height));
+        this.setPreferredSize(new Dimension(150,this.getPreferredSize().height));
         loadObjects();
         this.setVisible(true);
 

@@ -1,5 +1,6 @@
 package org.userInterface.window.centerScreen.resourceTabs.roomTabs;
 
+import net.miginfocom.swing.MigLayout;
 import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.ResourceObserver;
 import org.developmentEngine.resourceManager.Resources.RoomResource;
@@ -9,6 +10,7 @@ import org.userInterface.window.centerScreen.resourceTabs.Tab;
 import org.developmentEngine.resourceManager.Resources.Resource;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -30,6 +32,7 @@ public class RoomPropertiesTab extends Tab {
     private JColorChooser backgroundColorChooser = new JColorChooser();
     private JSpinner framerateSpinner = new JSpinner();
     private JTextField roomNameLabel = new JTextField(20);
+    private JComboBox backgroundTypeSelector;
 
     private RoomResource referencedRoom ;
     private RoomProperties roomProperties;
@@ -41,16 +44,19 @@ public class RoomPropertiesTab extends Tab {
         this.referencedRoom = (RoomResource) r;
         this.roomProperties = this.referencedRoom.getProperties();
 
-        JPanel roomNamePanel = new JPanel();
+        JPanel propertiesPanel = new JPanel(new MigLayout("fill", "[]"));
+        propertiesPanel.add(new JLabel("Name"));
+
         roomNameLabel.setText(referencedRoom.getFilePath());
-        roomNamePanel.add(roomNameLabel);
         roomNameLabel.getDocument().addDocumentListener(textListener);
 
-        JPanel dimensionPanel = new JPanel();
+        propertiesPanel.add(roomNameLabel, "wrap, growx");
+        propertiesPanel.add(new JLabel("Framerate"));
+        propertiesPanel.add(framerateSpinner, "wrap, growx");
 
-        JPanel widthPanel = new JPanel();
-        JPanel heightPanel = new JPanel();
-        JPanel frameratePanel = new JPanel();
+        JPanel dimensionPanel = new JPanel(new MigLayout("fill", "[][]"));
+        dimensionPanel.setBorder(BorderFactory.createTitledBorder("Size"));
+        propertiesPanel.add(dimensionPanel, "wrap, span2, growx");
 
         SpinnerNumberModel widthModel = new SpinnerNumberModel((int)roomProperties.getSize().getWidth(), 0, 9999, 1);
         SpinnerNumberModel heightModel = new SpinnerNumberModel((int)roomProperties.getSize().getHeight(), 0, 9999, 1);
@@ -63,35 +69,30 @@ public class RoomPropertiesTab extends Tab {
         SpinnerNumberModel framerateModel = new SpinnerNumberModel(roomProperties.getDesiredFramerate(), 0, 60, 1);
         framerateSpinner.setModel(framerateModel);
 
-        dimensionPanel.add(widthSpinner);
-        dimensionPanel.add(heightSpinner);
+        dimensionPanel.add(new JLabel("Width:"), "");
+        dimensionPanel.add(widthSpinner, "wrap, growx");
+        dimensionPanel.add(new JLabel("Height"), "");
+        dimensionPanel.add(heightSpinner, "wrap, growx");
 
-        JLabel widthText = new JLabel("Width");
-        JLabel heightText = new JLabel("Height");
-        JLabel frameRateText = new JLabel("Framerate");
+        JPanel backgroundColorPanel = new JPanel(new MigLayout("fill", "[][]"));
+        backgroundColorPanel.setBorder(BorderFactory.createTitledBorder("Background"));
 
-        widthPanel.add(widthText);
-        widthPanel.add(widthSpinner);
+        String[] backgroundTypes = {"Solid Color", "Gradient", "Image"};
+        backgroundTypeSelector = new JComboBox(backgroundTypes);
 
-        heightPanel.add(heightText);
-        heightPanel.add(heightSpinner);
+        backgroundColorPanel.add(new JLabel("Background Type:"));
+        backgroundColorPanel.add(backgroundTypeSelector, "wrap, growx");
 
-        frameratePanel.add(framerateSpinner);
-        frameratePanel.add(frameRateText);
-
-        dimensionPanel.add(widthPanel);
-        dimensionPanel.add(heightPanel);
-        dimensionPanel.add(frameratePanel);
-
-        JPanel backgroundColorPanel = new JPanel();
+        JPanel backgroundSelector = new JPanel();
         JLabel backgroundLabel = new JLabel("Background Color");
-        backgroundColorPanel.add(backgroundLabel);
-        backgroundColorPanel.add(backgroundColorChooser);
+        backgroundSelector.add(backgroundLabel);
+        backgroundSelector.add(backgroundColorChooser);
         backgroundColorChooser.getSelectionModel().addChangeListener(changeListener);
+        backgroundColorPanel.add(backgroundSelector, "span2");
 
-        this.add(roomNamePanel);
-        this.add(dimensionPanel);
-        this.add(backgroundColorPanel);
+        propertiesPanel.add(backgroundColorPanel);
+
+        this.add(propertiesPanel);
     }
 
     private void updateProperties(){

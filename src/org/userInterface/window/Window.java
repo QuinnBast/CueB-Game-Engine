@@ -36,7 +36,7 @@ public class Window extends JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(750, 500));
+        this.setMinimumSize(new Dimension(875, 550));
         this.setJMenuBar(new MenuBar());
         this.setTitle("QB2D Engine");
         this.add(this.layers = new WindowLayers(), BorderLayout.CENTER);

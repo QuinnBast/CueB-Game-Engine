@@ -1,5 +1,6 @@
 package org.userInterface.window.centerScreen.resourceTabs.objectTabs;
 
+import net.miginfocom.swing.MigLayout;
 import org.applicationEngine.objects.Base.Object;
 import org.applicationEngine.objects.ObjectType;
 import org.developmentEngine.DevelopmentEngine;
@@ -31,6 +32,7 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
 
     //Linked Sprite Objects
     private JComboBox spriteSelector;
+    private JComboBox parentSelector;
     private JLabel imageLabel;
 
     //Boolean Selectors
@@ -50,22 +52,20 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         objectNameText = new JTextField(referencedObject.getFilePath(), 20);
         referencedProperties.addPropertyObserver(this);
         DevelopmentEngine.resourceManager.addResourceObserver(this);
-
-        JPanel objectNamePanel = new JPanel();
-        objectNamePanel.add(objectNameText);
         objectNameText.getDocument().addDocumentListener(textListener);
 
-        JPanel relationshipPanel = new JPanel();
-        JPanel referencedSpritePanel = new JPanel();
+        JPanel leftPane = new JPanel(new MigLayout("fill", "[]"));
+        leftPane.add(new JLabel("Name:"), "");
+        leftPane.add(objectNameText, "wrap, growx");
+        leftPane.add(new JLabel("Sprite:"), "");
 
-        JLabel relationText = new JLabel("Sprite");
         spriteSelector = new JComboBox(DevelopmentEngine.resourceManager.getSpriteList().toArray());
-        spriteSelector.insertItemAt("", 0);
+        spriteSelector.insertItemAt("", 0); //Insert a null item if there is no linked sprite
 
+        JPanel imagePanel = new JPanel(new BorderLayout());
         this.imageLabel = new JLabel();
-        referencedSpritePanel.add(imageLabel);
         if(referencedProperties.getLinkedSprite() != null) {
-            SpriteProperties sp = (SpriteProperties) (referencedProperties.getLinkedSprite().getProperties());
+            SpriteProperties sp = referencedProperties.getLinkedSprite().getProperties();
             spriteSelector.setSelectedItem(sp.getFilepaths().get(0));
             if (sp.getFilepaths().get(0) != "") {
                 ImageIcon originalImage = sp.getImageIcon();
@@ -77,12 +77,20 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
             spriteSelector.setSelectedItem("");
         }
         spriteSelector.addActionListener(changeListener);
+        imagePanel.add(imageLabel, BorderLayout.CENTER);
 
+        leftPane.add(spriteSelector, "wrap, growx");
+        leftPane.add(imagePanel, "span 2, growx, wrap");
 
-        relationshipPanel.add(relationText);
-        relationshipPanel.add(spriteSelector);
+        leftPane.add(new JLabel("Parent Object:"), "");
 
-        JPanel booleanPanel = new JPanel();
+        parentSelector = new JComboBox(DevelopmentEngine.resourceManager.getObjectList().toArray());
+        parentSelector.insertItemAt("", 0); //Insert a null item if there is no linked object
+
+        leftPane.add(parentSelector, "wrap, growx");
+
+        JPanel rightPane = new JPanel(new MigLayout("fill", "[]"));
+        rightPane.setBorder(BorderFactory.createTitledBorder("Properties"));
 
         isCollidableBox.addActionListener(changeListener);
         canMoveBox.addActionListener(changeListener);
@@ -90,16 +98,14 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         canDisplaceBox.addActionListener(changeListener);
         isVisibleBox.addActionListener(changeListener);
 
-        booleanPanel.add(isCollidableBox);
-        booleanPanel.add(canRotatebox);
-        booleanPanel.add(canDisplaceBox);
-        booleanPanel.add(canMoveBox);
-        booleanPanel.add(isVisibleBox);
+        rightPane.add(isCollidableBox, "wrap");
+        rightPane.add(canRotatebox, "wrap");
+        rightPane.add(canDisplaceBox, "wrap");
+        rightPane.add(canMoveBox, "wrap");
+        rightPane.add(isVisibleBox, "wrap");
 
-        this.add(objectNamePanel);
-        this.add(referencedSpritePanel);
-        this.add(relationshipPanel);
-        this.add(booleanPanel);
+        this.add(leftPane);
+        this.add(rightPane);
         this.updateProperties();
     }
 

@@ -48,6 +48,7 @@ public class SpriteProperties extends ResourceProperties {
         ImageIcon icon = this.getImageIcon();
         if(icon != null){
             this.boundingBox = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight());
+            this.size = new Rectangle2D.Double(0, 0, icon.getIconWidth(), icon.getIconHeight());
         }
         this.notifyUpdate(this);
     }
@@ -94,15 +95,19 @@ public class SpriteProperties extends ResourceProperties {
     }
 
     public void setSize(Rectangle2D.Double size) {
-        //Scale the origin by any new sizes that have been set.
-        double yOrigin = this.origin.getY();
-        double xOrigin = this.origin.getX();
-        double heightScale = this.size.getHeight() / size.getHeight();
-        double widthScale = this.size.getWidth() / size.getWidth();
-        this.origin = new Point2D.Double(xOrigin / widthScale, yOrigin / heightScale);
-        this.size = size;
-        this.boundingBox = new Rectangle2D.Double(0, 0, this.size.getWidth(), this.size.getHeight());
-        this.notifyUpdate(this);
+        if(size.getWidth() > 0 && size.getHeight() > 0) {
+            //Scale the origin by any new sizes that have been set.
+            double yOrigin = this.origin.getY();
+            double xOrigin = this.origin.getX();
+            double heightScale = this.size.getHeight() / size.getHeight();
+            double widthScale = this.size.getWidth() / size.getWidth();
+            if (heightScale > 0 && widthScale > 0) {
+                this.origin = new Point2D.Double(xOrigin / widthScale, yOrigin / heightScale);
+            }
+            this.size = size;
+            this.boundingBox = new Rectangle2D.Double(0, 0, this.size.getWidth(), this.size.getHeight());
+            this.notifyUpdate(this);
+        }
     }
 
     public boolean isAnimated() {

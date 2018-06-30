@@ -18,7 +18,7 @@ public class WindowLayers extends JPanel {
 
     public WindowLayers(){
         this.setLayout(new BorderLayout());
-        JPanel defaultPanel = new JPanel(new MigLayout("debug, fill","[][]"));
+        JPanel defaultPanel = new JPanel(new MigLayout("fill","[][]"));
         defaultPanel.setVisible(true);
 
         this.fileBrowserPanel = new FileBrowserPanel();
