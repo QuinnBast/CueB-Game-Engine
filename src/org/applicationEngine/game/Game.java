@@ -1,5 +1,6 @@
 package org.applicationEngine.game;
 
+import org.applicationEngine.Events.EventListener;
 import org.applicationEngine.graphics.*;
 //import org.applicationEngine.graphics.Screens.ScreenManager;
 import org.applicationEngine.objects.ObjectManager;
@@ -12,6 +13,7 @@ public class Game {
 
     public static RoomManager roomManager = new RoomManager();
     public static ObjectManager objectManager = new ObjectManager();
+    public static EventListener eventListener = new EventListener();
 
     public Game(){
         Renderer.init();                //Must be initialized first so it can load the graphics for the game.
