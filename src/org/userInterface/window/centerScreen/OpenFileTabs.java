@@ -21,9 +21,7 @@ public class OpenFileTabs extends JPanel implements ResourceObserver {
     //ArrayList<String> openTabs = new ArrayList<String>();
 
     public OpenFileTabs(){
-        this.setLocation(200,0);
-        this.setSize(new Dimension(1400, 800));
-        this.setVisible(true);
+        this.setBorder(BorderFactory.createLineBorder(Color.RED));
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(tabbedPane);

@@ -1,9 +1,11 @@
 package org.userInterface.window;
 
 import org.developmentEngine.resourceManager.Resources.Resource;
+import org.userInterface.UserInterface;
 import org.userInterface.window.navBar.MenuBar;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -11,7 +13,6 @@ import java.awt.*;
  */
 public class Window extends JFrame {
 
-    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1900,1080);
     private WindowLayers layers;
 
     public Window(){
@@ -33,13 +34,12 @@ public class Window extends JFrame {
             // handle exception
         }
 
-        this.layers = new WindowLayers();
-
-        this.setSize(OUTER_FRAME_DIMENSION);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setMinimumSize(new Dimension(750, 500));
         this.setJMenuBar(new MenuBar());
         this.setTitle("QB2D Engine");
-        this.add(layers);
+        this.add(this.layers = new WindowLayers(), BorderLayout.CENTER);
         this.setVisible(true);
         revalidate();
         repaint();

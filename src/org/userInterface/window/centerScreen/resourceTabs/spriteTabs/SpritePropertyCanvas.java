@@ -27,8 +27,6 @@ public class SpritePropertyCanvas extends JPanel implements PropertyObserver {
     Double imageToCanvasWidthRatio;
 
     public SpritePropertyCanvas(SpriteProperties properties){
-        this.setVisible(true);
-        this.setSize(new Dimension(300, 300));
         this.referencedProperties = properties;
         referencedProperties.addPropertyObserver(this);
         this.addMouseListener(mouseListener);

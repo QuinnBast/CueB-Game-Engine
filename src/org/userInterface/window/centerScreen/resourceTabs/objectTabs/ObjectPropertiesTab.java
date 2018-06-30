@@ -47,7 +47,7 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         super(r);
         this.referencedObject = (ObjectResource) r;
         this.referencedProperties = (ObjectProperties)r.getProperties();
-        objectNameText = new JTextField(referencedObject.getFilePath());
+        objectNameText = new JTextField(referencedObject.getFilePath(), 20);
         referencedProperties.addPropertyObserver(this);
         DevelopmentEngine.resourceManager.addResourceObserver(this);
 

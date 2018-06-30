@@ -29,7 +29,7 @@ public class RoomPropertiesTab extends Tab {
 
     private JColorChooser backgroundColorChooser = new JColorChooser();
     private JSpinner framerateSpinner = new JSpinner();
-    private JTextField roomNameLabel = new JTextField();
+    private JTextField roomNameLabel = new JTextField(20);
 
     private RoomResource referencedRoom ;
     private RoomProperties roomProperties;

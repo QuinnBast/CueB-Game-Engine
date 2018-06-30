@@ -7,6 +7,7 @@ import org.developmentEngine.resourceManager.Resources.*;
 import org.userInterface.window.centerScreen.OpenFileTabs;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
@@ -31,15 +32,14 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
 
 
     public FileBrowserPanel() {
-        this.setSize(new Dimension(200, 800));
-        this.setVisible(true);
-
+        this.setLayout(new BorderLayout());
         constructTree(rootNode);
-
         this.filetree = new JTree(rootNode);
         JScrollPane scrollPane = new JScrollPane(filetree);
-        scrollPane.setPreferredSize(new Dimension(200, 800));
-        this.add(scrollPane);
+        scrollPane.setMinimumSize(new Dimension(100, 300));
+        scrollPane.setMaximumSize(new Dimension(150, Integer.MAX_VALUE));
+
+        this.add(scrollPane, BorderLayout.CENTER);
         filetree.addMouseListener(ml);
         DevelopmentEngine.resourceManager.addResourceObserver(this);
     }
