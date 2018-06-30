@@ -25,6 +25,16 @@ public class ObjectEventTab extends Tab {
         this.referencedProperties = this.referencedObject.getProperties();
         this.referencedProperties.addPropertyObserver(this);
 
+        JPanel[] eventPanels = {};
+        JList<JPanel> eventList = new JList<>();
+        eventList.setLayoutOrientation(JList.VERTICAL);
+        DefaultListModel<JPanel> listModel = new DefaultListModel<>();
+        eventList.setModel(listModel);
+
+
+        JScrollPane listScroller = new JScrollPane();
+        listScroller.add(eventList);    //Add the eventList to the scroll pane
+
 
 
         JPanel eventPanel = new JPanel();
@@ -40,4 +50,16 @@ public class ObjectEventTab extends Tab {
     public void onPropertyUpdate(ResourceProperties properties) {
 
     }
+
+    private JPanel makePanel(String string){
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(string);
+        panel.add(label);
+        return panel;
+    }
+
+    private void addPanelToList(String eventName){
+
+    }
+
 }
