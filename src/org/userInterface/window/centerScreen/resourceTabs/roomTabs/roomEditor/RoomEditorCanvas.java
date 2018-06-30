@@ -29,6 +29,7 @@ import static java.lang.Math.abs;
 public class RoomEditorCanvas extends DropPane implements PropertyObserver {
 
     RoomResource referencedRoom;
+    private Rectangle2D originalRoomDimension;
     protected Rectangle2D roomLocation = new Rectangle2D.Double(); //The area on the map that is visible
     private double widthRatio;
     private double heightRatio;
@@ -37,6 +38,7 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
 
     public RoomEditorCanvas(RoomResource rr){
         this.referencedRoom = rr;
+        originalRoomDimension = this.referencedRoom.getProperties().getSize();
         this.setVisible(true);
         this.addMouseListener(mouseListener);
         this.addMouseMotionListener(motionAdapter);
@@ -273,6 +275,21 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
     @Override
     public void onPropertyUpdate(ResourceProperties properties) {
         this.setBackground(referencedRoom.getProperties().getBackgroundColor());
+
+        //If the room dimensions change, update the room that is being drawn to be the size of the new dimensions
+        if (this.originalRoomDimension != referencedRoom.getProperties().getSize()) {
+            //However, preserve the current zoom level of the map
+            //Obtain current zoom level:
+            double widthScale = originalRoomDimension.getWidth() / roomLocation.getWidth();
+            double heightScale = originalRoomDimension.getHeight() / roomLocation.getHeight();
+
+            //With the height scale, apply the scaling to the new room dimensions
+            this.roomLocation = new Rectangle2D.Double(roomLocation.getX(), roomLocation.getY(), referencedRoom.getProperties().getSize().getWidth() * widthScale, referencedRoom.getProperties().getSize().getHeight() * heightScale);
+
+            //Set the original room location to the new room location so that future room size changes do not ruin the aspect ratio
+            this.originalRoomDimension = referencedRoom.getProperties().getSize();
+        }
+
         this.invalidate();
         this.repaint();
     }
