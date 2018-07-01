@@ -1,5 +1,6 @@
 package org.applicationEngine.objects.Base;
 
+import org.applicationEngine.Events.Event;
 import org.developmentEngine.resourceManager.Resources.ObjectResource;
 import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
 
@@ -91,6 +92,10 @@ public class Object{
 
     public Rectangle2D getBoundingBox(){
         return this.boundingBox;
+    }
+
+    public void notifyEvent(Event e){
+
     }
 
 }

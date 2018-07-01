@@ -1,7 +1,5 @@
 package org.applicationEngine.Events;
 
-import org.developmentEngine.eventManagement.objects.EventObserver;
-
 import java.util.ArrayList;
 
 /**
