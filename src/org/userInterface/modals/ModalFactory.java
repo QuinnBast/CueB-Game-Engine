@@ -64,6 +64,10 @@ public class ModalFactory {
         });
     }
 
+    public void displayNewObjectEventModal(){
+        new ObjectEventModal();
+    }
+
 
 
 }
