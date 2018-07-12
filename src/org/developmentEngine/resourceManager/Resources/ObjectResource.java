@@ -12,7 +12,6 @@ public class ObjectResource extends Resource {
     public ObjectResource(String path) {
         super(path + ".obj");
         ObjectProperties op = new ObjectProperties();
-        op.setParentObject(this);
         this.resourceProperties = op;
     }
 
