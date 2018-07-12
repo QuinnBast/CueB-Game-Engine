@@ -76,7 +76,6 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         } else {
             spriteSelector.setSelectedItem("");
         }
-        spriteSelector.addActionListener(changeListener);
         imagePanel.add(imageLabel, BorderLayout.CENTER);
 
         leftPane.add(spriteSelector, "wrap, growx");
@@ -87,10 +86,11 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         parentSelector = new JComboBox(DevelopmentEngine.resourceManager.getObjectList().toArray());
         parentSelector.insertItemAt("", 0); //Insert a null item if there is no linked object
         if(referencedProperties.getParentObject() != null){
-            parentSelector.setSelectedItem(referencedProperties.getParentObject().getFilePath());
+            parentSelector.setSelectedItem(referencedProperties.getParentObject());
         } else {
             parentSelector.setSelectedItem("");
         }
+
 
         leftPane.add(parentSelector, "wrap, growx");
 
@@ -102,6 +102,8 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         canRotatebox.addActionListener(changeListener);
         canDisplaceBox.addActionListener(changeListener);
         isVisibleBox.addActionListener(changeListener);
+        parentSelector.addActionListener(changeListener);
+        spriteSelector.addActionListener(changeListener);
 
         rightPane.add(isCollidableBox, "wrap");
         rightPane.add(canRotatebox, "wrap");
@@ -121,6 +123,9 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
         referencedProperties.setCanMove(canMoveBox.isSelected());
         referencedProperties.setCanRotate(canRotatebox.isSelected());
         referencedProperties.setCollidable(isCollidableBox.isSelected());
+        if(parentSelector.getSelectedItem() != "") {
+            referencedProperties.setParentObject((ObjectResource) parentSelector.getSelectedItem());
+        }
 
         if(spriteSelector.getSelectedItem() != "") {
             referencedProperties.setLinkedSprite((SpriteResource) spriteSelector.getSelectedItem());
