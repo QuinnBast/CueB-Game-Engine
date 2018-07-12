@@ -86,6 +86,11 @@ public class ObjectPropertiesTab extends Tab implements PropertyObserver, Resour
 
         parentSelector = new JComboBox(DevelopmentEngine.resourceManager.getObjectList().toArray());
         parentSelector.insertItemAt("", 0); //Insert a null item if there is no linked object
+        if(referencedProperties.getParentObject() != null){
+            parentSelector.setSelectedItem(referencedProperties.getParentObject().getFilePath());
+        } else {
+            parentSelector.setSelectedItem("");
+        }
 
         leftPane.add(parentSelector, "wrap, growx");
 
