@@ -11,10 +11,21 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import org.userInterface.UserInterface;
 import org.userInterface.window.centerScreen.resourceTabs.Tab;
 import org.developmentEngine.resourceManager.Resources.Resource;
+import org.userInterface.window.centerScreen.resourceTabs.objectTabs.EventList.EventCellRenderer;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,81 +35,123 @@ public class ObjectEventTab extends Tab {
 
     ObjectProperties referencedProperties;
     ObjectResource referencedObject;
-    DefaultListModel<JPanel> listModel = new DefaultListModel<>();
-    HashMap<EventType, JPanel> enabledEvents = new HashMap<>();
+    HashMap<EventType, String> enabledEvents = new HashMap<EventType, String>();
+    DefaultListModel<EventType> listModel = new DefaultListModel<>();
     EventType activeEvent = null;
+    JComboBox eventCombo = new JComboBox();
+    RSyntaxTextArea syntaxTextArea = new RSyntaxTextArea();
 
     public ObjectEventTab(Resource r) {
         super(r);
+        this.setLayout(new BorderLayout());
         this.referencedObject = (ObjectResource) r;
         this.referencedProperties = this.referencedObject.getProperties();
         this.referencedProperties.addPropertyObserver(this);
 
-        JPanel eventPanel = new JPanel(new MigLayout("", "[][][]"));
-        JList<JPanel> eventList = new JList<>();
-        eventList.setLayoutOrientation(JList.VERTICAL);
-        eventList.setModel(listModel);
-
-        JScrollPane listScroller = new JScrollPane();
-        listScroller.add(eventList);    //Add the eventList to the scroll pane
-
-        JButton addButton = new JButton("Add");
-        addButton.addActionListener(e -> UserInterface.modalController.displayNewObjectEventModal());
+        JPanel eventPanel = new JPanel(new MigLayout("", "[][]"));
+        eventPanel.setMinimumSize(new Dimension(100, 100));
 
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removePanelFromList(activeEvent);
-            }
-        });
+
+        JButton addButton = new JButton("Add");
+        DefaultComboBoxModel eventModel = new DefaultComboBoxModel<EventType>(EventType.onCollision.getDeclaringClass().getEnumConstants());
+        eventCombo.setEditable(true);
+        eventCombo.setModel(eventModel);
+
+        addButton.addActionListener(e -> addPanelToList((EventType)eventCombo.getSelectedItem()));
+        deleteButton.addActionListener(e -> removePanelFromList(activeEvent));
+
+        JList eventList = new JList(listModel);
+        eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        eventList.setLayoutOrientation(JList.VERTICAL);
+        eventList.setFixedCellHeight(50);
+        JScrollPane scrollPane = new JScrollPane(eventList);
+        scrollPane.setMinimumSize(new Dimension(100, 300));
+
+        eventPanel.add(scrollPane, "growx, growy, span 2, wrap");
+        eventPanel.add(editButton, "growx");
+        eventPanel.add(deleteButton, "growx, wrap");
+        eventPanel.add(eventCombo, "growx");
+        eventPanel.add(addButton, "growx");
 
 
-        eventPanel.add(listScroller, "span 3, wrap");
-        eventPanel.add(addButton, "");
-        eventPanel.add(editButton, "");
-        eventPanel.add(deleteButton, "");
 
 
-
-
-        JPanel codePanel = new JPanel(new MigLayout("fill", "[]"));
-        RSyntaxTextArea syntaxTextArea = new RSyntaxTextArea(20, 60);
+        JPanel codePanel = new JPanel(new BorderLayout());
         syntaxTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         syntaxTextArea.setCodeFoldingEnabled(true);
-        RTextScrollPane scrollPane = new RTextScrollPane(syntaxTextArea);
-        codePanel.add(scrollPane);
+        RTextScrollPane codescrollPane = new RTextScrollPane(syntaxTextArea);
+        codePanel.add(codescrollPane, BorderLayout.CENTER);
 
-        this.add(eventPanel, "growy");
-        this.add(codePanel, "growx");
+        syntaxTextArea.getDocument().addDocumentListener(documentListener);
+        eventList.addListSelectionListener(listSelectionListener);
+
+        this.add(eventPanel, BorderLayout.WEST);
+        this.add(codePanel, BorderLayout.CENTER);
     }
+
+    DocumentListener documentListener = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            enabledEvents.remove(activeEvent);
+            try {
+                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            enabledEvents.remove(activeEvent);
+            try {
+                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            enabledEvents.remove(activeEvent);
+            try {
+                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
+        }
+    };
+
+    ListSelectionListener listSelectionListener = new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            activeEvent = (EventType)((JList)e.getSource()).getSelectedValue();
+            String code = enabledEvents.get(activeEvent);
+            syntaxTextArea.setText(code);
+        }
+    };
+
+
 
     @Override
     public void onPropertyUpdate(ResourceProperties properties) {
 
     }
 
-    private JPanel makePanel(String string){
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel(string);
-        panel.add(label);
-        return panel;
-    }
-
     private void addPanelToList(EventType eventType){
         if(!this.enabledEvents.containsKey(eventType)){
-            JPanel panel = this.makePanel(eventType.toString());
-            listModel.addElement(panel);
-            enabledEvents.put(eventType, panel);
+            listModel.addElement(eventType);
+            enabledEvents.put(eventType, "");
             this.activeEvent=eventType;
         }
     }
 
     private void removePanelFromList(EventType eventType){
         if(this.enabledEvents.containsKey(eventType)){
-            listModel.removeElement(this.enabledEvents.get(eventType));
-            this.enabledEvents.remove(eventType);
+            listModel.removeElement(eventType);
+            enabledEvents.remove(eventType);
+            this.activeEvent=null;
         }
     }
 
