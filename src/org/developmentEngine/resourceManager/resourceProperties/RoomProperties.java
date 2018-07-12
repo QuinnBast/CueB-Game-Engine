@@ -4,6 +4,7 @@ import org.developmentEngine.resourceManager.Resources.Instance;
 import org.developmentEngine.resourceManager.Resources.ObjectResource;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -25,6 +26,14 @@ public class RoomProperties extends ResourceProperties {
 
     public void setSize(Rectangle2D size) {
         this.size = size;
+
+        //Remove all instances that are not in the room
+        for(Instance instance : instanceList){
+            if(!this.size.contains(instance.getProperties().getRoomLocation())){
+                this.instanceList.remove(instance);
+            }
+        }
+
         this.notifyUpdate(this);
     }
 
