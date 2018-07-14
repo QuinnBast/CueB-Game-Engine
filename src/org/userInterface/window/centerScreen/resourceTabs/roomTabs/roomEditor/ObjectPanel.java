@@ -40,7 +40,7 @@ public class ObjectPanel extends DragPane implements PropertyObserver {
     }
 
     @Override
-    public void onResourceUpdate(ResourceProperties properties) {
+    public void onPropertyUpdate(ResourceProperties properties) {
         ObjectProperties op = (ObjectProperties) properties;
         if(op.getLinkedSprite() != null) {
             SpriteProperties sp = (SpriteProperties) op.getLinkedSprite().getProperties();

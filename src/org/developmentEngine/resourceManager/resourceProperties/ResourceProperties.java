@@ -1,6 +1,5 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +11,7 @@ public abstract class ResourceProperties implements Serializable {
 
     public void notifyUpdate(ResourceProperties properties){
         for(PropertyObserver po : propertyObservers){
-                po.onResourceUpdate(properties);
+                po.onPropertyUpdate(properties);
         }
     }
 
