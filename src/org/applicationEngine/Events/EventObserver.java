@@ -1,17 +1,16 @@
 package org.applicationEngine.Events;
 
-import org.developmentEngine.eventManagement.EventType;
-import org.developmentEngine.resourceManager.Resources.ObjectResource;
+import org.applicationEngine.objects.Base.Object;
 
 /**
  * Created by Quinn on 6/29/2018.
  */
 public class EventObserver {
 
-    ObjectResource observingObject;
+    Object observingObject;
     EventType watchType;
 
-    EventObserver(ObjectResource objectResource, EventType watch){
+    EventObserver(Object objectResource, EventType watch){
         this.observingObject = objectResource;
         this.watchType = watch;
     }
@@ -24,7 +23,7 @@ public class EventObserver {
         observingObject.notifyEvent(e);
     }
 
-    public ObjectResource getWatchedObject(){
+    public Object getWatchedObject(){
         return observingObject;
     }
 
