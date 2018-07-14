@@ -9,6 +9,7 @@ import org.developmentEngine.resourceManager.resourceProperties.ResourceProperti
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Quinn on 5/4/2018.
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public abstract class Resource extends JPanel implements Serializable {
 
     private String filePath;
+    private UUID uuid = UUID.randomUUID();
     protected ResourceProperties resourceProperties;
     private ArrayList<ResourceObserver> observers = new ArrayList<>();
 
@@ -23,6 +25,10 @@ public abstract class Resource extends JPanel implements Serializable {
         for(ResourceObserver ro : observers){
             ro.onResourceUpdate(this);
         }
+    }
+
+    public UUID getUuid(){
+        return this.uuid;
     }
 
     public void addResourceObserver(ResourceObserver ro){
@@ -72,5 +78,17 @@ public abstract class Resource extends JPanel implements Serializable {
     @Override
     public String toString() {
         return this.filePath;
+    }
+
+    public ArrayList<ResourceObserver> getObservers(){
+        return this.observers;
+    }
+
+    public void removeObservers(){
+        this.observers.clear();
+    }
+
+    public void setObservers(ArrayList<ResourceObserver> observers){
+        this.observers = observers;
     }
 }

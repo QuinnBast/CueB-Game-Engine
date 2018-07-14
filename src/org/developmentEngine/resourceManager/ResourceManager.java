@@ -1,5 +1,6 @@
 package org.developmentEngine.resourceManager;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.developmentEngine.resourceManager.Resources.*;
 import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 
@@ -113,5 +114,12 @@ public class ResourceManager {
         collection.addAll(roomList);
         collection.addAll(scriptList);
         return collection;
+    }
+
+    public void removeAllResources(){
+        ArrayList<Resource> allResources = this.getAllResources();
+        for(Resource r: allResources){
+            this.removeResource(r);
+        }
     }
 }

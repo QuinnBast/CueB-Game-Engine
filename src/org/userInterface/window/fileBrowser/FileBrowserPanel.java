@@ -97,6 +97,14 @@ public class FileBrowserPanel extends JPanel implements ResourceObserver {
         }
     }
 
+    public void reloadTree(){
+        DefaultTreeModel dtm = (DefaultTreeModel) filetree.getModel();
+        dtm.reload(this.spriteNode);
+        dtm.reload(this.objectNode);
+        dtm.reload(this.scriptNode);
+        dtm.reload(this.roomNode);
+    }
+
     public Resource getResource(String filePath) {
         if (this.resources.containsKey(filePath)) {
             return this.resources.get(filePath);

@@ -10,6 +10,7 @@ import org.userInterface.modals.modals.*;
 import org.userInterface.window.fileBrowser.FileBrowserPanel;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -66,6 +67,14 @@ public class ModalFactory {
 
     public void displayNewObjectEventModal(){
         new ObjectEventModal();
+    }
+
+    public String displayFileChooserModal(FileNameExtensionFilter filter){
+        return new FileChooserModal().fileChooser(filter);
+    }
+
+    public String displayDirectoryChooserModal(){
+        return new FileChooserModal().directoryChooser();
     }
 
 

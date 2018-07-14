@@ -37,4 +37,9 @@ public class WindowLayers extends JPanel {
     public OpenFileTabs getOpenFileTabs(){
         return this.openFileTabs;
     }
+
+    public void newFileBrowser(){
+        this.fileBrowserPanel = new FileBrowserPanel();
+        this.fileBrowserPanel.reloadTree();
+    }
 }

@@ -8,19 +8,21 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
- * Created by Quinn on 5/4/2018.
+ * Created by Quinn on 7/14/2018.
  */
-public class NewProjectButton extends JMenuItem {
+public class LoadProjectButton extends JMenuItem {
 
-    public NewProjectButton(){
-        this.setText("New Project");
+    public LoadProjectButton(){
+        this.setText("Load Project");
 
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    DevelopmentEngine.projectManager.newProject();
+                    DevelopmentEngine.projectManager.loadProject();
                 } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
                     e1.printStackTrace();
                 }
             }
