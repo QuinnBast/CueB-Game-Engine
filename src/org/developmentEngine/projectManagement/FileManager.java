@@ -14,7 +14,7 @@ public class FileManager {
     }
 
     public void saveObject(Resource resource) throws IOException {
-        FileOutputStream fos = new FileOutputStream(((Integer)resource.hashCode()).toString() + ".qbp");
+        FileOutputStream fos = new FileOutputStream("C:\\Users\\Quinn\\Desktop\\" + ((Integer)resource.hashCode()).toString() + ".qbr");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(resource);
         oos.close();

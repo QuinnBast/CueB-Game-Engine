@@ -1,7 +1,5 @@
 package org.developmentEngine.resourceManager.resourceProperties;
 
-import org.developmentEngine.resourceManager.Resources.Resource;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -24,6 +22,18 @@ public abstract class ResourceProperties implements Serializable {
 
     public void removePropertyObserver(PropertyObserver po){
         this.propertyObservers.remove(po);
+    }
+
+    public ArrayList<PropertyObserver> getObservers(){
+        return this.propertyObservers;
+    }
+
+    public void removeObservers(){
+        this.propertyObservers.clear();
+    }
+
+    public void setPropertyObservers(ArrayList<PropertyObserver> observers){
+        this.propertyObservers.addAll(observers);
     }
 
 
