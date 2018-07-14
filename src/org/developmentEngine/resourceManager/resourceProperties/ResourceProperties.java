@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Quinn on 5/19/2018.
  */
-public abstract class ResourceProperties {
+public abstract class ResourceProperties implements Serializable {
 
     private ArrayList<PropertyObserver> propertyObservers = new ArrayList<>();
 

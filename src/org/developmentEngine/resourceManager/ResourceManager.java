@@ -105,4 +105,13 @@ public class ResourceManager {
     public void removeResourceObserver(ResourceObserver ro){
         this.resourceObservers.remove(ro);
     }
+
+    public ArrayList<Resource> getAllResources(){
+        ArrayList<Resource> collection = new ArrayList<>();
+        collection.addAll(spriteList);
+        collection.addAll(objectList);
+        collection.addAll(roomList);
+        collection.addAll(scriptList);
+        return collection;
+    }
 }

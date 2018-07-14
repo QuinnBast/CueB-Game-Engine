@@ -11,7 +11,7 @@ import java.io.*;
 /**
  * Created by Quinn on 5/4/2018.
  */
-public abstract class Resource extends JPanel {
+public abstract class Resource extends JPanel implements Serializable {
 
     private String filePath;
     protected ResourceProperties resourceProperties;
