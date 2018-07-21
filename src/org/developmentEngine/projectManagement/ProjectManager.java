@@ -16,9 +16,25 @@ import java.util.ArrayList;
  */
 public class ProjectManager {
 
-    FileManager fileManager = new FileManager();
-    String currentProjectDirectory = "";
-    String currentProjectName = "projectName.qbp";
+    private FileManager fileManager = new FileManager();
+    private String currentProjectDirectory = "";
+    private String currentProjectName = "projectName.qbp";
+
+    public String getCurrentProjectDirectory() {
+        return currentProjectDirectory;
+    }
+
+    public void setCurrentProjectDirectory(String currentProjectDirectory) {
+        this.currentProjectDirectory = currentProjectDirectory;
+    }
+
+    public String getCurrentProjectName() {
+        return currentProjectName;
+    }
+
+    public void setCurrentProjectName(String currentProjectName) {
+        this.currentProjectName = currentProjectName;
+    }
 
     public void newProject() throws IOException {
         //Check to see if a project is currently open.
