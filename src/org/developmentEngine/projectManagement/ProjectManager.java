@@ -18,7 +18,34 @@ public class ProjectManager {
 
     private FileManager fileManager = new FileManager();
     private String currentProjectDirectory = "";
-    private String currentProjectName = "projectName.qbp";
+    private String currentProjectName = "";
+    private ArrayList<ProjectObserver> projectObservers = new ArrayList<>();
+
+    private void onProjectSave(){
+        for(ProjectObserver p : projectObservers){
+            p.onProjectSave();
+        }
+    }
+
+    private void onProjectLoad(){
+        for(ProjectObserver p : projectObservers){
+            p.onProjectLoad();
+        }
+    }
+
+    private void onNewProject(){
+        for(ProjectObserver p : projectObservers){
+            p.onNewProject();
+        }
+    }
+
+    private void addProjectObserver(ProjectObserver p){
+        this.projectObservers.add(p);
+    }
+
+    public void removeProjectObserver(ProjectObserver p){
+        this.projectObservers.remove(p);
+    }
 
     public String getCurrentProjectDirectory() {
         return currentProjectDirectory;
@@ -48,8 +75,18 @@ public class ProjectManager {
             UserInterface.window.getLayers().newFileBrowser();
         }
 
-        while(currentProjectDirectory == "") {
-            currentProjectDirectory = UserInterface.modalController.displayDirectoryChooserModal();
+
+        String selectedDirectory = UserInterface.modalController.displayDirectoryChooserModal();
+        if(selectedDirectory == ""){
+            //The user didn't select anything, they just want to cancel out of the dialog.
+            return;
+        } else {
+            currentProjectDirectory = (new File(selectedDirectory).getParent());
+            if(new File(selectedDirectory).getName().contains(".qbp")){
+                currentProjectName = new File(selectedDirectory).getName();
+            } else {
+                currentProjectName = new File(selectedDirectory).getName() + ".qbp";
+            }
         }
 
         //Create a new project file which indicates the root directory of the project.
@@ -59,6 +96,8 @@ public class ProjectManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.onNewProject();
     }
 
     public void loadProject() throws IOException, ClassNotFoundException {
@@ -91,6 +130,7 @@ public class ProjectManager {
                     }
                 }
             }
+            this.onProjectLoad();
         } else {
             //The selected file is not a valid project file.
         }
@@ -130,6 +170,8 @@ public class ProjectManager {
             r.getProperties().setPropertyObservers(propertyObservers);
             r.setObservers(resourceObservers);
         }
+
+        this.onProjectSave();
     }
 
     private String getProjectDirectory(){

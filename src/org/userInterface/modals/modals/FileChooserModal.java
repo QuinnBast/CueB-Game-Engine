@@ -30,8 +30,8 @@ public class FileChooserModal {
 
     public String directoryChooser(){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnOption = fileChooser.showOpenDialog(null);
+        //fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnOption = fileChooser.showSaveDialog(null);
         if(returnOption == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile().getAbsolutePath();
         } else {

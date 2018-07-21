@@ -26,8 +26,8 @@ public class InstantiationManager {
             Room newRoom = new Room(room);
             game.roomManager.addRoom(newRoom);   //Create an instance of a game room from the development room instance.
             //Populate the objects in the room with their default initiali state.
-            for(Instance inst : ((RoomProperties)room.getProperties()).getInstances()){
-                Object obj = new Object(((InstanceProperties)inst.getProperties()).getObjectType());
+            for(Instance inst : (room.getProperties()).getInstances()){
+                Object obj = new Object((inst.getProperties()).getObjectType());
                 obj.getObjectProperties().setPosition(inst.getProperties().getRoomLocation());
                 newRoom.addObject(obj);
             }

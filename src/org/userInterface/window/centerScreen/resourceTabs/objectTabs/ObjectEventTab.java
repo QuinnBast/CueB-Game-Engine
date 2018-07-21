@@ -75,9 +75,6 @@ public class ObjectEventTab extends Tab {
         eventPanel.add(eventCombo, "growx");
         eventPanel.add(addButton, "growx");
 
-
-
-
         JPanel codePanel = new JPanel(new BorderLayout());
         syntaxTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         syntaxTextArea.setCodeFoldingEnabled(true);
