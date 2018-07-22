@@ -2,6 +2,7 @@ package org.userInterface.window.centerScreen.resourceTabs.objectTabs;
 
 import net.miginfocom.swing.MigLayout;
 import org.applicationEngine.Events.EventType;
+import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.Resources.ObjectResource;
 import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
 import org.developmentEngine.resourceManager.resourceProperties.ResourceProperties;
@@ -25,6 +26,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,6 +45,8 @@ public class ObjectEventTab extends Tab {
 
     public ObjectEventTab(Resource r) {
         super(r);
+
+
         this.setLayout(new BorderLayout());
         this.referencedObject = (ObjectResource) r;
         this.referencedProperties = this.referencedObject.getProperties();
@@ -59,7 +63,7 @@ public class ObjectEventTab extends Tab {
         eventCombo.setEditable(true);
         eventCombo.setModel(eventModel);
 
-        addButton.addActionListener(e -> addPanelToList((EventType)eventCombo.getSelectedItem()));
+        addButton.addActionListener(e -> addPanelToList((EventType) eventCombo.getSelectedItem()));
         deleteButton.addActionListener(e -> removePanelFromList(activeEvent));
 
         JList eventList = new JList(listModel);
@@ -91,9 +95,10 @@ public class ObjectEventTab extends Tab {
     DocumentListener documentListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            enabledEvents.remove(activeEvent);
             try {
-                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+                DevelopmentEngine.projectManager.objectWriter.updateEvent(referencedObject, activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (IOException e1) {
+                e1.printStackTrace();
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
@@ -101,9 +106,10 @@ public class ObjectEventTab extends Tab {
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            enabledEvents.remove(activeEvent);
             try {
-                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+                DevelopmentEngine.projectManager.objectWriter.updateEvent(referencedObject, activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (IOException e1) {
+                e1.printStackTrace();
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
@@ -111,49 +117,51 @@ public class ObjectEventTab extends Tab {
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            enabledEvents.remove(activeEvent);
             try {
-                enabledEvents.put(activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+                DevelopmentEngine.projectManager.objectWriter.updateEvent(referencedObject, activeEvent, e.getDocument().getText(0, e.getDocument().getLength()));
+            } catch (IOException e1) {
+                e1.printStackTrace();
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
         }
+
     };
 
-    ListSelectionListener listSelectionListener = new ListSelectionListener() {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            activeEvent = (EventType)((JList)e.getSource()).getSelectedValue();
-            String code = enabledEvents.get(activeEvent);
-            syntaxTextArea.setText(code);
+        ListSelectionListener listSelectionListener = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                activeEvent = (EventType)((JList)e.getSource()).getSelectedValue();
+                try {
+                    syntaxTextArea.setText(DevelopmentEngine.projectManager.objectWriter.getEvent(referencedObject, activeEvent));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        private void addPanelToList(EventType eventType) {
+            if (!this.enabledEvents.containsKey(eventType)) {
+                listModel.addElement(eventType);
+                enabledEvents.put(eventType, "");
+                this.activeEvent = eventType;
+            }
         }
-    };
 
+        private void removePanelFromList(EventType eventType) {
+            if (this.enabledEvents.containsKey(eventType)) {
+                listModel.removeElement(eventType);
+                enabledEvents.remove(eventType);
+                this.activeEvent = null;
+            }
+        }
 
+        private void setActivePanel(EventType eventType) {
+            this.activeEvent = eventType;
+        }
 
     @Override
     public void onPropertyUpdate(ResourceProperties properties) {
 
     }
-
-    private void addPanelToList(EventType eventType){
-        if(!this.enabledEvents.containsKey(eventType)){
-            listModel.addElement(eventType);
-            enabledEvents.put(eventType, "");
-            this.activeEvent=eventType;
-        }
-    }
-
-    private void removePanelFromList(EventType eventType){
-        if(this.enabledEvents.containsKey(eventType)){
-            listModel.removeElement(eventType);
-            enabledEvents.remove(eventType);
-            this.activeEvent=null;
-        }
-    }
-
-    private void setActivePanel(EventType eventType){
-        this.activeEvent=eventType;
-    }
-
 }

@@ -1,9 +1,11 @@
 package org.developmentEngine.resourceManager;
 
 import com.sun.org.apache.regexp.internal.RE;
+import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.resourceManager.Resources.*;
 import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -43,6 +45,11 @@ public class ResourceManager {
         if(newItem instanceof ObjectResource){
             ObjectResource resource = (ObjectResource) newItem;
             this.objectList.add(resource);
+            try {
+                DevelopmentEngine.projectManager.objectWriter.writeDefaultEventHandler(resource);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (newItem instanceof SpriteResource){
             SpriteResource resource = (SpriteResource) newItem;
             this.spriteList.add(resource);

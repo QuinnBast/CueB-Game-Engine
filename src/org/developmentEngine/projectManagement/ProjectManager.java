@@ -1,10 +1,12 @@
 package org.developmentEngine.projectManagement;
 
 import org.developmentEngine.DevelopmentEngine;
+import org.developmentEngine.compiler.ObjectWriter;
 import org.developmentEngine.resourceManager.ResourceObserver;
 import org.developmentEngine.resourceManager.Resources.Resource;
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
 import org.userInterface.UserInterface;
+import org.userInterface.modals.modals.ObjectEventModal;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -20,6 +22,7 @@ public class ProjectManager {
     private String currentProjectDirectory = "";
     private String currentProjectName = "";
     private ArrayList<ProjectObserver> projectObservers = new ArrayList<>();
+    public static ObjectWriter objectWriter = new ObjectWriter();
 
     private void onProjectSave(){
         for(ProjectObserver p : projectObservers){
@@ -95,6 +98,13 @@ public class ProjectManager {
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        //Check to see if the project directory exists.
+        File projDirectory = new File(this.getProjectDirectory());
+        if(!projDirectory.exists()){
+            //If the project directory did not exist, create a new directory
+            projDirectory.mkdir();
         }
 
         this.onNewProject();
@@ -174,7 +184,7 @@ public class ProjectManager {
         this.onProjectSave();
     }
 
-    private String getProjectDirectory(){
+    public String getProjectDirectory(){
         return currentProjectDirectory + "\\" + currentProjectName.replace(".qbp", "");
     }
 }
