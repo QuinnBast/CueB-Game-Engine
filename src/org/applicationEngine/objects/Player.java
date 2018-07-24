@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  */
 public class Player extends Object {
     public Player(ObjectResource objectReference) {
-        super(objectReference);
+        super(objectReference, null);
     }
 
     /*

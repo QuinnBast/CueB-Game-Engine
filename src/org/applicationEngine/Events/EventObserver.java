@@ -14,13 +14,13 @@ public class EventObserver {
 
     public EventObserver(Object objectResource){
         this.observingObject = objectResource;
-        this.isWatchingSelf = false;
+        this.isWatchingSelf = true;
     }
 
     public EventObserver(Object objectResource, EventType watchedEvent){
         this.observingObject = objectResource;
         this.watchType = watchedEvent;
-        this.isWatchingSelf = true;
+        this.isWatchingSelf = false;
     }
 
     public EventType getWatchedEvent(){

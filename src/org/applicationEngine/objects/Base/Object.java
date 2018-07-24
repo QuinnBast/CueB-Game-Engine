@@ -20,11 +20,15 @@ public class Object{
     private BufferedImage sprite;
     private EventHandler eventHandler;
 
-    public Object(ObjectResource objectReference){
+    public Object(ObjectResource objectReference, EventHandler handler){
+        this.eventHandler = handler;
         this.objectReference = new ObjectResource(objectReference); //Copy Constructor
         this.boundingBox = this.objectReference.getProperties().getLinkedSprite().getProperties().getBoundingBox();
         this.sprite = this.objectReference.getProperties().getLinkedSprite().getProperties().getBufferedImage();
         Game.eventListener.addEventObserver(new EventObserver(this));
+        ArrayList<Object> involvedObjects = new ArrayList<>();
+        involvedObjects.add(this);
+        new Event(EventType.onCollision.onCreate, involvedObjects);
     }
 
     public boolean isColliidng(Object object, float deltaTime){

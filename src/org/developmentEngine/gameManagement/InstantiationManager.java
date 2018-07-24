@@ -26,13 +26,12 @@ public class InstantiationManager {
             game.roomManager.addRoom(newRoom);   //Create an instance of a game room from the development room instance.
             //Populate the objects in the room with their default initiali state.
             for(Instance inst : (room.getProperties()).getInstances()){
-                Object obj = new Object((inst.getProperties()).getParentObject());
-                obj.getObjectProperties().setPosition(inst.getProperties().getRoomLocation());
-                newRoom.addObject(obj);
                 //Compile eventHandlers for the object.
                 //Get the UUID of the object.
                 EventHandler handler = DevelopmentEngine.compiler.compileEventHandler(inst.getProperties().getParentObject().getUuid().toString().replace("-", ""));
-                obj.setEventHandler(handler);
+                Object obj = new Object((inst.getProperties()).getParentObject(), handler);
+                obj.getObjectProperties().setPosition(inst.getProperties().getRoomLocation());
+                newRoom.addObject(obj);
             }
         }
     }
