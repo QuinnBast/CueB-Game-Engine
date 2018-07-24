@@ -25,9 +25,15 @@ public class EventListener {
 
     public void notifyEvent(Event e){
         for(EventObserver eo : eventObservers){
-            if(e.getEventType() == eo.getWatchedEvent()){
-                if(e.getInvolvedObjects().contains(eo.getWatchedObject())){
+            if(eo.isWatchingSelf()) {
+                if (e.getInvolvedObjects().contains(eo.getWatchedObject())) {
                     eo.notifyObject(e);
+                }
+            } else {
+                if (e.getEventType() == eo.getWatchedEvent()) {
+                    if (e.getInvolvedObjects().contains(eo.getWatchedObject())) {
+                        eo.notifyObject(e);
+                    }
                 }
             }
         }
