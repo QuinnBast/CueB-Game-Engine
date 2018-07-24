@@ -11,11 +11,14 @@ import java.util.ArrayList;
  */
 public class RoomResource extends Resource {
 
-    private RoomProperties roomProperties = new RoomProperties();
-
     public RoomResource(String path) {
         super(path + ".rm");
         this.resourceProperties = new RoomProperties();
+    }
+
+    public RoomResource(RoomResource roomCopy){
+        super(roomCopy);
+        this.resourceProperties = new RoomProperties(roomCopy.getProperties());
     }
 
     @Override

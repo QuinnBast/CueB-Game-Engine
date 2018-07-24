@@ -1,8 +1,5 @@
 package org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor;
 
-import org.applicationEngine.graphics.*;
-import org.applicationEngine.graphics.Cameras.StaticCamera;
-import org.developmentEngine.resourceManager.Resources.ContextMenu;
 import org.developmentEngine.resourceManager.Resources.Instance;
 import org.developmentEngine.resourceManager.resourceProperties.*;
 import org.userInterface.window.centerScreen.resourceTabs.roomTabs.roomEditor.dragNdrop.DropPane;
@@ -10,7 +7,6 @@ import org.developmentEngine.resourceManager.Resources.RoomResource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -19,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
@@ -63,19 +58,19 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
         ArrayList<Instance> instanceInRoom = referencedRoom.getProperties().getInstances();
         for(Instance i : instanceInRoom) {
             //Check if the object is visible
-            if (!i.getProperties().getObjectType().getProperties().isVisible()){
+            if (!i.getProperties().getParentObject().getProperties().isVisible()){
                 //If thje object is not visible, skip drawing.
                 continue;
             }
 
             //Check if the object has a linked sprite.
-            if (i.getProperties().getObjectType().getProperties().getLinkedSprite() == null) {
+            if (i.getProperties().getParentObject().getProperties().getLinkedSprite() == null) {
                 //If the object does not have a linked sprite, skip drawing.
                 continue;
             }
 
             //Get the sprite properties of the object. (If applicable.)
-            SpriteProperties spriteProperties = (i.getProperties()).getObjectType().getProperties().getLinkedSprite().getProperties();
+            SpriteProperties spriteProperties = (i.getProperties()).getParentObject().getProperties().getLinkedSprite().getProperties();
 
             //Determine the scale of the width of the room
             double widthScale = this.roomLocation.getWidth() / referencedRoom.getProperties().getSize().getWidth();
@@ -153,9 +148,9 @@ public class RoomEditorCanvas extends DropPane implements PropertyObserver {
                 ArrayList<Instance> instanceInRoom = referencedRoom.getProperties().getInstances();
                 for(Instance i : instanceInRoom) {
                     //Check if the object has a linked sprite.
-                    if (i.getProperties().getObjectType().getProperties().getLinkedSprite() != null) {
+                    if (i.getProperties().getParentObject().getProperties().getLinkedSprite() != null) {
                         //Get the sprite properties of the object. (If applicable.)
-                        SpriteProperties spriteProperties = ((SpriteProperties) ((ObjectProperties) ((InstanceProperties) i.getProperties()).getObjectType().getProperties()).getLinkedSprite().getProperties());
+                        SpriteProperties spriteProperties = ((SpriteProperties) ((ObjectProperties) ((InstanceProperties) i.getProperties()).getParentObject().getProperties()).getLinkedSprite().getProperties());
                         //Get the scaled bounding box
                         //Get the location of the sprite to draw.
                         double xOrigin = spriteProperties.getOrigin().getX();

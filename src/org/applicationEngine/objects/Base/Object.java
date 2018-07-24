@@ -21,7 +21,7 @@ public class Object{
     private EventHandler eventHandler;
 
     public Object(ObjectResource objectReference){
-        this.objectReference = (ObjectResource)objectReference.deepCopy();
+        this.objectReference = new ObjectResource(objectReference); //Copy Constructor
         this.boundingBox = this.objectReference.getProperties().getLinkedSprite().getProperties().getBoundingBox();
         this.sprite = this.objectReference.getProperties().getLinkedSprite().getProperties().getBufferedImage();
         Game.eventListener.addEventObserver(new EventObserver(this));

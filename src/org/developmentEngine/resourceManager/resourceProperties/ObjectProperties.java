@@ -21,6 +21,19 @@ public class ObjectProperties extends ResourceProperties implements PropertyObse
     private boolean canDisplace;      //If the object can be displaced
     private boolean canRotate;        //Determine if the object should be rotated on rendering
 
+    public ObjectProperties(ObjectProperties copy){
+        this.name = copy.name;
+        this.linkedSprite = copy.linkedSprite;
+        this.position = copy.position;
+        this.isCollidable = copy.isCollidable;
+        this.canMove = copy.canMove;
+        this.isVisible = copy.isVisible;
+        this.zIndex = copy.zIndex;
+        this.parentObject = copy.parentObject;
+        this.canDisplace = copy.canDisplace;
+        this.canRotate = copy.canRotate;
+    }
+
     public void setName(String name) {
         this.name = name;
         this.notifyUpdate(this);

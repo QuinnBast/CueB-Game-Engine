@@ -1,6 +1,7 @@
 package org.developmentEngine.compiler;
 
-import org.developmentEngine.compiler.ObjectInterfaces.ObjectInterface;
+import org.applicationEngine.Events.EventHandler;
+import org.developmentEngine.DevelopmentEngine;
 
 import javax.tools.*;
 import java.io.File;
@@ -18,8 +19,12 @@ import java.util.Arrays;
  */
 public class Compiler {
 
-    public Class<?> compileClass(String className, String filepath) {
-        File sourceFile = new File(filepath);
+    public Compiler(){
+
+    }
+
+    private Class<?> compileClass(String className) {
+        File sourceFile = new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + className + ".java");
 
         //Compile the file that was created
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -49,18 +54,24 @@ public class Compiler {
 
         //Cast to an interface to use known methods.
         try {
-            Class<?> testClass = classLoader.loadClass(className);
-            return (Class<?>) testClass.newInstance();
+            Class<?> testClass = classLoader.loadClass("$" + className);
+            return testClass;
             /****************************************************/
             //testClass.getMethod("sayHello").invoke(testClass.newInstance());
             /****************************************************/
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public EventHandler compileEventHandler(String className){
+        try {
+            return (EventHandler) this.compileClass(className).newInstance();
         } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
             return null;
         }

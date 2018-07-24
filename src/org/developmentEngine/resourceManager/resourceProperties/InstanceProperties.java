@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
  */
 public class InstanceProperties extends ResourceProperties {
 
-    private ObjectResource objectType;
+    private ObjectResource parentObject;
     private Point2D.Double roomLocation;
 
 
@@ -23,11 +23,11 @@ public class InstanceProperties extends ResourceProperties {
     }
 
     public void setParentObject(ObjectResource obj){
-        this.objectType = obj;
+        this.parentObject = obj;
     }
 
-    public ObjectResource getObjectType(){
-        return this.objectType;
+    public ObjectResource getParentObject(){
+        return this.parentObject;
     }
 
     public Point2D.Double getRoomLocation(){

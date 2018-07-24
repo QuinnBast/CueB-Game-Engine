@@ -15,28 +15,63 @@ import java.nio.file.Paths;
 public class ObjectWriter {
 
     public void writeDefaultEventHandler(ObjectResource resourceObject) throws IOException {
+        //Try to save the project. If the project doesn't have a directory, a prompt will be given.
+        DevelopmentEngine.projectManager.saveProject();
         resourceObject.getProperties();
-        File javaFile = new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resourceObject.getUuid().toString() + ".java");
+        File javaFile = new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resourceObject.getUuid().toString().replace("-", "") + ".java");
         //Check if the file exists.
         if(javaFile.exists()){
             return;
+        } else {
+            javaFile.createNewFile();
         }
 
-        String classCode = "public class $" + resourceObject.getUuid().toString() + " implements ObjectInterface { \n";
+        String classCode = "import org.applicationEngine.objects.Base.Object;\n";
+        classCode += "import java.util.ArrayList;\n";
+        classCode += "import org.applicationEngine.Events.EventHandler;\n\n";
+        classCode +="public class $" + resourceObject.getUuid().toString().replace("-", "") + " implements EventHandler { \n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onCreate(){}\n";
-        classCode += "\tpublic void onCollision(Instance collisionInstance){}\n";
-        classCode += "\tpublic void onDraw(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onCollision(ArrayList<Object> involvedObjects){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onMove(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onDrawBegin(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onDrawEnd(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onUpdate(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onAnimationEnd(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onAnimationStart(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onKeyPressed(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onKeyDown(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onKeyUp(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onMouseUp(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onMouseDown(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onMouseEnter(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onMouseLeave(){}\n";
+        classCode += "\t@Override\n";
         classCode += "\tpublic void onDestroy(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onRoomEnter(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onRoomLeave(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onRoomUpdate(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onTimerStart(){}\n";
+        classCode += "\t@Override\n";
+        classCode += "\tpublic void onTimerEnd(){}\n";
         classCode += "}";
 
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(javaFile));
@@ -46,23 +81,21 @@ public class ObjectWriter {
 
     public void updateEvent(ObjectResource resource, EventType event, String code) throws IOException {
         if(event != null) {
+            if(!new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java").exists()){
+                this.writeDefaultEventHandler(resource);
+            }
             //Get the current code from the eventHandler
-            String eventCode = new String(Files.readAllBytes(Paths.get(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString() + ".java")), StandardCharsets.UTF_8);
+            String eventCode = new String(Files.readAllBytes(Paths.get(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java")), StandardCharsets.UTF_8);
             //Get the starting index for the event that we are interested in
-            int startIndex = eventCode.indexOf("public void " + event.toString() + "(){");
+            int startIndex = eventCode.indexOf("public void " + event.toString() + "(){") + 15 + event.toString().length();
             //Get the end index of the function that we are interested in
             String strippedCode = eventCode.substring(startIndex);
-            int endIndex = startIndex + strippedCode.indexOf("public", 2) - 1;
+            int endIndex = startIndex + strippedCode.indexOf("\n\t@Override\n\tpublic void on") - 1;
 
             //Set the new code to the updated code for the event handler:
             String firstSection = eventCode.substring(0, startIndex);
-            String newCode;
-            if(code != null || code != "") {
-                newCode = "public void " + event.toString() + "(){" + code + "}\n";
-            } else {
-                newCode = "public void " + event.toString() + "(){}\n";
-            }
-            String endSection = "\t" + eventCode.substring(endIndex + 1, eventCode.length());
+            String newCode = code;
+            String endSection = eventCode.substring(endIndex, eventCode.length());
 
             String combinedText = firstSection + newCode + endSection;
 
@@ -72,19 +105,23 @@ public class ObjectWriter {
             bufferedWriter.write(combinedText);
             bufferedWriter.close();
             //Delete the original file
-            new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString() + ".java").delete();
+            new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java").delete();
             //Rename the temporary file
-            tempFile.renameTo(new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString() + ".java"));
+            tempFile.renameTo(new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java"));
         }
     }
 
     public String getEvent(ObjectResource resource, EventType event) throws IOException {
         if(event != null) {
-            String eventCode = new String(Files.readAllBytes(Paths.get(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString() + ".java")), StandardCharsets.UTF_8);
+            if(!new File(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java").exists()){
+                this.writeDefaultEventHandler(resource);
+            }
+
+            String eventCode = new String(Files.readAllBytes(Paths.get(DevelopmentEngine.projectManager.getProjectDirectory() + "\\$" + resource.getUuid().toString().replace("-", "") + ".java")), StandardCharsets.UTF_8);
             int startIndex = eventCode.indexOf("public void " + event.toString() + "(){") + 15 + event.toString().length();
             //Get the string and find the next declaration of a public method.
             eventCode = eventCode.substring(startIndex);
-            int endIndex = eventCode.indexOf("\n\tpublic void on") - 1;
+            int endIndex = eventCode.indexOf("\n\t@Override\n\tpublic void on") - 1;
             return eventCode.substring(0, endIndex);
         } else {
             return "";

@@ -15,6 +15,11 @@ public class ObjectResource extends Resource {
         this.resourceProperties = op;
     }
 
+    public ObjectResource(ObjectResource copy){
+        super(copy);
+        this.resourceProperties = new ObjectProperties(copy.getProperties());
+    }
+
     @Override
     public ObjectProperties getProperties() {
         return (ObjectProperties)this.resourceProperties;

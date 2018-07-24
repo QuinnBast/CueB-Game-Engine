@@ -20,6 +20,20 @@ public class RoomProperties extends ResourceProperties {
     private String backgroundImageLink = "";
     private ArrayList<Instance> instanceList = new ArrayList<>();
 
+    public RoomProperties(){
+        super();
+    }
+
+    public RoomProperties(RoomProperties copy){
+        super(copy);
+        this.size = copy.size;
+        this.name = copy.name;
+        this.desiredFramerate = copy.desiredFramerate;
+        this.backgroundColor = copy.backgroundColor;
+        this.backgroundImageLink = copy.backgroundImageLink;
+        this.instanceList = copy.instanceList;
+    }
+
     public Rectangle2D getSize() {
         return size;
     }
@@ -87,9 +101,5 @@ public class RoomProperties extends ResourceProperties {
             this.instanceList.remove(i);
         }
         this.notifyUpdate(this);
-    }
-
-    public RoomProperties(){
-
     }
 }

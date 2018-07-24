@@ -8,7 +8,15 @@ import java.util.ArrayList;
  */
 public abstract class ResourceProperties implements Serializable {
 
-    private ArrayList<PropertyObserver> propertyObservers = new ArrayList<>();
+    private transient ArrayList<PropertyObserver> propertyObservers = new ArrayList<>();
+
+    public ResourceProperties(ResourceProperties copy){
+        this.propertyObservers = copy.propertyObservers;
+    }
+
+    public ResourceProperties() {
+
+    }
 
     public void notifyUpdate(ResourceProperties properties){
         for(PropertyObserver po : propertyObservers){
@@ -34,6 +42,10 @@ public abstract class ResourceProperties implements Serializable {
 
     public void setPropertyObservers(ArrayList<PropertyObserver> observers){
         this.propertyObservers.addAll(observers);
+    }
+
+    public void instantiate(){
+        this.propertyObservers = new ArrayList<>();
     }
 
 

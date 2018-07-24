@@ -3,8 +3,11 @@ package org.developmentEngine.projectManagement;
 import org.developmentEngine.DevelopmentEngine;
 import org.developmentEngine.compiler.ObjectWriter;
 import org.developmentEngine.resourceManager.ResourceObserver;
+import org.developmentEngine.resourceManager.Resources.Instance;
 import org.developmentEngine.resourceManager.Resources.Resource;
+import org.developmentEngine.resourceManager.Resources.RoomResource;
 import org.developmentEngine.resourceManager.resourceProperties.PropertyObserver;
+import org.developmentEngine.resourceManager.resourceProperties.RoomProperties;
 import org.userInterface.UserInterface;
 import org.userInterface.modals.modals.ObjectEventModal;
 
@@ -12,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Quinn on 7/14/2018.
@@ -165,20 +169,7 @@ public class ProjectManager {
         }
 
         for(Resource r : DevelopmentEngine.resourceManager.getAllResources()){
-            //Remove all observers from the object's observers.
-            ArrayList<PropertyObserver> propertyObservers = new ArrayList<>();
-            ArrayList<ResourceObserver> resourceObservers = new ArrayList<>();
-
-            propertyObservers.addAll(r.getProperties().getObservers());
-            resourceObservers.addAll(r.getObservers());
-
-            r.getProperties().removeObservers();
-            r.removeObservers();
-
             fileManager.saveObject(r,this.getProjectDirectory());
-
-            r.getProperties().setPropertyObservers(propertyObservers);
-            r.setObservers(resourceObservers);
         }
 
         this.onProjectSave();

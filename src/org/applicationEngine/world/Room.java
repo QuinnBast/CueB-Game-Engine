@@ -31,7 +31,7 @@ public class Room {
     }
 
     public Room(RoomResource room){
-        this.referencedRoom = (RoomResource)room.deepCopy();
+        this.referencedRoom = new RoomResource(room); //Copy constructor
     }
 
     public RoomProperties getRoomProperties(){

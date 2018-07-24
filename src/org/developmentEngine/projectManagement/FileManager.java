@@ -18,7 +18,7 @@ public class FileManager {
     public void saveObject(Resource resource, String filePath) throws IOException {
         File file = new File(filePath);
         file.mkdirs();
-        FileOutputStream fos = new FileOutputStream(filePath + "\\" + resource.getUuid().toString() + ".qbr");
+        FileOutputStream fos = new FileOutputStream(filePath + "\\" + resource.getUuid().toString().replace("-", "") + ".qbr");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(resource);
         oos.close();
@@ -29,6 +29,7 @@ public class FileManager {
         ObjectInputStream ois = new ObjectInputStream(fis);
         Resource object = (Resource) ois.readObject();
         ois.close();
+        object.instantiate(); //Refreshes the transient variable so that the observer list is not null.
         DevelopmentEngine.resourceManager.addResource(object);
     }
 }

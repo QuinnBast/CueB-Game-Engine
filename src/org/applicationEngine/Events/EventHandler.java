@@ -8,28 +8,28 @@ import java.util.ArrayList;
 /**
  * Created by Quinn on 6/29/2018.
  */
-public abstract class EventHandler {
+public interface EventHandler {
 
-    public abstract void onCreate();
-    public abstract void onCollision(ArrayList<Object> involvedObjects);
-    public abstract void onMove();
-    public abstract void onUpdate();
-    public abstract void onAnimationEnd();
-    public abstract void onAnimationStart();
-    public abstract void onKeyPressed();
-    public abstract void onKeyDown();
-    public abstract void onKeyUp();
-    public abstract void onMouseUp();
-    public abstract void onMouseDown();
-    public abstract void onMouseEnter();
-    public abstract void onMouseLeave();
-    public abstract void onDestroy();
-    public abstract void onDrawBegin();
-    public abstract void onDrawEnd();
-    public abstract void onRoomEnter();
-    public abstract void onRoomLeave();
-    public abstract void onTimerStart();
-    public abstract void onTimerEnd();
-    public abstract void onRoomUpdate();
+    void onCreate();
+    void onCollision(ArrayList<Object> involvedObjects);
+    void onMove();
+    void onUpdate();
+    void onAnimationEnd();
+    void onAnimationStart();
+    void onKeyPressed();
+    void onKeyDown();
+    void onKeyUp();
+    void onMouseUp();
+    void onMouseDown();
+    void onMouseEnter();
+    void onMouseLeave();
+    void onDestroy();
+    void onDrawBegin();
+    void onDrawEnd();
+    void onRoomEnter();
+    void onRoomLeave();
+    void onTimerStart();
+    void onTimerEnd();
+    void onRoomUpdate();
 
 }

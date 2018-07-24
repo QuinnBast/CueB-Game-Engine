@@ -19,7 +19,12 @@ public abstract class Resource extends JPanel implements Serializable {
     private String filePath;
     private UUID uuid = UUID.randomUUID();
     protected ResourceProperties resourceProperties;
-    private ArrayList<ResourceObserver> observers = new ArrayList<>();
+    private transient ArrayList<ResourceObserver> observers;
+
+    public Resource(String path){
+        this.observers = new ArrayList<>();
+        this.filePath = path;
+    }
 
     public void notifyUpdate(){
         for(ResourceObserver ro : observers){
@@ -39,14 +44,16 @@ public abstract class Resource extends JPanel implements Serializable {
         this.observers.remove(ro);
     }
 
+    public Resource(Resource copy){
+        this.filePath = copy.filePath;
+        this.uuid = copy.uuid;
+        this.observers = copy.observers;
+    }
+
     public Resource deepCopy(){
         //Copy constructor allows the creation of copy resources on runtime so that manipulation of variables during the runtime does not change objects in the development engine
         Cloner cloner = new Cloner();
         return (Resource)cloner.deepClone(this);
-    }
-
-    public Resource(String path){
-        this.filePath = path;
     }
 
     public String getFilePath(){
@@ -90,5 +97,10 @@ public abstract class Resource extends JPanel implements Serializable {
 
     public void setObservers(ArrayList<ResourceObserver> observers){
         this.observers = observers;
+    }
+
+    public void instantiate(){
+        this.observers = new ArrayList<>();
+        this.getProperties().instantiate();
     }
 }
