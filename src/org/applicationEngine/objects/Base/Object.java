@@ -1,12 +1,14 @@
 package org.applicationEngine.objects.Base;
 
-import org.applicationEngine.Events.Event;
+import org.applicationEngine.Events.*;
+import org.applicationEngine.game.Game;
 import org.developmentEngine.resourceManager.Resources.ObjectResource;
 import org.developmentEngine.resourceManager.resourceProperties.ObjectProperties;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Created by Quinn on 11/29/2017.
@@ -16,24 +18,31 @@ public class Object{
     private ObjectResource objectReference;
     private Rectangle2D boundingBox;
     private BufferedImage sprite;
+    private EventHandler eventHandler;
 
     public Object(ObjectResource objectReference){
         this.objectReference = (ObjectResource)objectReference.deepCopy();
         this.boundingBox = this.objectReference.getProperties().getLinkedSprite().getProperties().getBoundingBox();
         this.sprite = this.objectReference.getProperties().getLinkedSprite().getProperties().getBufferedImage();
+        Game.eventListener.addEventObserver(new EventObserver(this));
     }
 
     public boolean isColliidng(Object object, float deltaTime){
         //Determine object in question's extreme bounding box points.
         Rectangle2D boundingbox = object.getBoundingBox();
         if(this.boundingBox.contains(boundingbox) || this.boundingBox.intersects(boundingbox)){
-            this.collisionResolution(object, deltaTime);
+            ArrayList<Object> involvedObjects = new ArrayList<Object>();
+            involvedObjects.add(this);
+            involvedObjects.add(object);
+            new Event(EventType.onCollision, involvedObjects);
             return true;
         }
         return false;
     }
-    public void collisionResolution(Object object, float deltaTime){
-        //TO DO -- Load with user code for collision resolutions.
+
+    public void setEventHandler(EventHandler handler){
+        //Get the user compiled event handler and attach it to the object.
+        this.eventHandler = handler;
     }
 
     public Point2D getCollisionPoint(Object object) {
@@ -95,7 +104,73 @@ public class Object{
     }
 
     public void notifyEvent(Event e){
-
+        //Handle an event that has fired with this object.
+        EventType event = e.getEventType();
+        switch(event){
+            case onCreate:
+                eventHandler.onCreate();
+                break;
+            case onMove:
+                eventHandler.onMove();
+                break;
+            case onUpdate:
+                eventHandler.onUpdate();
+                break;
+            case onCollision:
+                eventHandler.onCollision(e.getInvolvedObjects());
+                break;
+            case onDestroy:
+                eventHandler.onDestroy();
+                break;
+            case onAnimationEnd:
+                eventHandler.onAnimationEnd();
+                break;
+            case onAnimationStart:
+                eventHandler.onAnimationStart();
+                break;
+            case onKeyPress:
+                eventHandler.onKeyPressed();
+                break;
+            case onKeyDown:
+                eventHandler.onKeyDown();
+                break;
+            case onKeyUp:
+                eventHandler.onKeyUp();
+                break;
+            case onMouseUp:
+                eventHandler.onMouseUp();
+                break;
+            case onMouseDown:
+                eventHandler.onMouseDown();
+                break;
+            case onMouseEnter:
+                eventHandler.onMouseEnter();
+                break;
+            case onMouseLeave:
+                eventHandler.onMouseLeave();
+                break;
+            case onDrawBegin:
+                eventHandler.onDrawBegin();
+                break;
+            case onDrawEnd:
+                eventHandler.onDrawEnd();
+                break;
+            case onRoomEnter:
+                eventHandler.onRoomEnter();
+                break;
+            case onRoomLeave:
+                eventHandler.onRoomLeave();
+                break;
+            case onTimerStart:
+                eventHandler.onTimerStart();
+                break;
+            case onTimerEnd:
+                eventHandler.onTimerEnd();
+                break;
+            case onRoomUpdate:
+                eventHandler.onRoomUpdate();
+                break;
+        }
     }
 
 }

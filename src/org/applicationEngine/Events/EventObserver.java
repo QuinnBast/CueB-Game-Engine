@@ -1,5 +1,6 @@
 package org.applicationEngine.Events;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.applicationEngine.objects.Base.Object;
 
 /**
@@ -7,12 +8,19 @@ import org.applicationEngine.objects.Base.Object;
  */
 public class EventObserver {
 
-    Object observingObject;
-    EventType watchType;
+    private Object observingObject;
+    private EventType watchType;
+    private boolean isWatchingSelf;
 
-    EventObserver(Object objectResource, EventType watch){
+    public EventObserver(Object objectResource){
         this.observingObject = objectResource;
-        this.watchType = watch;
+        this.isWatchingSelf = false;
+    }
+
+    public EventObserver(Object objectResource, EventType watchedEvent){
+        this.observingObject = objectResource;
+        this.watchType = watchedEvent;
+        this.isWatchingSelf = true;
     }
 
     public EventType getWatchedEvent(){
@@ -25,6 +33,10 @@ public class EventObserver {
 
     public Object getWatchedObject(){
         return observingObject;
+    }
+
+    public boolean isWatchingSelf(){
+        return this.isWatchingSelf;
     }
 
 }
