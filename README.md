@@ -14,3 +14,10 @@ Download the file named "Java-2D-Game-Engine.jar" in the root director of the gi
 - KeyListeners, Eventlisteners, 
 - Cameras, rendering, relative positioning, and view ports
 - Threading, rendering and more!
+
+## Installing Maven dependencies
+If Using IntelliJ, open your project configurations in order to add a new project dependency (ctrl, alt, shift, S).
+The following maven dependencies need to be added:
+- com.miglayout
+- uk.com.robust-it.cloning
+- com.fifesoft:rsyntaxtextarea
